@@ -9,8 +9,7 @@ public class Slots {
         Scanner scanner = new Scanner(System.in);
         System.out.print("How much do you wanna bet? ");
         Integer bet = scanner.nextInt();
-
-        String[] winningRow = random(symbols);
+        String[] winningRow = spin(symbols);
         System.out.println(Arrays.toString(winningRow));
 
         boolean didWin = isWinner(winningRow);
@@ -25,15 +24,15 @@ public class Slots {
 
     }
 
-    public static String[] random(String[] arrayargs) {
+    public static String[] spin(String[] symbolArrays) {
         Random rand = new Random();
         int rand_int1 = rand.nextInt(5);
         int rand_int2 = rand.nextInt(5);
-        int rand_int3 = rand.nextInt(5 );
+        int rand_int3 = rand.nextInt(5);
 
-        String column1 = arrayargs[rand_int1]; // Generates a random index
-        String column2 = arrayargs[rand_int2]; // Generates a random index
-        String column3 = arrayargs[rand_int3]; // Generates a random index
+        String column1 = symbolArrays[rand_int1]; // Generates a random index
+        String column2 = symbolArrays[rand_int2]; // Generates a random index
+        String column3 = symbolArrays[rand_int3]; // Generates a random index
         return new String[]{column1, column2, column3}; // Gets the random value
     }
 
