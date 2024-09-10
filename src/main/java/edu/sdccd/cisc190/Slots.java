@@ -4,12 +4,22 @@ import java.util.*;
 
 public class Slots {
     static final String[] symbols = {"\uD83C\uDF53", "\uD83C\uDF4C", "\uD83C\uDF4A", "\uD83C\uDF47", "\uD83C\uDF52", "\uD83C\uDF4E", "\uD83E\uDD51"};
+    static Integer bet;
+    static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
         // Ask user how much they want to bet
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("How much do you wanna bet? ");
-        Integer bet = scanner.nextInt();
+        boolean validInput = false;
+        while (!validInput) {
+            try {
+                System.out.print("How much do you wanna bet? (Input a number) $");
+                bet = scanner.nextInt();
+                validInput = true;  // Exit the loop if input is valid
+            } catch (InputMismatchException e) {
+                System.out.println("That's not a number! Try again.");
+                scanner.next();  // Clear the invalid input
+            }
+        }
 
         // Generates three random symbols by spinning, prints out resulting array
         String[] winningRow = spin(symbols);
@@ -30,7 +40,7 @@ public class Slots {
 
         // TODO: add option to save winning amounts
         // TODO: add option to spin again
-        
+
     }
 
     /*
