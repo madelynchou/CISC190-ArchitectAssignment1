@@ -12,4 +12,5 @@ class MainTest {
 //    void getAppName() throws IOException {
 //        assertEquals("CISC190 Final Project", Main.getAppName());
 //    }
+
 }
