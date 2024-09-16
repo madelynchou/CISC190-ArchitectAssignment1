@@ -8,11 +8,60 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.*;
+import java.util.InputMismatchException;
+import java.util.Scanner;
 
 public class Main {
+    static Scanner scanner = new Scanner(System.in);
+    static int option;
+    static User userProfile = new User();
+    static Slots slots = new Slots();
+    static boolean isPlaying = true;
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+        userProfile.set("Chase Allen", 100);
+
+        while (isPlaying) {
+            boolean validInput = false;
+            while (!validInput) {
+                try {
+                    System.out.println("You're logged in as: " + userProfile.name);
+                    System.out.println("You have: $" + userProfile.money);
+                    System.out.println("1: Slots");
+                    System.out.println("2: Roulette");
+                    System.out.println("3: Blackjack");
+                    System.out.println("4: Quit");
+                    System.out.print("Select an option: ");
+                    option = scanner.nextInt();
+                    if (option == 1 || option == 2 || option == 3 || option == 4) {
+                        validInput = true;  // Exit the loop if input is valid
+                    } else {
+                        validInput = false;
+                        continue;
+                    }
+                } catch (InputMismatchException e) {
+                    System.out.println("That's not a number! Try again.");
+                    scanner.next();  // Clear the invalid input
+                }
+            }
+            if (option == 1) {
+                userProfile = slots.main(userProfile);
+            } else if (option == 2) {
+                System.out.println("Coming soon!");
+            } else if (option == 3) {
+                System.out.println("Coming soon!");
+            } else if (option == 4) {
+                System.out.println("Come back soon!");
+                System.out.println("99% of gamblers quit before making it big!");
+                isPlaying = false;
+            } else {
+                System.out.println("Something went wrong!");
+            }
+
+        }
+
+
     }
+
 
 //    public static final String APP_NAME_FILE = "AppName.txt";
 //
@@ -33,7 +82,7 @@ public class Main {
 //    @Override
 //    public void start(Stage stage) throws Exception {
 //        Label label = new Label("The content inside the TitledPane");
-//        TitledPane titledPane = new TitledPane(getAppName(), label);
+//        TitledPane = new TitledPane(getAppName(), label);
 //        titledPane.setCollapsible(false);
 //
 //        titledPane.setExpanded(true);

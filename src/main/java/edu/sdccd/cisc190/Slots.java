@@ -3,11 +3,11 @@ package edu.sdccd.cisc190;
 import java.util.*;
 
 public class Slots {
-    static final String[] symbols = {"\uD83C\uDF53", "\uD83C\uDF4C", "\uD83C\uDF4A", "\uD83C\uDF47", "\uD83C\uDF52", "\uD83C\uDF4E", "\uD83E\uDD51"};
+    static final String[] symbols = {"\uD83C\uDF53", "\uD83C\uDF4C", "\uD83C\uDF4A"};
     static Integer bet;
     static Scanner scanner = new Scanner(System.in);
 
-    public static void main(String[] args) {
+    public static User main(User userProfile) {
         // Ask user how much they want to bet
         boolean validInput = false;
         while (!validInput) {
@@ -32,13 +32,15 @@ public class Slots {
         if (didWin) {
             System.out.println("Wow! Good job you win! :D");
             // TODO: add a multiplier for how much the user wins
-            System.out.println("You won $" + bet);
+            System.out.println("You won $" + bet * 10);
+            userProfile.money = userProfile.money - (bet * 10);
         } else {
             System.out.println("Oops, you didn't win :( Try again! 99% of gamblers quit before hitting big!");
             System.out.println("You lost $" + bet);
+            userProfile.money = userProfile.money - bet;
         }
 
-        // TODO: add option to save winning amounts
+
         // TODO: add option to spin again
 
     }
