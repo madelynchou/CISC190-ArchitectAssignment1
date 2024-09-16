@@ -33,14 +33,14 @@ public class Slots {
             System.out.println("Wow! Good job you win! :D");
             // TODO: add a multiplier for how much the user wins
             System.out.println("You won $" + bet * 10);
-            userProfile.money = userProfile.money - (bet * 10);
+            userProfile.money = userProfile.money + (bet * 10);
         } else {
             System.out.println("Oops, you didn't win :( Try again! 99% of gamblers quit before hitting big!");
             System.out.println("You lost $" + bet);
             userProfile.money = userProfile.money - bet;
         }
 
-
+        return userProfile;
         // TODO: add option to spin again
 
     }
