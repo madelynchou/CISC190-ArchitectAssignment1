@@ -6,6 +6,7 @@ public class User {
     public static int money;
 
     public static void main(String[] args) {
+
     }
 
     public static void set(String name, int money) {

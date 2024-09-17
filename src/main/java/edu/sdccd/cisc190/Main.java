@@ -43,20 +43,25 @@ public class Main {
                     scanner.next();  // Clear the invalid input
                 }
             }
-            if (option == 1) {
-                userProfile = slots.main(userProfile);
-            } else if (option == 2) {
-                System.out.println("Coming soon!");
-            } else if (option == 3) {
-                System.out.println("Coming soon!");
-            } else if (option == 4) {
-                System.out.println("Come back soon!");
-                System.out.println("99% of gamblers quit before making it big!");
-                isPlaying = false;
-            } else {
-                System.out.println("Something went wrong!");
-            }
 
+            switch(option) {
+                case 1:
+                    userProfile = slots.main(userProfile);
+                    break;
+                case 2:
+                    System.out.println("Coming soon!");
+                    break;
+                case 3:
+                    System.out.println("Coming soon!");
+                    break;
+                case 4:
+                    System.out.println("Come back soon!");
+                    System.out.println("99% of gamblers quit before making it big!");
+                    isPlaying = false;
+                    break;
+                default:
+                    System.out.println("Something went wrong!");
+            }
         }
 
 

@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Slots {
     static final String[] symbols = {"\uD83C\uDF53", "\uD83C\uDF4C", "\uD83C\uDF4A"};
-    static Integer bet;
+    static int bet;
     static Scanner scanner = new Scanner(System.in);
 
     public static User main(User userProfile) {
