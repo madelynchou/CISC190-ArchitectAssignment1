@@ -4,6 +4,7 @@ import java.util.*;
 
 public class Slots {
     static final String[] symbols = {"\uD83C\uDF53", "\uD83C\uDF4C", "\uD83C\uDF4A"};
+    static final int numberOfColumns = symbols.length;
     static int bet;
     static Scanner scanner = new Scanner(System.in);
 
@@ -33,11 +34,11 @@ public class Slots {
             System.out.println("Wow! Good job you win! :D");
             // TODO: add a multiplier for how much the user wins
             System.out.println("You won $" + bet * 10);
-            userProfile.money += (bet * 10);
+            User.money += (bet * 10);
         } else {
             System.out.println("Oops, you didn't win :( Try again! 99% of gamblers quit before hitting big!");
             System.out.println("You lost $" + bet);
-            userProfile.money -= bet;
+            User.money -= bet;
         }
 
         return userProfile;
@@ -54,15 +55,14 @@ public class Slots {
         // Substantiate new Random() object
         Random rand = new Random();
 
-        // Generate three random indices for the symbolArrays parameter
-        int rand_int1 = rand.nextInt(symbolArrays.length - 1);
-        int rand_int2 = rand.nextInt(symbolArrays.length - 1);
-        int rand_int3 = rand.nextInt(symbolArrays.length - 1);
+        //create a new string array "display" that is the same length as the number of elements in the symbols array
+        String[] display = new String[numberOfColumns];
 
-        String column1 = symbolArrays[rand_int1]; // Generates a random symbol
-        String column2 = symbolArrays[rand_int2]; // Generates a random symbol
-        String column3 = symbolArrays[rand_int3]; // Generates a random symbol
-        return new String[]{column1, column2, column3}; // Returns the result of the spinned row
+        //generate a random index of the symbols array and append the string to display
+        for (int i = 0; i < numberOfColumns; i++) {
+            display[i] = symbolArrays[rand.nextInt(symbolArrays.length)];
+        }
+        return display;
     }
 
     /*
@@ -71,18 +71,10 @@ public class Slots {
     * @param isWinner array of symbols that the method checks if all elements are the same
     * */
     public static boolean isWinner(String[] arr) {
-        if (arr.length == 0) {
-            return true;  // An empty array can be considered as having all "same" values
-        }
+        //create a HashSet winningSet that stores all elements in winningRow
+        HashSet<String> winningSet = new HashSet<>(Arrays.asList(arr));
 
-        String firstValue = arr[0];  // Get the first element
-        for (int i = 1; i < arr.length; i++) {
-            if (arr[i] != firstValue) {
-                return false;  // If any element is different, return false
-            }
-        }
-        return true;  // All elements are the same
+        //return if the size of the hashset is 1 (all values in HashSet are the same)
+        return winningSet.size() == 1;
     }
-
-
 }

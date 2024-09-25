@@ -13,7 +13,7 @@ import java.util.Scanner;
 
 public class Main {
     //map menu options to numbers
-    public static enum MENU_OPTIONS {
+    public enum MENU_OPTIONS {
         SLOTS(1), ROULETTE(2), BLACKJACK(3), QUIT(4);
 
         //option number
@@ -36,12 +36,12 @@ public class Main {
     static boolean isPlaying = true;
 
     public static void main(String[] args) {
-        userProfile.set("Chase Allen", 100);
+        User.set("Chase Allen", 100);
 
         while (isPlaying) {
             //print out user info
-            System.out.println("You're logged in as: " + userProfile.name);
-            System.out.println("You have: $" + userProfile.money);
+            System.out.println("You're logged in as: " + User.name);
+            System.out.println("You have: $" + User.money);
 
             //display user options
             for (MENU_OPTIONS option : MENU_OPTIONS.values()) {
@@ -75,7 +75,7 @@ public class Main {
                 //output based on user's VALID option selection
                 switch(selectedOption) {
                     case SLOTS:
-                        userProfile = slots.main(userProfile);
+                        userProfile = Slots.main(userProfile);
                         break;
                     case ROULETTE:
                         System.out.println("Coming soon!");
