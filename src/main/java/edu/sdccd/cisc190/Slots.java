@@ -51,7 +51,7 @@ public class Slots {
     * Generates three random symbols from the symbolsArray parameter
     * @param symbolArrays array of symbols that the method pulls randomly from
     * */
-    public static String[] spin(String[] symbolArrays) {
+     static String[] spin(String[] symbolArrays) {
         // Substantiate new Random() object
         Random rand = new Random();
 
@@ -70,7 +70,7 @@ public class Slots {
     * Used to verify if a spin was a winner
     * @param isWinner array of symbols that the method checks if all elements are the same
     * */
-    public static boolean isWinner(String[] arr) {
+     static boolean isWinner(String[] arr) {
         //create a HashSet winningSet that stores all elements in winningRow
         HashSet<String> winningSet = new HashSet<>(Arrays.asList(arr));
 
