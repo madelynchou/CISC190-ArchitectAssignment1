@@ -12,6 +12,11 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
+    static Scanner scanner = new Scanner(System.in);
+    static User userProfile = new User();
+    static Slots slots = new Slots();
+    static boolean isPlaying = true;
+
     //map menu options to numbers
     public enum MENU_OPTIONS {
         SLOTS(1), ROULETTE(2), BLACKJACK(3), QUIT(4);
@@ -29,11 +34,6 @@ public class Main {
             return optionNumber;
         }
     }
-
-    static Scanner scanner = new Scanner(System.in);
-    static User userProfile = new User();
-    static Slots slots = new Slots();
-    static boolean isPlaying = true;
 
     public static void main(String[] args) {
         User.set("Chase Allen", 100);
