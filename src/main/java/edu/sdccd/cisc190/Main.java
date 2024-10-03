@@ -36,9 +36,13 @@ public class Main {
     static boolean isPlaying = true;
 
     public static void main(String[] args) {
-        User.set("Chase Allen", 100);
-
         while (isPlaying) {
+            if (userProfile.name == null) {
+                System.out.println("Welcome to our casino!");
+                System.out.print("What's your name? ");
+                String name = scanner.nextLine();
+                User.set(name, 100);
+            }
             //print out user info
             System.out.println("You're logged in as: " + User.name);
             System.out.println("You have: $" + User.money);
