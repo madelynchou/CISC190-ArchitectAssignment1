@@ -14,7 +14,7 @@ import java.util.Scanner;
 public class Main {
     //map menu options to numbers
     public enum MENU_OPTIONS {
-        SLOTS(1), ROULETTE(2), BLACKJACK(3), QUIT(4);
+        SLOTS(1), ROULETTE(2), BLACKJACK(3), QUIT(4), AMOUNT(5);
 
         //option number
         private final int optionNumber;
@@ -45,7 +45,6 @@ public class Main {
             }
             //print out user info
             System.out.println("You're logged in as: " + User.name);
-            System.out.println("You have: $" + User.money);
 
             //display user options
             for (MENU_OPTIONS option : MENU_OPTIONS.values()) {
@@ -80,6 +79,7 @@ public class Main {
                 switch(selectedOption) {
                     case SLOTS:
                         userProfile = Slots.main(userProfile);
+                        userProfile.addAmtHistory();
                         break;
                     case ROULETTE:
                         System.out.println("Coming soon!");
@@ -92,6 +92,12 @@ public class Main {
                         System.out.println("99% of gamblers quit before making it big!");
                         isPlaying = false;
                         break;
+                    case AMOUNT:
+                        System.out.println("You have: $" + User.money);
+                        for (int i = 0; i < userProfile.amtHistory.size(); i++) {
+                            System.out.println(userProfile.amtHistory.get(i));
+                        }
+
                 }
 
             } catch (InputMismatchException e) {
