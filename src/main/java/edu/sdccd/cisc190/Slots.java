@@ -3,6 +3,7 @@ package edu.sdccd.cisc190;
 import java.util.*;
 
 public class Slots {
+    static String[] symbols = {"\uD83C\uDF53", "\uD83C\uDF4C", "\uD83C\uDF4A"};
     static int bet;
     static Scanner scanner = new Scanner(System.in);
 
@@ -21,11 +22,11 @@ public class Slots {
         }
 
         // Generates three random symbols by spinning, prints out resulting array
-        String[] winningRow = spin();
-        System.out.println(Arrays.toString(winningRow));
+        String[] display = spin(symbols);
+        System.out.println(Arrays.toString(display));
 
         // Checks if all symbols are the same
-        boolean didWin = isWinner(winningRow);
+        boolean didWin = isWinner(display);
 
         // Returns different response based on whether row is winner
         if (didWin) {
@@ -49,18 +50,17 @@ public class Slots {
     * Generates three random symbols from the symbolsArray parameter
     * @param symbolArrays array of symbols that the method pulls randomly from
     * */
-     static String[] spin() {
+     static String[] spin(String[] symbolArray) {
         // Substantiate new Random() object
         Random rand = new Random();
 
-        //declare symbols locally
-        String[] symbols = {"\uD83C\uDF53", "\uD83C\uDF4C", "\uD83C\uDF4A"};
+        String[] spunSlots = new String[symbolArray.length];
 
         //generate a random index of the symbols array and modify original array
-        for (int i = 0; i < symbols.length; i++) {
-            symbols[i] = symbols[rand.nextInt(symbols.length)];
+        for (int i = 0; i < symbolArray.length; i++) {
+            spunSlots[i] = symbolArray[rand.nextInt(symbolArray.length)];
         }
-        return symbols;
+        return spunSlots;
     }
 
     /*
