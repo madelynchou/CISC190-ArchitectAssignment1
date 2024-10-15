@@ -43,6 +43,13 @@ public class Main {
                 String name = scanner.nextLine();
                 User.set(name, 100);
             }
+
+            if (userProfile.money == 0) {
+                System.out.println("Game over!");
+                System.out.println("You just lost the house and the car and the kids :(");
+                isPlaying = false;
+                break;
+            }
             //print out user info
             System.out.println("You're logged in as: " + User.name);
 
