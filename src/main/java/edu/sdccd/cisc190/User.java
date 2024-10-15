@@ -7,6 +7,8 @@ public class User {
     public static String name;
     public static int money;
     public static ArrayList<Integer> amtHistory = new ArrayList<>();
+    public static double luck;
+    public static double aura;
 
     public static void main(String[] args) {
 
