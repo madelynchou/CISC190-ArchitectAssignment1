@@ -6,10 +6,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class SlotsTest {
-    @BeforeAll
-    static void beforeAll() {
-
-    }
 
     @Test
     void main() {

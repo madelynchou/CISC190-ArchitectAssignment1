@@ -14,7 +14,14 @@ public class Slots {
             try {
                 System.out.print("How much do you wanna bet? (Input a number) $");
                 bet = scanner.nextInt();
-                validInput = true;  // Exit the loop if input is valid
+
+                //Determine if the user's desired bet is greater than the amount they currently have
+                if (User.money < bet) {
+                    System.out.println("Your desired bet is greater than the amount of money you currently have. Please enter a valid bet.");
+                } else {
+                    validInput = true; // Exit the loop if input is valid
+                }
+
             } catch (InputMismatchException e) {
                 System.out.println("That's not a number! Try again.");
                 scanner.next();  // Clear the invalid input
