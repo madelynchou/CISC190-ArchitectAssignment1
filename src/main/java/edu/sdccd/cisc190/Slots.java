@@ -1,5 +1,7 @@
 package edu.sdccd.cisc190;
 
+import edu.sdccd.cisc190.characters.User;
+
 import java.util.*;
 
 public class Slots {
@@ -17,7 +19,7 @@ public class Slots {
 
                 //Determine if the user's desired bet is greater than the amount they currently have
                 if (User.money < bet) {
-                    System.out.println("Your desired bet is greater than the amount of money you currently have. Please enter a valid bet.");
+                    System.out.printf("Your desired bet of $%d is greater than the amount of money you currently have. Please enter a valid bet.\n", bet);
                 } else {
                     validInput = true; // Exit the loop if input is valid
                 }

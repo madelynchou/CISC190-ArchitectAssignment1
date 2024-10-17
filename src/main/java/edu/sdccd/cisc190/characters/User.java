@@ -1,4 +1,4 @@
-package edu.sdccd.cisc190;
+package edu.sdccd.cisc190.characters;
 
 import java.util.ArrayList;
 
@@ -22,5 +22,7 @@ public class User {
     public static void addAmtHistory() {
         amtHistory.add(money);
     }
+
+    //method
 
 }

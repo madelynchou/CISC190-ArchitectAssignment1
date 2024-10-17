@@ -1,13 +1,7 @@
 package edu.sdccd.cisc190;
 
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.TitledPane;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
+import edu.sdccd.cisc190.characters.User;
 
-import java.io.*;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
