@@ -5,17 +5,20 @@ import edu.sdccd.cisc190.characters.User;
 import java.util.*;
 
 public class Slot {
-    private static float luck;
-    private static String[] symbols;
-    private static int maxBet;
-    private static int minBet;
+    public static double luck;
+    public static String[] symbols;
+    public static int maxBet;
+    public static int minBet;
     static Scanner scanner = new Scanner(System.in);
+    public static int bet;
+    public static User user;
+
     public Slot() {
         }
 
-    public static void init(User UserProfile) {
+    public static User init(User userProfile) {
         boolean validInput = false;
-        int bet;
+        user = userProfile;
 
         while (!validInput) {
             try {
@@ -34,9 +37,14 @@ public class Slot {
                 scanner.next();  // Clear the invalid input
             }
         }
-        }
 
-    public static String[] spin() {
+        String[] spunRow = spin(symbols);
+        boolean isRowWinner = isWinner(spunRow);
+        user = ifWinner(isRowWinner, user);
+        return user;
+    }
+
+    public static String[] spin(String[] symbols) {
         // Substantiate new Random() object
         Random rand = new Random();
 
@@ -57,6 +65,21 @@ public class Slot {
 
         //return if the size of the hashset is 1 (all values in HashSet are the same)
         return winningSet.size() == 1;
+    }
+
+    static User ifWinner(boolean didWin, User userProfile) {
+        if (didWin) {
+            System.out.println("Wow! Good job you win! :D");
+            // TODO: add a multiplier for how much the user wins
+            System.out.println("You won $" + bet * 10);
+            userProfile.money += (bet * 10);
+        } else {
+            System.out.println("Oops, you didn't win :( Try again! 99% of gamblers quit before hitting big!");
+            System.out.println("You lost $" + bet);
+            userProfile.money -= bet;
+        }
+
+        return userProfile;
     }
 
 }
