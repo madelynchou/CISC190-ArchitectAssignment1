@@ -1,6 +1,13 @@
 package edu.sdccd.cisc190;
 
 import edu.sdccd.cisc190.characters.User;
+import edu.sdccd.cisc190.characters.HondaBoyz;
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.control.TitledPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -10,10 +17,11 @@ public class Main {
     static User userProfile = new User();
     static Slots slots = new Slots();
     static boolean isPlaying = true;
+    static User[] bots = new User[1];
 
     //map menu options to numbers
     public enum MENU_OPTIONS {
-        SLOTS(1), ROULETTE(2), BLACKJACK(3), QUIT(4), AMOUNT(5);
+        SLOTS(1), ROULETTE(2), BLACKJACK(3), QUIT(4), AMOUNT(5), LEADERBOARD(6);
 
         //option number
         private final int optionNumber;
@@ -79,7 +87,7 @@ public class Main {
                 //output based on user's VALID option selection
                 switch(selectedOption) {
                     case SLOTS:
-                        userProfile = Slots.main(userProfile);
+                        Slots.init(userProfile);
                         userProfile.addAmtHistory();
                         break;
                     case ROULETTE:
@@ -98,6 +106,9 @@ public class Main {
                         for (int i = 0; i < userProfile.amtHistory.size(); i++) {
                             System.out.println(userProfile.amtHistory.get(i));
                         }
+                        break;
+                    case LEADERBOARD:
+
 
                 }
 
