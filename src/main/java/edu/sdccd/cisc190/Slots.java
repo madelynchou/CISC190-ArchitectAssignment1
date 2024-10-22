@@ -7,6 +7,7 @@ public class Slots {
     static int bet;
     static Scanner scanner = new Scanner(System.in);
 
+<<<<<<< Updated upstream
     public static User main(User userProfile) {
         // Ask user how much they want to bet
         boolean validInput = false;
@@ -14,6 +15,14 @@ public class Slots {
             try {
                 System.out.print("How much do you wanna bet? (Input a number) $");
                 bet = scanner.nextInt();
+=======
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("How much do you wanna bet? ");
+        int bet = scanner.nextInt();
+        String[] winningRow = spin(symbols);
+        System.out.println(Arrays.toString(winningRow));
+>>>>>>> Stashed changes
 
                 //Determine if the user's desired bet is greater than the amount they currently have
                 if (User.money < bet) {
