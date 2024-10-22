@@ -2,7 +2,7 @@ package edu.sdccd.cisc190;
 
 import java.util.*;
 
-public class Slot {
+public abstract class Slot {
     public static double luck;
     public static String[] symbols;
     public static int maxBet;
@@ -20,10 +20,13 @@ public class Slot {
     public Slot() {
         }
 
+<<<<<<< HEAD
     public static User init(User userProfile) {
 >>>>>>> 6f460d95f68ab7f58fdfc81820ab7696a60118fe:src/main/java/edu/sdccd/cisc190/Slot.java
+=======
+    public static User init(User player) {
+>>>>>>> a8bc74d26352e16247dc5668ec432ddd5ede8935
         boolean validInput = false;
-        user = userProfile;
 
         while (!validInput) {
             try {
@@ -54,8 +57,17 @@ public class Slot {
         String[] spunRow = spin(symbols);
         System.out.println(Arrays.toString(spunRow));
         boolean isRowWinner = isWinner(spunRow);
-        user = ifWinner(isRowWinner, user);
-        return user;
+        if (isRowWinner) {
+            System.out.println("Wow! Good job you win! :D");
+            // TODO: add a multiplier for how much the user wins
+            System.out.println("You won $" + bet * returnAmt);
+            player.money += (bet * returnAmt);
+        } else {
+            System.out.println("Oops, you didn't win :( Try again! 99% of gamblers quit before hitting big!");
+            System.out.println("You lost $" + bet);
+            player.money -= bet;
+        }
+        return player;
     }
 
     public static String[] spin(String[] symbols) {
@@ -82,17 +94,6 @@ public class Slot {
     }
 
     static User ifWinner(boolean didWin, User userProfile) {
-        if (didWin) {
-            System.out.println("Wow! Good job you win! :D");
-            // TODO: add a multiplier for how much the user wins
-            System.out.println("You won $" + bet * returnAmt);
-            userProfile.money += (bet * returnAmt);
-        } else {
-            System.out.println("Oops, you didn't win :( Try again! 99% of gamblers quit before hitting big!");
-            System.out.println("You lost $" + bet);
-            userProfile.money -= bet;
-        }
-
         return userProfile;
     }
 
@@ -107,4 +108,5 @@ public class Slot {
         return userProfile.money;
     }
 
+    public abstract String[] spin();
 }

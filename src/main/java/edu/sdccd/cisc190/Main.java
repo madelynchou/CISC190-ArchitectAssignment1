@@ -1,9 +1,6 @@
 package edu.sdccd.cisc190;
 
-import edu.sdccd.cisc190.characters.Chase;
-import edu.sdccd.cisc190.characters.HondaBoyz;
-import edu.sdccd.cisc190.characters.MrBrooks;
-import edu.sdccd.cisc190.characters.ProfessorHuang;
+import edu.sdccd.cisc190.characters.*;
 import edu.sdccd.cisc190.machines.TreasureSpins;
 
 import java.util.InputMismatchException;
@@ -11,10 +8,10 @@ import java.util.Scanner;
 
 public class Main {
     static Scanner scanner = new Scanner(System.in);
-    static User userProfile = new User();
     static TreasureSpins treasureSpins = new TreasureSpins();
     static boolean isPlaying = true;
-    static User[] bots;
+    static User[] bots = new User[]{new Chase(), new ProfessorHuang(), new MrBrooks(), new HondaBoyz()};
+    static User userProfile;
 
     //map menu options to numbers
     public enum MENU_OPTIONS {
@@ -35,13 +32,12 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        bots = new User[]{new Chase(), new ProfessorHuang(), new MrBrooks(), new HondaBoyz()};
         while (isPlaying) {
-            if (userProfile.name == null) {
+            if (userProfile == null) {
                 System.out.println("Welcome to our casino!");
                 System.out.print("What's your name? ");
                 String name = scanner.nextLine();
-                User.set(name, 100);
+                userProfile = new HumanPlayer(name);
             }
 
             if (userProfile.money == 0) {
@@ -87,10 +83,11 @@ public class Main {
                 switch(selectedOption) {
                     case SLOTS:
                         userProfile = TreasureSpins.init(userProfile);
-                        User.addAmtHistory();
+                        userProfile.addAmtHistory();
+
                         for (User bot : bots) {
                             int moneyChange = TreasureSpins.botPlay(bot);
-                            User.adjustMoney(moneyChange);
+                            bot.adjustMoney(moneyChange);
                         }
                         break;
                     case ROULETTE:
