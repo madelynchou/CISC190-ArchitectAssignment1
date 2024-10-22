@@ -1,4 +1,6 @@
-package edu.sdccd.cisc190;
+package edu.sdccd.cisc190.machines;
+
+import edu.sdccd.cisc190.User;
 
 import java.util.*;
 

@@ -1,7 +1,5 @@
 package edu.sdccd.cisc190.machines;
 
-import edu.sdccd.cisc190.Slot;
-
 public class TreasureSpins extends Slot {
     public TreasureSpins() {
         luck = 0.5;
