@@ -8,7 +8,5 @@ public class HondaBoyz extends User {
         this.money = 100;
         this.aura = 1.0;
         this.luck = 0.1;
-
-
     }
 }

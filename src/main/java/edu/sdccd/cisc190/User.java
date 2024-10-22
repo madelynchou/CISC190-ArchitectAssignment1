@@ -23,4 +23,10 @@ public class User {
         amtHistory.add(money);
     }
 
+    public static void adjustMoney(int money) {
+        User.money += money;
+    }
+
+    //method
+
 }
