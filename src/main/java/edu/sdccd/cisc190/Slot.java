@@ -2,7 +2,7 @@ package edu.sdccd.cisc190;
 
 import java.util.*;
 
-public abstract class Slot {
+public class Slot {
     public static double luck;
     public static String[] symbols;
     public static int maxBet;
@@ -15,8 +15,9 @@ public abstract class Slot {
     public Slot() {
         }
 
-    public static User init(User player) {
+    public static User init(User userProfile) {
         boolean validInput = false;
+        user = userProfile;
 
         while (!validInput) {
             try {
@@ -39,17 +40,8 @@ public abstract class Slot {
         String[] spunRow = spin(symbols);
         System.out.println(Arrays.toString(spunRow));
         boolean isRowWinner = isWinner(spunRow);
-        if (isRowWinner) {
-            System.out.println("Wow! Good job you win! :D");
-            // TODO: add a multiplier for how much the user wins
-            System.out.println("You won $" + bet * returnAmt);
-            player.money += (bet * returnAmt);
-        } else {
-            System.out.println("Oops, you didn't win :( Try again! 99% of gamblers quit before hitting big!");
-            System.out.println("You lost $" + bet);
-            player.money -= bet;
-        }
-        return player;
+        user = ifWinner(isRowWinner, user);
+        return user;
     }
 
     public static String[] spin(String[] symbols) {
@@ -76,6 +68,17 @@ public abstract class Slot {
     }
 
     static User ifWinner(boolean didWin, User userProfile) {
+        if (didWin) {
+            System.out.println("Wow! Good job you win! :D");
+            // TODO: add a multiplier for how much the user wins
+            System.out.println("You won $" + bet * returnAmt);
+            userProfile.money += (bet * returnAmt);
+        } else {
+            System.out.println("Oops, you didn't win :( Try again! 99% of gamblers quit before hitting big!");
+            System.out.println("You lost $" + bet);
+            userProfile.money -= bet;
+        }
+
         return userProfile;
     }
 
@@ -90,5 +93,4 @@ public abstract class Slot {
         return userProfile.money;
     }
 
-    public abstract String[] spin();
 }
