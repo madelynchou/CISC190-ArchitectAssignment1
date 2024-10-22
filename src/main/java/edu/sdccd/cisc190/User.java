@@ -2,7 +2,7 @@ package edu.sdccd.cisc190;
 
 import java.util.ArrayList;
 
-public class User {
+public abstract class User {
 
     public static String name;
     public static int money;
@@ -26,7 +26,5 @@ public class User {
     public static void adjustMoney(int money) {
         User.money += money;
     }
-
-    //method
 
 }
