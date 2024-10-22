@@ -1,13 +1,10 @@
 package edu.sdccd.cisc190;
 
-import edu.sdccd.cisc190.characters.User;
+import edu.sdccd.cisc190.characters.Chase;
 import edu.sdccd.cisc190.characters.HondaBoyz;
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.TitledPane;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
+import edu.sdccd.cisc190.characters.MrBrooks;
+import edu.sdccd.cisc190.characters.ProfessorHuang;
+import edu.sdccd.cisc190.machines.TreasureSpins;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -15,9 +12,9 @@ import java.util.Scanner;
 public class Main {
     static Scanner scanner = new Scanner(System.in);
     static User userProfile = new User();
-    static Slots slots = new Slots();
+    static TreasureSpins treasureSpins = new TreasureSpins();
     static boolean isPlaying = true;
-    static User[] bots = new User[1];
+    static User[] bots;
 
     //map menu options to numbers
     public enum MENU_OPTIONS {
@@ -38,6 +35,7 @@ public class Main {
     }
 
     public static void main(String[] args) {
+        bots = new User[]{new Chase(), new ProfessorHuang(), new MrBrooks(), new HondaBoyz()};
         while (isPlaying) {
             if (userProfile.name == null) {
                 System.out.println("Welcome to our casino!");
@@ -48,12 +46,13 @@ public class Main {
 
             if (userProfile.money == 0) {
                 System.out.println("Game over!");
-                System.out.println("You just lost the house and the car and the kids :(");
+                System.out.println("You just lost the house and the kids :(");
                 isPlaying = false;
                 break;
             }
             //print out user info
             System.out.println("You're logged in as: " + User.name);
+            System.out.println("You have: $" + userProfile.money);
 
             //display user options
             for (MENU_OPTIONS option : MENU_OPTIONS.values()) {
@@ -87,8 +86,12 @@ public class Main {
                 //output based on user's VALID option selection
                 switch(selectedOption) {
                     case SLOTS:
-                        Slots.init(userProfile);
-                        userProfile.addAmtHistory();
+                        userProfile = TreasureSpins.init(userProfile);
+                        User.addAmtHistory();
+                        for (User bot : bots) {
+                            int moneyChange = TreasureSpins.botPlay(bot);
+                            User.adjustMoney(moneyChange);
+                        }
                         break;
                     case ROULETTE:
                         System.out.println("Coming soon!");
@@ -108,7 +111,9 @@ public class Main {
                         }
                         break;
                     case LEADERBOARD:
-
+                        for (int i = 0; i < bots.length; i++) {
+                            System.out.println(bots[i].name + bots[i].money);
+                        }
 
                 }
 

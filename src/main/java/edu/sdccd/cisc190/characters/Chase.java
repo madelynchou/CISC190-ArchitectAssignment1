@@ -1,5 +1,7 @@
 package edu.sdccd.cisc190.characters;
 
+import edu.sdccd.cisc190.User;
+
 public class Chase extends User {
 
     public Chase() {

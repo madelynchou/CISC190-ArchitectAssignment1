@@ -1,7 +1,5 @@
 package edu.sdccd.cisc190;
 
-import edu.sdccd.cisc190.characters.User;
-
 import java.util.*;
 
 public class Slot {
@@ -9,8 +7,9 @@ public class Slot {
     public static String[] symbols;
     public static int maxBet;
     public static int minBet;
+    public static int returnAmt;
     static Scanner scanner = new Scanner(System.in);
-    public static int bet;
+    public static double bet;
     public static User user;
 
     public Slot() {
@@ -39,6 +38,7 @@ public class Slot {
         }
 
         String[] spunRow = spin(symbols);
+        System.out.println(Arrays.toString(spunRow));
         boolean isRowWinner = isWinner(spunRow);
         user = ifWinner(isRowWinner, user);
         return user;
@@ -71,8 +71,8 @@ public class Slot {
         if (didWin) {
             System.out.println("Wow! Good job you win! :D");
             // TODO: add a multiplier for how much the user wins
-            System.out.println("You won $" + bet * 10);
-            userProfile.money += (bet * 10);
+            System.out.println("You won $" + bet * returnAmt);
+            userProfile.money += (bet * returnAmt);
         } else {
             System.out.println("Oops, you didn't win :( Try again! 99% of gamblers quit before hitting big!");
             System.out.println("You lost $" + bet);
@@ -80,6 +80,17 @@ public class Slot {
         }
 
         return userProfile;
+    }
+
+    public static int botPlay(User userProfile) {
+        bet = minBet + (maxBet - minBet) * userProfile.aura;
+        double randomNumber = Math.random();
+        if (randomNumber > userProfile.luck) {
+            userProfile.money -= bet;
+        } else {
+            userProfile.money += bet;
+        }
+        return userProfile.money;
     }
 
 }
