@@ -14,16 +14,34 @@ public abstract class Slot {
     public static double bet;
     public static User user;
 
+<<<<<<< HEAD:src/main/java/edu/sdccd/cisc190/Slots.java
+<<<<<<< Updated upstream
+    public static User main(User userProfile) {
+        // Ask user how much they want to bet
+=======
     public Slot() {
         }
 
+<<<<<<< HEAD
+    public static User init(User userProfile) {
+>>>>>>> 6f460d95f68ab7f58fdfc81820ab7696a60118fe:src/main/java/edu/sdccd/cisc190/Slot.java
+=======
     public static User init(User player) {
+>>>>>>> a8bc74d26352e16247dc5668ec432ddd5ede8935
         boolean validInput = false;
 
         while (!validInput) {
             try {
                 System.out.print("How much do you wanna bet? (Input a number) $");
                 bet = scanner.nextInt();
+=======
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("How much do you wanna bet? ");
+        int bet = scanner.nextInt();
+        String[] winningRow = spin(symbols);
+        System.out.println(Arrays.toString(winningRow));
+>>>>>>> Stashed changes
 
                 //Determine if the user's desired bet is greater than the amount they currently have
                 if (User.money < bet) {
