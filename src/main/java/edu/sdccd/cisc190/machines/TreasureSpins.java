@@ -1,6 +1,6 @@
 package edu.sdccd.cisc190.machines;
 
-public class TreasureSpins extends Slot {
+public class TreasureSpins extends Slots {
     public TreasureSpins() {
         luck = 0.5;
         returnAmt = 10;
