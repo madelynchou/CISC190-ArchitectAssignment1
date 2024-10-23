@@ -2,7 +2,7 @@ package edu.sdccd.cisc190;
 
 import java.util.*;
 
-public class Slot {
+abstract public class Slot {
     public static double luck;
     public static String[] symbols;
     public static int maxBet;
@@ -13,7 +13,7 @@ public class Slot {
     public static User user;
 
     public Slot() {
-        }
+    }
 
     public static User init(User userProfile) {
         boolean validInput = false;

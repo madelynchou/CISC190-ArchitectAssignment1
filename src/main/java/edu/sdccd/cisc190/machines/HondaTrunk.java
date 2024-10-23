@@ -9,9 +9,4 @@ public class HondaTrunk extends Slot {
         symbols = new String[]{"🚗", "🛻", "🚕"};
     }
 
-    @Override
-    public String[] spin() {
-        return new String[0];
-    }
-
 }

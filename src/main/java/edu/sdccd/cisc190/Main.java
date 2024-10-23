@@ -1,6 +1,7 @@
 package edu.sdccd.cisc190;
 
 import edu.sdccd.cisc190.characters.*;
+import edu.sdccd.cisc190.machines.DiamondDash;
 import edu.sdccd.cisc190.machines.TreasureSpins;
 
 import java.util.InputMismatchException;
@@ -15,7 +16,7 @@ public class Main {
 
     //map menu options to numbers
     public enum MENU_OPTIONS {
-        SLOTS(1), ROULETTE(2), BLACKJACK(3), QUIT(4), AMOUNT(5), LEADERBOARD(6);
+        TREASURESPINS(1), DIAMONDDASH(2), MEGAMOOLAH(3), RAINBOWRICHES(4), HONDATRUNK(5), LEADERBOARD(6), QUIT(7);
 
         //option number
         private final int optionNumber;
@@ -81,7 +82,7 @@ public class Main {
 
                 //output based on user's VALID option selection
                 switch(selectedOption) {
-                    case SLOTS:
+                    case TREASURESPINS:
                         userProfile = TreasureSpins.init(userProfile);
                         userProfile.addAmtHistory();
 
@@ -90,10 +91,16 @@ public class Main {
                             bot.adjustMoney(moneyChange);
                         }
                         break;
-                    case ROULETTE:
-                        System.out.println("Coming soon!");
+                    case DIAMONDDASH:
+                        userProfile = DiamondDash.init(userProfile);
+                        userProfile.addAmtHistory();
+
+                        for (User bot : bots) {
+                            int moneyChange = DiamondDash.botPlay(bot);
+                            bot.adjustMoney(moneyChange);
+                        }
                         break;
-                    case BLACKJACK:
+                    case MEGAMOOLAH:
                         System.out.println("Coming soon!");
                         break;
                     case QUIT:
@@ -101,13 +108,13 @@ public class Main {
                         System.out.println("99% of gamblers quit before making it big!");
                         isPlaying = false;
                         break;
-                    case AMOUNT:
+                    case RAINBOWRICHES:
                         System.out.println("You have: $" + User.money);
                         for (int i = 0; i < userProfile.amtHistory.size(); i++) {
                             System.out.println(userProfile.amtHistory.get(i));
                         }
                         break;
-                    case LEADERBOARD:
+                    case HONDATRUNK:
                         for (int i = 0; i < bots.length; i++) {
                             System.out.println(bots[i].name + bots[i].money);
                         }
