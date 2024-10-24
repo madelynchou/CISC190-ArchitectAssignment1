@@ -56,7 +56,7 @@ public class Main {
                 System.out.println(option.getOptionNumber() + ": " + option);
             }
             //prompt user to select an option
-            System.out.print("Select an option (1-5): ");
+            System.out.print("Select an option (1-7): ");
 
             //convert user input into int
             int input = scanner.nextInt();
