@@ -1,80 +1,45 @@
 package edu.sdccd.cisc190;
 
-//import edu.sdccd.cisc190.characters.*;
-//import edu.sdccd.cisc190.machines.DiamondDash;
-//import edu.sdccd.cisc190.machines.TreasureSpins;
-//
-//import java.util.InputMismatchException;
-//import java.util.Scanner;
+import edu.sdccd.cisc190.characters.*;
+import edu.sdccd.cisc190.interfaces.MainMenu;
+import edu.sdccd.cisc190.machines.TreasureSpins;
 
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.TitledPane;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
+import java.util.Scanner;
 
-import java.io.*;
+public class Main {
+    static Scanner scanner = new Scanner(System.in);
+    static TreasureSpins treasureSpins = new TreasureSpins();
+    static boolean isPlaying = true;
+    static User[] bots = new User[]{new Chase(), new ProfessorHuang(), new MrBrooks(), new HondaBoyz()};
+    static User userProfile;
 
-public class Main extends Application {
-    public static final String APP_NAME_FILE = "AppName.txt";
+    //map menu options to numbers
+    public enum MENU_OPTIONS {
+        TREASURESPINS(1), DIAMONDDASH(2), MEGAMOOLAH(3), RAINBOWRICHES(4), HONDATRUNK(5), LEADERBOARD(6), QUIT(7);
 
-    public static void main(String[] args) {
-        launch(args);
-    }
+        //option number
+        private final int optionNumber;
 
-    public static String getAppName() throws IOException {
-        String appName;
-        try (InputStream is = Main.class.getClassLoader().getResourceAsStream(APP_NAME_FILE)) {
-            if(is == null) throw new IOException(APP_NAME_FILE + " could not be found!");
-            appName = new BufferedReader(new InputStreamReader(is)).readLine();
+        //associate option w its number
+        MENU_OPTIONS(int optionNumber) {
+            this.optionNumber = optionNumber;
         }
 
-        return appName;
+        //get option number
+        public int getOptionNumber() {
+            return optionNumber;
+        }
     }
 
-    @Override
-    public void start(Stage stage) throws Exception {
-        Label label = new Label("The content inside the TitledPane");
-        TitledPane titledPane = new TitledPane(getAppName(), label);
-        titledPane.setCollapsible(false);
 
-        titledPane.setExpanded(true);
-        titledPane.setExpanded(false);
-
-        Scene scene = new Scene(new VBox(titledPane));
-        stage.setScene(scene);
-
-        stage.show();
+    public static void main(String[] args) {
+        MainMenu.launch(MainMenu.class, args);
     }
 
 
 }
 //
 //public class Main {
-//    static Scanner scanner = new Scanner(System.in);
-//    static TreasureSpins treasureSpins = new TreasureSpins();
-//    static boolean isPlaying = true;
-//    static User[] bots = new User[]{new Chase(), new ProfessorHuang(), new MrBrooks(), new HondaBoyz()};
-//    static User userProfile;
-//
-//    //map menu options to numbers
-//    public enum MENU_OPTIONS {
-//        TREASURESPINS(1), DIAMONDDASH(2), MEGAMOOLAH(3), RAINBOWRICHES(4), HONDATRUNK(5), LEADERBOARD(6), QUIT(7);
-//
-//        //option number
-//        private final int optionNumber;
-//
-//        //associate option w its number
-//        MENU_OPTIONS(int optionNumber) {
-//            this.optionNumber = optionNumber;
-//        }
-//
-//        //get option number
-//        public int getOptionNumber() {
-//            return optionNumber;
-//        }
-//    }
 //
 //    public static void main(String[] args) {
 //        while (isPlaying) {
