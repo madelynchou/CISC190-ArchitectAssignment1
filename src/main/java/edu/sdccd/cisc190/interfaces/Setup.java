@@ -38,7 +38,7 @@ public class Setup extends Application {
         layout.getChildren().addAll(nameLabel, nameField, submitButton);
 
         // Scene and Stage setup
-        Scene scene = new Scene(layout, 300, 150);
+        Scene scene = new Scene(layout, 800, 800);
         primaryStage.setScene(scene);
         primaryStage.show();
 

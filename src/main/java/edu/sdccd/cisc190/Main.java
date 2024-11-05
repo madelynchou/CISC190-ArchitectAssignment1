@@ -14,27 +14,10 @@ public class Main {
     static Bot[] bots = new Bot[]{new Chase(), new ProfessorHuang(), new MrBrooks(), new HondaBoyz()};
 
     //map menu options to numbers
-    public enum MENU_OPTIONS {
-        TREASURESPINS(1), DIAMONDDASH(2), MEGAMOOLAH(3), RAINBOWRICHES(4), HONDATRUNK(5), LEADERBOARD(6), QUIT(7);
-
-        //option number
-        private final int optionNumber;
-
-        //associate option w its number
-        MENU_OPTIONS(int optionNumber) {
-            this.optionNumber = optionNumber;
-        }
-
-        //get option number
-        public int getOptionNumber() {
-            return optionNumber;
-        }
-    }
-
 
     public static void main(String[] args) {
         Setup.launch(Setup.class, args);
-        System.out.println(HumanPlayer.getInstance().getUsername());
+
     }
 
 

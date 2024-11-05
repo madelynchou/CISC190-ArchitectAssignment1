@@ -1,6 +1,7 @@
 package edu.sdccd.cisc190.interfaces;
 
 import edu.sdccd.cisc190.HumanPlayer;
+import edu.sdccd.cisc190.Slot;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -43,6 +44,7 @@ public class Bet extends Application {
 
             primaryStage.close();
 
+
             Stage newWindow = new Stage();
             SlotMachine.showWindow(newWindow, betAmt);
         });
@@ -52,7 +54,7 @@ public class Bet extends Application {
         layout.getChildren().addAll(nameLabel, numericTextField, submitButton);
 
         // Scene and Stage setup
-        Scene scene = new Scene(layout, 300, 150);
+        Scene scene = new Scene(layout, 800, 800);
         primaryStage.setScene(scene);
         primaryStage.show();
 

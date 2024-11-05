@@ -1,6 +1,8 @@
 package edu.sdccd.cisc190.interfaces;
 
 import edu.sdccd.cisc190.HumanPlayer;
+import edu.sdccd.cisc190.Slot;
+import edu.sdccd.cisc190.machines.DiamondDash;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -32,20 +34,32 @@ public class MainMenu extends Application {
             Button option3Button = new Button("Mega Moolah");
             Button option4Button = new Button("Rainbow Riches");
             Button option5Button = new Button("Treasure Spins");
+            Button quit = new Button("Quit");
+
 
             // Layout to hold buttons
             VBox layout = new VBox(10); // spacing between buttons
-            layout.getChildren().addAll(usernameLabel, moneyLabel, option1Button, option2Button, option3Button, option4Button, option5Button);
+            layout.getChildren().addAll(usernameLabel, moneyLabel, option1Button, option2Button, option3Button, option4Button, option5Button, quit);
 
             // Scene and Stage setup
-            Scene scene = new Scene(layout, 300, 200);
+            Scene scene = new Scene(layout, 800, 800);
             primaryStage.setScene(scene);
             primaryStage.show();
 
             option1Button.setOnAction(e -> {
+                primaryStage.close();
                 Stage newWindow = new Stage();
                 Bet.showWindow(newWindow);
 
+            });
+
+            quit.setOnAction(e -> {
+                primaryStage.close();
+
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Cya");
+                alert.setContentText("Come back soon! 99.9% of gamblers quit before hitting it big!");
+                alert.showAndWait();
             });
 
 
