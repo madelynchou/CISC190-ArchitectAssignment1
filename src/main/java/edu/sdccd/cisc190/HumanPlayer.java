@@ -31,6 +31,7 @@ public class HumanPlayer extends Bot {
 
     public void setUsername(String username) {
         this.username = username;
+        this.money = 100;
     }
 
     public Integer getMoney() {

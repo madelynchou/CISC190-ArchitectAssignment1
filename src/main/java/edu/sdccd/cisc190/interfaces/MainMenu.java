@@ -26,6 +26,7 @@ public class MainMenu extends Application {
 
             // Creating menu buttons
             Text usernameLabel = new Text(10, 50, "Username: " + HumanPlayer.getInstance().getUsername());
+            Text moneyLabel = new Text(10, 50, "Money: " + HumanPlayer.getInstance().getMoney().toString());
             Button option1Button = new Button("Diamond Dash");
             Button option2Button = new Button("Honda Trunk");
             Button option3Button = new Button("Mega Moolah");
@@ -34,12 +35,19 @@ public class MainMenu extends Application {
 
             // Layout to hold buttons
             VBox layout = new VBox(10); // spacing between buttons
-            layout.getChildren().addAll(usernameLabel, option1Button, option2Button, option3Button, option4Button, option5Button);
+            layout.getChildren().addAll(usernameLabel, moneyLabel, option1Button, option2Button, option3Button, option4Button, option5Button);
 
             // Scene and Stage setup
             Scene scene = new Scene(layout, 300, 200);
             primaryStage.setScene(scene);
             primaryStage.show();
+
+            option1Button.setOnAction(e -> {
+                Stage newWindow = new Stage();
+                SlotMachine.showWindow(newWindow);
+
+            });
+
 
         }
 

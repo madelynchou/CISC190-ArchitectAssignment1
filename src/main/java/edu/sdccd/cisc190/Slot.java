@@ -37,14 +37,14 @@ abstract public class Slot {
             }
         }
 
-        String[] spunRow = spin(symbols);
+        String[] spunRow = spin();
         System.out.println(Arrays.toString(spunRow));
         boolean isRowWinner = isWinner(spunRow);
         bot = ifWinner(isRowWinner, bot);
         return bot;
     }
 
-    public static String[] spin(String[] symbols) {
+    public static String[] spin() {
         // Substantiate new Random() object
         Random rand = new Random();
 
@@ -59,7 +59,7 @@ abstract public class Slot {
 
     }
 
-    static boolean isWinner(String[] arr) {
+    public static boolean isWinner(String[] arr) {
         //create a HashSet winningSet that stores all elements in winningRow
         HashSet<String> winningSet = new HashSet<>(Arrays.asList(arr));
 

@@ -35,7 +35,6 @@ public class Main {
     public static void main(String[] args) {
         Setup.launch(Setup.class, args);
         System.out.println(HumanPlayer.getInstance().getUsername());
-        MainMenu.launch(MainMenu.class, args);
     }
 
 
