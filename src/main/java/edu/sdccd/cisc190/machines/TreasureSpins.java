@@ -1,7 +1,6 @@
 package edu.sdccd.cisc190.machines;
 
 import edu.sdccd.cisc190.Slot;
-import edu.sdccd.cisc190.User;
 
 public class TreasureSpins extends Slot {
     public TreasureSpins() {

@@ -1,8 +1,8 @@
 package edu.sdccd.cisc190.characters;
 
-import edu.sdccd.cisc190.User;
+import edu.sdccd.cisc190.Bot;
 
-public class Chase extends User {
+public class Chase extends Bot {
 
     public Chase() {
         this.name = "Chase";

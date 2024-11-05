@@ -10,14 +10,14 @@ abstract public class Slot {
     public static int returnAmt;
     static Scanner scanner = new Scanner(System.in);
     public static double bet;
-    public static User user;
+    public static Bot bot;
 
     public Slot() {
     }
 
-    public static User init(User userProfile) {
+    public static Bot init(Bot botProfile) {
         boolean validInput = false;
-        user = userProfile;
+        bot = botProfile;
 
         while (!validInput) {
             try {
@@ -25,7 +25,7 @@ abstract public class Slot {
                 bet = scanner.nextInt();
 
                 //Determine if the user's desired bet is greater than the amount they currently have
-                if (User.money < bet) {
+                if (Bot.money < bet) {
                     System.out.printf("Your desired bet of $%d is greater than the amount of money you currently have. Please enter a valid bet.\n", bet);
                 } else {
                     validInput = true; // Exit the loop if input is valid
@@ -40,8 +40,8 @@ abstract public class Slot {
         String[] spunRow = spin(symbols);
         System.out.println(Arrays.toString(spunRow));
         boolean isRowWinner = isWinner(spunRow);
-        user = ifWinner(isRowWinner, user);
-        return user;
+        bot = ifWinner(isRowWinner, bot);
+        return bot;
     }
 
     public static String[] spin(String[] symbols) {
@@ -67,30 +67,30 @@ abstract public class Slot {
         return winningSet.size() == 1;
     }
 
-    static User ifWinner(boolean didWin, User userProfile) {
+    static Bot ifWinner(boolean didWin, Bot botProfile) {
         if (didWin) {
             System.out.println("Wow! Good job you win! :D");
             // TODO: add a multiplier for how much the user wins
             System.out.println("You won $" + bet * returnAmt);
-            userProfile.money += (bet * returnAmt);
+            botProfile.money += (bet * returnAmt);
         } else {
             System.out.println("Oops, you didn't win :( Try again! 99% of gamblers quit before hitting big!");
             System.out.println("You lost $" + bet);
-            userProfile.money -= bet;
+            botProfile.money -= bet;
         }
 
-        return userProfile;
+        return botProfile;
     }
 
-    public static int botPlay(User userProfile) {
-        bet = minBet + (maxBet - minBet) * userProfile.aura;
+    public static int botPlay(Bot botProfile) {
+        bet = minBet + (maxBet - minBet) * botProfile.aura;
         double randomNumber = Math.random();
-        if (randomNumber > userProfile.luck) {
-            userProfile.money -= bet;
+        if (randomNumber > botProfile.luck) {
+            botProfile.money -= bet;
         } else {
-            userProfile.money += bet;
+            botProfile.money += bet;
         }
-        return userProfile.money;
+        return botProfile.money;
     }
 
 }

@@ -2,7 +2,7 @@ package edu.sdccd.cisc190;
 
 import java.util.ArrayList;
 
-public abstract class User {
+public abstract class Bot {
 
     public static String name;
     public static int money;
@@ -15,8 +15,8 @@ public abstract class User {
     }
 
     public static void set(String name, int money) {
-        User.name = name;
-        User.money = money;
+        Bot.name = name;
+        Bot.money = money;
     }
 
     public static void addAmtHistory() {
@@ -24,7 +24,7 @@ public abstract class User {
     }
 
     public static void adjustMoney(int money) {
-        User.money += money;
+        Bot.money += money;
     }
 
 }

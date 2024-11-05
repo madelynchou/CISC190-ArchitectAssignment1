@@ -2,6 +2,7 @@ package edu.sdccd.cisc190;
 
 import edu.sdccd.cisc190.characters.*;
 import edu.sdccd.cisc190.interfaces.MainMenu;
+import edu.sdccd.cisc190.interfaces.Setup;
 import edu.sdccd.cisc190.machines.TreasureSpins;
 
 import java.util.Scanner;
@@ -10,8 +11,7 @@ public class Main {
     static Scanner scanner = new Scanner(System.in);
     static TreasureSpins treasureSpins = new TreasureSpins();
     static boolean isPlaying = true;
-    static User[] bots = new User[]{new Chase(), new ProfessorHuang(), new MrBrooks(), new HondaBoyz()};
-    static User userProfile;
+    static Bot[] bots = new Bot[]{new Chase(), new ProfessorHuang(), new MrBrooks(), new HondaBoyz()};
 
     //map menu options to numbers
     public enum MENU_OPTIONS {
@@ -33,6 +33,8 @@ public class Main {
 
 
     public static void main(String[] args) {
+        Setup.launch(Setup.class, args);
+        System.out.println(HumanPlayer.getInstance().getUsername());
         MainMenu.launch(MainMenu.class, args);
     }
 

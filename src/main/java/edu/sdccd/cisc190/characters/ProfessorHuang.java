@@ -1,8 +1,8 @@
 package edu.sdccd.cisc190.characters;
 
-import edu.sdccd.cisc190.User;
+import edu.sdccd.cisc190.Bot;
 
-public class ProfessorHuang extends User {
+public class ProfessorHuang extends Bot {
 
     public ProfessorHuang() {
         this.name = "Professor Huang (The G.O.A.T)";
