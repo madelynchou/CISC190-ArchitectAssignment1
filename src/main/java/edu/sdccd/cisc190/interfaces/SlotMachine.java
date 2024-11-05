@@ -1,5 +1,6 @@
 package edu.sdccd.cisc190.interfaces;
 
+import edu.sdccd.cisc190.HumanPlayer;
 import edu.sdccd.cisc190.machines.DiamondDash;
 import javafx.application.Application;
 import javafx.geometry.Pos;
@@ -17,6 +18,7 @@ public class SlotMachine extends Application {
     private static Label slot3 = new Label("❓");
 
     private static Label won = new Label("Spin to see!");
+    private static Label money = new Label(HumanPlayer.getInstance().getMoney().toString());
 
     @Override
     public void start(Stage primaryStage) {
@@ -28,15 +30,15 @@ public class SlotMachine extends Application {
         launch(args);
     }
 
-    public static void showWindow(Stage primaryStage) {
+    public static void showWindow(Stage primaryStage, int betAmt) {
         primaryStage.setTitle("Slot Machine");
 
         // "Spin" button to spin the slot machine
         Button spinButton = new Button("Spin");
-        spinButton.setOnAction(e -> spin());
+        spinButton.setOnAction(e -> spin(betAmt));
 
         // Layout for the slots and the button
-        VBox layout = new VBox(20, won, slot1, slot2, slot3, spinButton);
+        VBox layout = new VBox(20, won, money, slot1, slot2, slot3, spinButton);
         layout.setAlignment(Pos.CENTER);
 
         Scene scene = new Scene(layout, 300, 300);
@@ -46,7 +48,7 @@ public class SlotMachine extends Application {
     }
 
 
-    private static void spin() {
+    private static void spin(int betAmt) {
         // Call SlotMachine class to get random symbols
         String[] symbols = DiamondDash.spin();
 
@@ -58,8 +60,14 @@ public class SlotMachine extends Application {
         boolean isWinner = DiamondDash.isWinner(symbols);
         if (isWinner) {
             won.setText("Wow you won!");
+            HumanPlayer.getInstance().setMoney(HumanPlayer.getInstance().getMoney() + betAmt * DiamondDash.returnAmt);
+            money.setText(HumanPlayer.getInstance().getMoney().toString());
         } else {
             won.setText("You lost :(");
+            HumanPlayer.getInstance().setMoney(HumanPlayer.getInstance().getMoney() - betAmt);
+            money.setText(HumanPlayer.getInstance().getMoney().toString());
+
+
         }
 
     }

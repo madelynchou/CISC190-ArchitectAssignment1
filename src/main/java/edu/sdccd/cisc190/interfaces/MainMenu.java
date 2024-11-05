@@ -44,7 +44,7 @@ public class MainMenu extends Application {
 
             option1Button.setOnAction(e -> {
                 Stage newWindow = new Stage();
-                SlotMachine.showWindow(newWindow);
+                Bet.showWindow(newWindow);
 
             });
 
