@@ -20,49 +20,51 @@ public class MainMenu extends Application {
 
         @Override
         public void start(Stage primaryStage) {
+            showWindow(primaryStage);
         }
 
-
         public static void showWindow(Stage primaryStage) {
+            VBox layout = new VBox(10); // spacing between buttons
             primaryStage.setTitle("Menu Options");
 
             // Creating menu buttons
             Text usernameLabel = new Text(10, 50, "Username: " + HumanPlayer.getInstance().getUsername());
             Text moneyLabel = new Text(10, 50, "Money: " + HumanPlayer.getInstance().getMoney().toString());
-            Button option1Button = new Button("Diamond Dash");
-            Button option2Button = new Button("Honda Trunk");
-            Button option3Button = new Button("Mega Moolah");
-            Button option4Button = new Button("Rainbow Riches");
-            Button option5Button = new Button("Treasure Spins");
-            Button quit = new Button("Quit");
 
+            for(SlotOptions option: SlotOptions.values()) {
+                Button slotButton = new Button(option.getDisplayOption());
 
-            // Layout to hold buttons
-            VBox layout = new VBox(10); // spacing between buttons
-            layout.getChildren().addAll(usernameLabel, moneyLabel, option1Button, option2Button, option3Button, option4Button, option5Button, quit);
+                slotButton.setOnAction(e -> handleDisplayAction(primaryStage, option));
+
+                layout.getChildren().add(slotButton);
+            }
 
             // Scene and Stage setup
-            Scene scene = new Scene(layout, 800, 800);
+            Scene scene = new Scene(layout, 400, 400);
             primaryStage.setScene(scene);
             primaryStage.show();
+        }
 
-            option1Button.setOnAction(e -> {
-                primaryStage.close();
-                Stage newWindow = new Stage();
-                Bet.showWindow(newWindow);
-
-            });
-
-            quit.setOnAction(e -> {
-                primaryStage.close();
-
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Cya");
-                alert.setContentText("Come back soon! 99.9% of gamblers quit before hitting it big!");
-                alert.showAndWait();
-            });
-
-
+        private static void handleDisplayAction(Stage primaryStage, SlotOptions option) {
+            switch (option) {
+                case DIAMOND_DASH -> {
+                    primaryStage.close();
+                    Stage newWindow = new Stage();
+                    Bet.showWindow(newWindow);
+                }
+                case HONDA_TRUNK -> displayMessage("Honda Trunk");
+                case MEGA_MOOLAH -> displayMessage("mega moola");
+                case RAINBOW_RICHES -> displayMessage("rainbow");
+                case TREASURE_SPINS -> displayMessage("treasure");
+                case QUIT -> {
+                    primaryStage.close();
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Cya");
+                    alert.setContentText("Come back soon! 99.9% of gamblers quit before hitting it big!");
+                    alert.showAndWait();
+                }
+                default -> displayMessage("default option");
+            }
         }
 
     private static void displayMessage(String message) {
@@ -73,7 +75,25 @@ public class MainMenu extends Application {
         alert.showAndWait();
     }
 
+    //declare enum for slots down here
+    public enum SlotOptions {
+        DIAMOND_DASH("Diamond Dash"),
+        HONDA_TRUNK("Honda Trunk"),
+        MEGA_MOOLAH("Mega Moola"),
+        RAINBOW_RICHES("Rainbow Riches"),
+        TREASURE_SPINS("Treasure Spins"),
+        QUIT("Quit");
 
+        private final String displayOption;
+
+        SlotOptions(String displayOption) {
+            this.displayOption = displayOption;
+        }
+
+        public String getDisplayOption() {
+            return displayOption;
+        }
+    }
 
     public static void main(String[] args) {
             launch(args);
