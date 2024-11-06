@@ -6,8 +6,10 @@ import edu.sdccd.cisc190.machines.DiamondDash;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -42,7 +44,7 @@ public class SlotMachine extends Application {
         betAmount.setText("" + betAmt);
 
         // "Spin" button to spin the slot machine
-        spinButton.setOnAction(e -> spin(betAmt));
+        spinButton.setOnAction(e -> spin(betAmt, primaryStage));
 
         changeBet.setOnAction(e -> {
             primaryStage.close();
@@ -54,22 +56,29 @@ public class SlotMachine extends Application {
             MainMenu.showWindow(primaryStage);
         });
 
-        // Layout for the slots and the button
-        VBox layout = new VBox(20, betAmount, won, money, slot1, slot2, slot3, spinButton, changeBet, mainMenu);
+        // Create an HBox for the slot labels to align them horizontally
+        HBox slotsRow = new HBox(10, slot1, slot2, slot3);
+        slotsRow.setAlignment(Pos.CENTER);
+
+        // Main layout for the entire interface
+        VBox layout = new VBox(20, betAmount, won, money, slotsRow, spinButton, changeBet, mainMenu);
         layout.setAlignment(Pos.CENTER);
 
         Scene scene = new Scene(layout, 800, 800);
         primaryStage.setScene(scene);
         primaryStage.show();
-
     }
 
+    private static void spin(int betAmt, Stage primaryStage) {
+        if (HumanPlayer.getInstance().getMoney() < betAmt) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Selection");
+            alert.setHeaderText(null);
+            alert.setContentText("You can't bet that much!");
+            alert.showAndWait();
 
-    private static void spin(int betAmt) {
-
-        if (HumanPlayer.getInstance().getMoney() < betAmt || HumanPlayer.getInstance().getMoney() <= 0) {
-            won.setText("Game over!");
-            spinButton.setDisable(true);
+            primaryStage.close();
+            Bet.showWindow(primaryStage);
         } else {
             // Call SlotMachine class to get random symbols
             String[] symbols = DiamondDash.spin();
@@ -88,12 +97,7 @@ public class SlotMachine extends Application {
                 won.setText("You lost :(");
                 HumanPlayer.getInstance().setMoney(HumanPlayer.getInstance().getMoney() - betAmt);
                 money.setText(HumanPlayer.getInstance().getMoney().toString());
-
-
             }
         }
-
-
     }
-
 }
