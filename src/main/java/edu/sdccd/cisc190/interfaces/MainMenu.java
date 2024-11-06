@@ -40,7 +40,7 @@ public class MainMenu extends Application {
             }
 
             // Scene and Stage setup
-            Scene scene = new Scene(layout, 400, 400);
+            Scene scene = new Scene(layout, 800, 800);
             primaryStage.setScene(scene);
             primaryStage.show();
         }
