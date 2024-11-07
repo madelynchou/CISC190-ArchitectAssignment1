@@ -7,9 +7,10 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -17,85 +18,87 @@ public class MainMenu extends Application {
 
     public static final String APP_NAME_FILE = "AppName.txt";
 
-
-        @Override
-        public void start(Stage primaryStage) {
-            showWindow(primaryStage);
-        }
-
-        public static void showWindow(Stage primaryStage) {
-            VBox layout = new VBox(10); // spacing between buttons
-            primaryStage.setTitle("Menu Options");
-
-            // Creating menu buttons
-            Text usernameLabel = new Text(10, 50, "Username: " + HumanPlayer.getInstance().getUsername());
-            Text moneyLabel = new Text(10, 50, "Money: " + HumanPlayer.getInstance().getMoney().toString());
-
-            for(SlotOptions option: SlotOptions.values()) {
-                Button slotButton = new Button(option.getDisplayOption());
-
-                slotButton.setOnAction(e -> handleDisplayAction(primaryStage, option));
-
-                layout.getChildren().add(slotButton);
-            }
-
-            // Scene and Stage setup
-            Scene scene = new Scene(layout, 400, 400);
-            primaryStage.setScene(scene);
-            primaryStage.show();
-        }
-
-        private static void handleDisplayAction(Stage primaryStage, SlotOptions option) {
-            switch (option) {
-                case DIAMOND_DASH -> {
-                    primaryStage.close();
-                    Stage newWindow = new Stage();
-                    Bet.showWindow(newWindow);
-                }
-                case HONDA_TRUNK -> displayMessage("Honda Trunk");
-                case MEGA_MOOLAH -> displayMessage("mega moola");
-                case RAINBOW_RICHES -> displayMessage("rainbow");
-                case TREASURE_SPINS -> displayMessage("treasure");
-                case QUIT -> {
-                    primaryStage.close();
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Cya");
-                    alert.setContentText("Come back soon! 99.9% of gamblers quit before hitting it big!");
-                    alert.showAndWait();
-                }
-                default -> displayMessage("default option");
-            }
-        }
-
-    private static void displayMessage(String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Selection");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
+    @Override
+    public void start(Stage primaryStage) {
+        showWindow(primaryStage);
     }
 
-    //declare enum for slots down here
-    public enum SlotOptions {
-        DIAMOND_DASH("Diamond Dash"),
-        HONDA_TRUNK("Honda Trunk"),
-        MEGA_MOOLAH("Mega Moola"),
-        RAINBOW_RICHES("Rainbow Riches"),
-        TREASURE_SPINS("Treasure Spins"),
-        QUIT("Quit");
+    public static void showWindow(Stage primaryStage) {
+        primaryStage.setTitle("Casino Game Menu");
 
-        private final String displayOption;
+        // Username and Money Labels
+        Text usernameLabel = new Text("Username: " + HumanPlayer.getInstance().getUsername());
+        usernameLabel.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+        usernameLabel.setFill(Color.GOLD);
 
-        SlotOptions(String displayOption) {
-            this.displayOption = displayOption;
-        }
+        Text moneyLabel = new Text("Money: $" + HumanPlayer.getInstance().getMoney().toString());
+        moneyLabel.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+        moneyLabel.setFill(Color.LIGHTGREEN);
 
-        public String getDisplayOption() {
-            return displayOption;
-        }
+        // Creating menu buttons with a consistent style
+        Button option1Button = createStyledButton("Diamond Dash");
+        Button option2Button = createStyledButton("Honda Trunk");
+        Button option3Button = createStyledButton("Mega Moolah");
+        Button option4Button = createStyledButton("Rainbow Riches");
+        Button option5Button = createStyledButton("Treasure Spins");
+        Button quitButton = createStyledButton("Quit");
+
+        // Set button actions
+        option1Button.setOnAction(e -> {
+            primaryStage.close();
+            Stage newWindow = new Stage();
+            Bet.showWindow(newWindow);
+        });
+
+        quitButton.setOnAction(e -> {
+            primaryStage.close();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Cya");
+            alert.setContentText("Come back soon! 99.9% of gamblers quit before hitting it big!");
+            alert.showAndWait();
+        });
+
+        // Layout setup with spacing and padding
+        VBox layout = new VBox(15);
+        layout.setStyle("-fx-background-color: darkslateblue; -fx-padding: 20;");
+        layout.getChildren().addAll(usernameLabel, moneyLabel, option1Button, option2Button, option3Button, option4Button, option5Button, quitButton);
+
+        layout.setAlignment(javafx.geometry.Pos.CENTER);
+
+        // Scene and Stage setup
+        Scene scene = new Scene(layout, 800, 600);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    private static Button createStyledButton(String text) {
+        Button button = new Button(text);
+        button.setFont(Font.font("Arial", FontWeight.BOLD, 16));
+        button.setStyle(
+                "-fx-background-color: linear-gradient(to bottom, #ffcc00, #ff9900);" +
+                        "-fx-text-fill: black;" +
+                        "-fx-background-radius: 10;" +
+                        "-fx-padding: 10px 20px;"
+        );
+
+        // Hover effect
+        button.setOnMouseEntered(e -> button.setStyle(
+                "-fx-background-color: linear-gradient(to bottom, #ff9900, #ff6600);" +
+                        "-fx-text-fill: white;" +
+                        "-fx-background-radius: 10;" +
+                        "-fx-padding: 10px 20px;"
+        ));
+        button.setOnMouseExited(e -> button.setStyle(
+                "-fx-background-color: linear-gradient(to bottom, #ffcc00, #ff9900);" +
+                        "-fx-text-fill: black;" +
+                        "-fx-background-radius: 10;" +
+                        "-fx-padding: 10px 20px;"
+        ));
+
+        return button;
     }
 
     public static void main(String[] args) {
-            launch(args);
-        }
+        launch(args);
     }
+}

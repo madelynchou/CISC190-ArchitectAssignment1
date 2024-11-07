@@ -3,94 +3,83 @@ package edu.sdccd.cisc190;
 import java.util.*;
 
 abstract public class Slot {
-    public static double luck;
-    public static String[] symbols;
-    public static int maxBet;
-    public static int minBet;
-    public static int returnAmt;
-    static Scanner scanner = new Scanner(System.in);
-    public static double bet;
-    public static Bot bot;
+    public double luck; // Instance-specific luck
+    public static String[] symbols; // Instance-specific symbols
+    public int maxBet; // Instance-specific max bet
+    public int minBet; // Instance-specific min bet
+    public int returnAmt; // Instance-specific return multiplier
+    static Scanner scanner = new Scanner(System.in); // Shared scanner
+    public double bet; // Instance-specific bet amount
+    public Bot bot; // Instance-specific bot
 
     public Slot() {
     }
 
-    public static Bot init(Bot botProfile) {
+    public Bot init(Bot botProfile) {
         boolean validInput = false;
-        bot = botProfile;
+        this.bot = botProfile;
 
         while (!validInput) {
             try {
                 System.out.print("How much do you wanna bet? (Input a number) $");
-                bet = scanner.nextInt();
+                this.bet = scanner.nextInt();
 
-                //Determine if the user's desired bet is greater than the amount they currently have
-                if (Bot.money < bet) {
-                    System.out.printf("Your desired bet of $%d is greater than the amount of money you currently have. Please enter a valid bet.\n", bet);
+                if (botProfile.money < this.bet) {
+                    System.out.printf("Your desired bet of $%d is greater than the amount of money you currently have. Please enter a valid bet.\n", this.bet);
                 } else {
-                    validInput = true; // Exit the loop if input is valid
+                    validInput = true;
                 }
-
             } catch (InputMismatchException e) {
                 System.out.println("That's not a number! Try again.");
-                scanner.next();  // Clear the invalid input
+                scanner.next();
             }
         }
 
         String[] spunRow = spin();
         System.out.println(Arrays.toString(spunRow));
         boolean isRowWinner = isWinner(spunRow);
-        bot = ifWinner(isRowWinner, bot);
+        this.bot = ifWinner(isRowWinner, bot);
         return bot;
     }
 
     public static String[] spin() {
-        // Substantiate new Random() object
         Random rand = new Random();
-
         String[] spunSlots = new String[symbols.length];
 
-        //generate a random index of the symbols array and modify original array
         for (int i = 0; i < symbols.length; i++) {
             spunSlots[i] = symbols[rand.nextInt(symbols.length)];
         }
 
         return spunSlots;
-
     }
 
     public static boolean isWinner(String[] arr) {
-        //create a HashSet winningSet that stores all elements in winningRow
         HashSet<String> winningSet = new HashSet<>(Arrays.asList(arr));
-
-        //return if the size of the hashset is 1 (all values in HashSet are the same)
         return winningSet.size() == 1;
     }
 
-    static Bot ifWinner(boolean didWin, Bot botProfile) {
+    public Bot ifWinner(boolean didWin, Bot botProfile) {
         if (didWin) {
             System.out.println("Wow! Good job you win! :D");
-            // TODO: add a multiplier for how much the user wins
-            System.out.println("You won $" + bet * returnAmt);
-            botProfile.money += (bet * returnAmt);
+            System.out.println("You won $" + this.bet * returnAmt);
+            botProfile.money += (this.bet * returnAmt);
         } else {
             System.out.println("Oops, you didn't win :( Try again! 99% of gamblers quit before hitting big!");
-            System.out.println("You lost $" + bet);
-            botProfile.money -= bet;
+            System.out.println("You lost $" + this.bet);
+            botProfile.money -= this.bet;
         }
 
         return botProfile;
     }
 
-    public static int botPlay(Bot botProfile) {
-        bet = minBet + (maxBet - minBet) * botProfile.aura;
+    public int botPlay(Bot botProfile) {
+        this.bet = minBet + (maxBet - minBet) * botProfile.aura;
         double randomNumber = Math.random();
         if (randomNumber > botProfile.luck) {
-            botProfile.money -= bet;
+            botProfile.money -= this.bet;
         } else {
-            botProfile.money += bet;
+            botProfile.money += this.bet;
         }
         return botProfile.money;
     }
-
 }
