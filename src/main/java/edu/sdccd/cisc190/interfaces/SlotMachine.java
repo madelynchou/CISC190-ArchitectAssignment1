@@ -3,6 +3,8 @@ package edu.sdccd.cisc190.interfaces;
 import edu.sdccd.cisc190.HumanPlayer;
 import edu.sdccd.cisc190.Slot;
 import edu.sdccd.cisc190.machines.DiamondDash;
+import edu.sdccd.cisc190.machines.HondaTrunk;
+import edu.sdccd.cisc190.machines.TreasureSpins;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -66,6 +68,7 @@ public class SlotMachine extends Application {
 
         // Button actions
         spinButton.setOnAction(e -> spin(betAmt, primaryStage));
+
         changeBet.setOnAction(e -> {
             primaryStage.close();
             Bet.showWindow(primaryStage);
@@ -97,6 +100,7 @@ public class SlotMachine extends Application {
             Bet.showWindow(primaryStage);
         } else {
             // Spin the slot machine and update symbols
+            DiamondDash.initializeSymbols();
             String[] symbols = DiamondDash.spin();
             slot1.setText(symbols[0]);
             slot2.setText(symbols[1]);

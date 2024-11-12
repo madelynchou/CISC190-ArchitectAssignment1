@@ -10,12 +10,6 @@ abstract public class Slot {
     public static int returnAmt; // Instance-specific return multiplier
     static Scanner scanner = new Scanner(System.in); // Shared scanner
     public double bet; // Instance-specific bet amount
-    public Bot bot; // Instance-specific bot
-
-    public Slot() {
-    }
-
-
 
     public static String[] spin() {
         Random rand = new Random();
