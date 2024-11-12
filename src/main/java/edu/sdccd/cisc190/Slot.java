@@ -7,7 +7,7 @@ abstract public class Slot {
     public static String[] symbols; // Instance-specific symbols
     public int maxBet; // Instance-specific max bet
     public int minBet; // Instance-specific min bet
-    public int returnAmt; // Instance-specific return multiplier
+    public static int returnAmt; // Instance-specific return multiplier
     static Scanner scanner = new Scanner(System.in); // Shared scanner
     public double bet; // Instance-specific bet amount
     public Bot bot; // Instance-specific bot
@@ -15,32 +15,7 @@ abstract public class Slot {
     public Slot() {
     }
 
-    public Bot init(Bot botProfile) {
-        boolean validInput = false;
-        this.bot = botProfile;
 
-        while (!validInput) {
-            try {
-                System.out.print("How much do you wanna bet? (Input a number) $");
-                this.bet = scanner.nextInt();
-
-                if (botProfile.money < this.bet) {
-                    System.out.printf("Your desired bet of $%d is greater than the amount of money you currently have. Please enter a valid bet.\n", this.bet);
-                } else {
-                    validInput = true;
-                }
-            } catch (InputMismatchException e) {
-                System.out.println("That's not a number! Try again.");
-                scanner.next();
-            }
-        }
-
-        String[] spunRow = spin();
-        System.out.println(Arrays.toString(spunRow));
-        boolean isRowWinner = isWinner(spunRow);
-        this.bot = ifWinner(isRowWinner, bot);
-        return bot;
-    }
 
     public static String[] spin() {
         Random rand = new Random();
@@ -53,33 +28,27 @@ abstract public class Slot {
         return spunSlots;
     }
 
-    public static boolean isWinner(String[] arr) {
-        HashSet<String> winningSet = new HashSet<>(Arrays.asList(arr));
-        return winningSet.size() == 1;
+    public static int checkWinType(String[] arr) {
+        // Returns 2 for a two-symbol match, 3 for a three-symbol match, or 0 for no match
+        if (arr[0].equals(arr[1]) && arr[1].equals(arr[2])) {
+            return 3; // Full match
+        } else if (arr[0].equals(arr[1]) || arr[1].equals(arr[2]) || arr[0].equals(arr[2])) {
+            return 2; // Partial (two-symbol) match
+        }
+        return 0; // No match
     }
 
-    public Bot ifWinner(boolean didWin, Bot botProfile) {
-        if (didWin) {
-            System.out.println("Wow! Good job you win! :D");
-            System.out.println("You won $" + this.bet * returnAmt);
-            botProfile.money += (this.bet * returnAmt);
+    public static int checkIfWon(int moneyAmount, String[] spunRow, int bet) {
+        int winningCondition = checkWinType(spunRow);
+        if (winningCondition == 0) {
+            moneyAmount -= bet;
+        } else if (winningCondition == 2) {
+            moneyAmount += bet * (returnAmt / 2);
+        } else if (winningCondition == 3) {
+            moneyAmount += bet;
         } else {
-            System.out.println("Oops, you didn't win :( Try again! 99% of gamblers quit before hitting big!");
-            System.out.println("You lost $" + this.bet);
-            botProfile.money -= this.bet;
+            return moneyAmount;
         }
-
-        return botProfile;
-    }
-
-    public int botPlay(Bot botProfile) {
-        this.bet = minBet + (maxBet - minBet) * botProfile.aura;
-        double randomNumber = Math.random();
-        if (randomNumber > botProfile.luck) {
-            botProfile.money -= this.bet;
-        } else {
-            botProfile.money += this.bet;
-        }
-        return botProfile.money;
+        return  moneyAmount;
     }
 }

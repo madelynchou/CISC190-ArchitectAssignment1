@@ -103,13 +103,13 @@ public class SlotMachine extends Application {
             slot3.setText(symbols[2]);
 
             // Determine and display the result
-            boolean isWinner = DiamondDash.isWinner(symbols);
-            if (isWinner) {
+            int isWinner = DiamondDash.checkWinType(symbols);
+            if (isWinner == 2 || isWinner == 3) {
                 won.setText("Wow, you won!");
-                HumanPlayer.getInstance().setMoney(HumanPlayer.getInstance().getMoney() + betAmt * DiamondDash.returnAmt);
+                HumanPlayer.getInstance().setMoney(DiamondDash.checkIfWon(HumanPlayer.getInstance().getMoney(), symbols, betAmt));
             } else {
                 won.setText("You lost :(");
-                HumanPlayer.getInstance().setMoney(HumanPlayer.getInstance().getMoney() - betAmt);
+                HumanPlayer.getInstance().setMoney(DiamondDash.checkIfWon(HumanPlayer.getInstance().getMoney(), symbols, betAmt));
             }
 
             // Update money label
