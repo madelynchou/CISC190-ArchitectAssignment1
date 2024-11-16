@@ -1,7 +1,7 @@
 package edu.sdccd.cisc190.interfaces;
 
-import edu.sdccd.cisc190.HumanPlayer;
-import edu.sdccd.cisc190.Slot;
+import edu.sdccd.cisc190.players.HumanPlayer;
+import edu.sdccd.cisc190.machines.Slot;
 import edu.sdccd.cisc190.machines.DiamondDash;
 import javafx.application.Application;
 import javafx.scene.Scene;

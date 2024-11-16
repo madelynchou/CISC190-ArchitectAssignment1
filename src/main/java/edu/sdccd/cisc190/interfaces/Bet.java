@@ -1,6 +1,6 @@
 package edu.sdccd.cisc190.interfaces;
 
-import edu.sdccd.cisc190.HumanPlayer;
+import edu.sdccd.cisc190.players.HumanPlayer;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
