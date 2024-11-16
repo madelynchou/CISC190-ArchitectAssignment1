@@ -45,4 +45,8 @@ abstract public class Slot {
         }
         return  moneyAmount;
     }
+
+    public void initializeSymbols() {
+
+    }
 }

@@ -16,23 +16,41 @@ import javafx.stage.Stage;
 
 public class MainMenu extends Application {
 
-    public static final String APP_NAME_FILE = "AppName.txt";
-
     @Override
     public void start(Stage primaryStage) {
         showWindow(primaryStage);
     }
 
     public static void showWindow(Stage primaryStage) {
-        VBox layout = new VBox(10); // spacing between buttons
-        primaryStage.setTitle("Menu Options");
+        VBox layout = new VBox(20); // Increased spacing for casino feel
+        layout.setStyle(
+                "-fx-background-color: linear-gradient(to bottom, #000000, #660000);" + // Casino gradient
+                        "-fx-padding: 30px;" // Padding for spacing
+        );
+        layout.setAlignment(javafx.geometry.Pos.CENTER); // Center all elements
 
-        // Creating menu buttons
-        Text usernameLabel = new Text(10, 50, "Username: " + HumanPlayer.getInstance().getUsername());
-        Text moneyLabel = new Text(10, 50, "Money: " + HumanPlayer.getInstance().getMoney().toString());
+        primaryStage.setTitle("Casino Royale Menu");
 
-        for(SlotOptions option: SlotOptions.values()) {
-            Button slotButton = new Button(option.getDisplayOption());
+        // Header Text
+        Text header = new Text("Casino Royale");
+        header.setFont(Font.font("Verdana", FontWeight.BOLD, 30));
+        header.setFill(Color.GOLD);
+
+        // User Info
+        Text usernameLabel = new Text("Username: " + HumanPlayer.getInstance().getUsername());
+        usernameLabel.setFont(Font.font("Arial", FontWeight.SEMI_BOLD, 18));
+        usernameLabel.setFill(Color.WHITE);
+
+        Text moneyLabel = new Text("Money: $" + HumanPlayer.getInstance().getMoney());
+        moneyLabel.setFont(Font.font("Arial", FontWeight.SEMI_BOLD, 18));
+        moneyLabel.setFill(Color.WHITE);
+
+        // Add header and user info to layout
+        layout.getChildren().addAll(header, usernameLabel, moneyLabel);
+
+        // Create styled buttons
+        for (SlotOptions option : SlotOptions.values()) {
+            Button slotButton = createStyledButton(option.getDisplayOption());
 
             slotButton.setOnAction(e -> handleDisplayAction(primaryStage, option));
 
@@ -40,34 +58,29 @@ public class MainMenu extends Application {
         }
 
         // Scene and Stage setup
-        Scene scene = new Scene(layout, 400, 400);
+        Scene scene = new Scene(layout, 600, 600); // Larger size for casino feel
         primaryStage.setScene(scene);
         primaryStage.show();
     }
 
-
     private static void handleDisplayAction(Stage primaryStage, SlotOptions option) {
         switch (option) {
-            case DIAMOND_DASH -> {
-                primaryStage.close();
-                Stage newWindow = new Stage();
-                Bet.showWindow(newWindow);
-            }
-            case HONDA_TRUNK -> displayMessage("Honda Trunk");
-            case MEGA_MOOLAH -> displayMessage("mega moola");
-            case RAINBOW_RICHES -> displayMessage("rainbow");
-            case TREASURE_SPINS -> displayMessage("treasure");
+            case DIAMOND_DASH -> Bet.showWindow(primaryStage, option);
+            case HONDA_TRUNK -> Bet.showWindow(primaryStage, option);
+            case MEGA_MOOLAH -> Bet.showWindow(primaryStage, option);
+            case RAINBOW_RICHES -> Bet.showWindow(primaryStage, option);
+            case TREASURE_SPINS -> Bet.showWindow(primaryStage, option);
+            case LEADERBOARD -> Leaderboard.showWindow(primaryStage);
             case QUIT -> {
                 primaryStage.close();
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Cya");
+                alert.setTitle("Goodbye!");
                 alert.setContentText("Come back soon! 99.9% of gamblers quit before hitting it big!");
                 alert.showAndWait();
             }
-            default -> displayMessage("default option");
+            default -> displayMessage("Default option selected.");
         }
     }
-
 
     private static Button createStyledButton(String text) {
         Button button = new Button(text);
@@ -96,13 +109,26 @@ public class MainMenu extends Application {
         return button;
     }
 
-    //declare enum for slots down here
+    private static void displayMessage(String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Selection");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+
+    // SlotOptions enum
     public enum SlotOptions {
         DIAMOND_DASH("Diamond Dash"),
         HONDA_TRUNK("Honda Trunk"),
         MEGA_MOOLAH("Mega Moola"),
         RAINBOW_RICHES("Rainbow Riches"),
         TREASURE_SPINS("Treasure Spins"),
+        LEADERBOARD("Leaderboard"),
         QUIT("Quit");
 
         private final String displayOption;
@@ -114,17 +140,5 @@ public class MainMenu extends Application {
         public String getDisplayOption() {
             return displayOption;
         }
-    }
-
-    private static void displayMessage(String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Selection");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
-
-    public static void main(String[] args) {
-        launch(args);
     }
 }

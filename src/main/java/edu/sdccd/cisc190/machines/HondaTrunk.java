@@ -8,5 +8,10 @@ public class HondaTrunk extends Slot {
         returnAmt = 1;
         symbols = new String[]{"🚗", "🛻", "🚕"};
     }
+    @Override
+    public void initializeSymbols() {
+        symbols = new String[]{"🚗", "🛻", "🚕"};
+    }
+
 
 }

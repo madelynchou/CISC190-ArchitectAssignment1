@@ -2,9 +2,7 @@ package edu.sdccd.cisc190.interfaces;
 
 import edu.sdccd.cisc190.HumanPlayer;
 import edu.sdccd.cisc190.Slot;
-import edu.sdccd.cisc190.machines.DiamondDash;
-import edu.sdccd.cisc190.machines.HondaTrunk;
-import edu.sdccd.cisc190.machines.TreasureSpins;
+import edu.sdccd.cisc190.machines.*;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -20,7 +18,6 @@ import javafx.stage.Stage;
 
 public class SlotMachine extends Application {
 
-    // Labels to display the emoji symbols and other information
     private static Label betAmount = new Label();
     private static Label slot1 = new Label("❓");
     private static Label slot2 = new Label("❓");
@@ -28,29 +25,40 @@ public class SlotMachine extends Application {
     private static Label won = new Label("Spin to see!");
     private static Label money = new Label("Balance: $" + HumanPlayer.getInstance().getMoney().toString());
 
-    // Buttons with enhanced styling
     static Button spinButton = createStyledButton("Spin");
     static Button changeBet = createStyledButton("Change Bet");
     static Button mainMenu = createStyledButton("Return to Main Menu");
 
+    static MainMenu.SlotOptions machineSelect;
+    static Slot slotMachine;
+
     @Override
     public void start(Stage primaryStage) {
-        showWindow(primaryStage, 0); // Replace 0 with actual betAmt if needed
+        showWindow(primaryStage, 0, MainMenu.SlotOptions.DIAMOND_DASH);
     }
 
     public static void main(String[] args) {
         launch(args);
     }
 
-    public static void showWindow(Stage primaryStage, int betAmt) {
-        primaryStage.setTitle("Slot Machine");
+    public static void showWindow(Stage primaryStage, int betAmt, MainMenu.SlotOptions selectedMachine) {
+        machineSelect = selectedMachine;
+        switch (selectedMachine) {
+            case DIAMOND_DASH -> slotMachine = new DiamondDash();
+            case HONDA_TRUNK -> slotMachine = new HondaTrunk();
+            case TREASURE_SPINS -> slotMachine = new TreasureSpins();
+            case MEGA_MOOLAH -> slotMachine = new MegaMoolah();
+            case RAINBOW_RICHES -> slotMachine = new RainbowRiches();
+            default -> slotMachine = new DiamondDash();
+        }
 
-        // Set bet amount label text
+        primaryStage.setTitle("Casino Royale - Slot Machine");
+
+        // Styled Labels
         betAmount.setText("You're betting: $" + betAmt);
         betAmount.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         betAmount.setTextFill(Color.LIGHTGOLDENRODYELLOW);
 
-        // Increase font size for slot labels to make them appear larger
         slot1.setStyle("-fx-font-size: 60px;");
         slot2.setStyle("-fx-font-size: 60px;");
         slot3.setStyle("-fx-font-size: 60px;");
@@ -58,36 +66,36 @@ public class SlotMachine extends Application {
         slot2.setTextFill(Color.ORANGERED);
         slot3.setTextFill(Color.ORANGERED);
 
-        // Win/Loss label styling
         won.setFont(Font.font("Arial", FontWeight.BOLD, 24));
         won.setTextFill(Color.GOLD);
 
-        // Money label styling
         money.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         money.setTextFill(Color.LIGHTGREEN);
 
-        // Button actions
+        // Button Actions
         spinButton.setOnAction(e -> spin(betAmt, primaryStage));
-
         changeBet.setOnAction(e -> {
             primaryStage.close();
-            Bet.showWindow(primaryStage);
+            Bet.showWindow(primaryStage, machineSelect);
         });
         mainMenu.setOnAction(e -> {
             primaryStage.close();
             MainMenu.showWindow(primaryStage);
         });
 
-        // Slots display row
+        // Slots Display Row
         HBox slotsRow = new HBox(20, slot1, slot2, slot3);
         slotsRow.setAlignment(Pos.CENTER);
 
-        // Main layout
+        // Main Layout
         VBox layout = new VBox(20, betAmount, won, money, slotsRow, spinButton, changeBet, mainMenu);
         layout.setAlignment(Pos.CENTER);
-        layout.setStyle("-fx-background-color: darkslateblue; -fx-padding: 30px;");
+        layout.setStyle(
+                "-fx-background-color: linear-gradient(to bottom, #000000, #660000);" +
+                        "-fx-padding: 30px;"
+        );
 
-        // Scene setup
+        // Scene Setup
         Scene scene = new Scene(layout, 800, 800);
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -97,29 +105,25 @@ public class SlotMachine extends Application {
         if (HumanPlayer.getInstance().getMoney() < betAmt) {
             showAlert("You can't bet that much!", "Please try again with a lower bet.");
             primaryStage.close();
-            Bet.showWindow(primaryStage);
+            Bet.showWindow(primaryStage, machineSelect);
         } else {
-            // Spin the slot machine and update symbols
-            DiamondDash.initializeSymbols();
-            String[] symbols = DiamondDash.spin();
+            slotMachine.initializeSymbols();
+            String[] symbols = slotMachine.spin();
             slot1.setText(symbols[0]);
             slot2.setText(symbols[1]);
             slot3.setText(symbols[2]);
 
-            // Determine and display the result
             int isWinner = DiamondDash.checkWinType(symbols);
             if (isWinner == 2 || isWinner == 3) {
                 won.setText("Wow, you won!");
-                HumanPlayer.getInstance().setMoney(DiamondDash.checkIfWon(HumanPlayer.getInstance().getMoney(), symbols, betAmt));
+                HumanPlayer.getInstance().setMoney(slotMachine.checkIfWon(HumanPlayer.getInstance().getMoney(), symbols, betAmt));
             } else {
                 won.setText("You lost :(");
                 HumanPlayer.getInstance().setMoney(DiamondDash.checkIfWon(HumanPlayer.getInstance().getMoney(), symbols, betAmt));
             }
 
-            // Update money label
             money.setText("Balance: $" + HumanPlayer.getInstance().getMoney().toString());
 
-            // Check if player is out of money
             if (HumanPlayer.getInstance().getMoney() <= 0) {
                 showAlert("Game over", "You're out of money! Better luck next time.");
                 primaryStage.close();
@@ -145,7 +149,6 @@ public class SlotMachine extends Application {
                         "-fx-padding: 10px 20px;"
         );
 
-        // Hover effect
         button.setOnMouseEntered(e -> button.setStyle(
                 "-fx-background-color: linear-gradient(to bottom, #ff9900, #ff6600);" +
                         "-fx-text-fill: white;" +

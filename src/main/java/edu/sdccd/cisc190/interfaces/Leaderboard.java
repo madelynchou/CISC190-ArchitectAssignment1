@@ -9,6 +9,9 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 public class Leaderboard extends Application {
@@ -17,37 +20,55 @@ public class Leaderboard extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+        showWindow(primaryStage);
     }
 
     public static void showWindow(Stage primaryStage) {
-        primaryStage.setTitle("Leaderboard");
+        primaryStage.setTitle("Casino Royale - Leaderboard");
 
-        // Define columns for rank, name, and score
+        // Define columns for rank, name, and score with styling
         TableColumn<Player, Integer> rankColumn = new TableColumn<>("Rank");
         rankColumn.setCellValueFactory(new PropertyValueFactory<>("rank"));
+        rankColumn.setStyle("-fx-alignment: CENTER; -fx-font-weight: bold;");
 
         TableColumn<Player, String> nameColumn = new TableColumn<>("Name");
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        nameColumn.setStyle("-fx-alignment: CENTER; -fx-font-weight: bold;");
 
         TableColumn<Player, Integer> scoreColumn = new TableColumn<>("Score");
         scoreColumn.setCellValueFactory(new PropertyValueFactory<>("score"));
+        scoreColumn.setStyle("-fx-alignment: CENTER; -fx-font-weight: bold;");
 
         // Initialize the TableView and add columns
         leaderboardTable = new TableView<>();
         leaderboardTable.getColumns().addAll(rankColumn, nameColumn, scoreColumn);
+        leaderboardTable.setStyle(
+                "-fx-background-color: transparent; " +
+                        "-fx-border-color: gold; " +
+                        "-fx-border-width: 2px; " +
+                        "-fx-font-size: 14px; -fx-font-family: 'Arial';"
+        );
 
         // Add sample data to the leaderboard
         leaderboardTable.setItems(getSampleData());
+        leaderboardTable.setPrefHeight(250);
+
+        // Title label
+        javafx.scene.control.Label titleLabel = new javafx.scene.control.Label("Leaderboard");
+        titleLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 24));
+        titleLabel.setTextFill(Color.GOLD);
 
         // Set layout and add TableView
-        VBox layout = new VBox(10, leaderboardTable);
+        VBox layout = new VBox(20, titleLabel, leaderboardTable);
         layout.setAlignment(Pos.CENTER);
-        layout.setPrefSize(400, 300);  // Adjust as needed
+        layout.setStyle(
+                "-fx-background-color: linear-gradient(to bottom, #000000, #660000);" +
+                        "-fx-padding: 30px;"
+        );
 
-        Scene scene = new Scene(layout);
+        Scene scene = new Scene(layout, 600, 400); // Adjusted size
         primaryStage.setScene(scene);
         primaryStage.show();
-
     }
 
     // Sample data for demonstration purposes
