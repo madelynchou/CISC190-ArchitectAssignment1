@@ -7,7 +7,7 @@ abstract public class Slot {
     public static String[] symbols; // Instance-specific symbols
     public int maxBet; // Instance-specific max bet
     public int minBet; // Instance-specific min bet
-    public static int returnAmt; // Instance-specific return multiplier
+    public static double returnAmt; // Instance-specific return multiplier
     static Scanner scanner = new Scanner(System.in); // Shared scanner
     public double bet; // Instance-specific bet amount
 
@@ -60,7 +60,7 @@ abstract public class Slot {
             case 0: // No match
                 return moneyAmount - bet;
             case 3: // Three-symbol match
-                return moneyAmount + bet;
+                return (int) (moneyAmount + Math.floor(bet * returnAmt));
             default:
                 return moneyAmount;
         }
