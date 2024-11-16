@@ -11,19 +11,41 @@ abstract public class Slot {
     static Scanner scanner = new Scanner(System.in); // Shared scanner
     public double bet; // Instance-specific bet amount
 
+    // Spins the slot machine symbols
     public static String[] spin() {
+        return generateSpunSymbols();
+    }
+
+    // Determines the win type based on the spun symbols
+    public static int checkWinType(String[] arr) {
+        return evaluateWinCondition(arr);
+    }
+
+    // Adjusts the player's money based on whether they won or lost
+    public static int checkIfWon(int moneyAmount, String[] spunRow, int bet) {
+        return calculatePayout(moneyAmount, spunRow, bet);
+    }
+
+    // Initializes symbols for the slot machine (abstract for subclasses)
+    public void initializeSymbols() {}
+
+    // -------------------------
+    // Smaller private methods
+    // -------------------------
+
+    // Generates the symbols that appear after spinning
+    private static String[] generateSpunSymbols() {
         Random rand = new Random();
         String[] spunSlots = new String[symbols.length];
 
         for (int i = 0; i < symbols.length; i++) {
             spunSlots[i] = symbols[rand.nextInt(symbols.length)];
         }
-
         return spunSlots;
     }
 
-    public static int checkWinType(String[] arr) {
-        // Returns 2 for a two-symbol match, 3 for a three-symbol match, or 0 for no match
+    // Evaluates win conditions based on the spun symbols
+    private static int evaluateWinCondition(String[] arr) {
         if (arr[0].equals(arr[1]) && arr[1].equals(arr[2])) {
             return 3; // Full match
         } else if (arr[0].equals(arr[1]) || arr[1].equals(arr[2]) || arr[0].equals(arr[2])) {
@@ -32,21 +54,18 @@ abstract public class Slot {
         return 0; // No match
     }
 
-    public static int checkIfWon(int moneyAmount, String[] spunRow, int bet) {
-        int winningCondition = checkWinType(spunRow);
-        if (winningCondition == 0) {
-            moneyAmount -= bet;
-        } else if (winningCondition == 2) {
-            moneyAmount += bet * (returnAmt / 2);
-        } else if (winningCondition == 3) {
-            moneyAmount += bet;
-        } else {
-            return moneyAmount;
+    // Calculates the player's new money amount based on the outcome
+    private static int calculatePayout(int moneyAmount, String[] spunRow, int bet) {
+        int winningCondition = evaluateWinCondition(spunRow);
+        switch (winningCondition) {
+            case 0: // No match
+                return moneyAmount - bet;
+            case 2: // Two-symbol match
+                return moneyAmount + bet * (returnAmt / 2);
+            case 3: // Three-symbol match
+                return moneyAmount + bet;
+            default:
+                return moneyAmount;
         }
-        return  moneyAmount;
-    }
-
-    public void initializeSymbols() {
-
     }
 }

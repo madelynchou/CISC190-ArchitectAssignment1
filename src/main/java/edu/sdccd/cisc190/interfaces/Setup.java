@@ -68,7 +68,7 @@ public class Setup extends Application {
             primaryStage.close();
 
             Stage newWindow = new Stage();
-            MainMenu.showWindow(newWindow);
+            MainMenu.setupWindow(newWindow);
         });
 
         // Layout setup

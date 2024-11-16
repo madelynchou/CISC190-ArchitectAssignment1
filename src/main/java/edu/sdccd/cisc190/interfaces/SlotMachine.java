@@ -80,7 +80,7 @@ public class SlotMachine extends Application {
         });
         mainMenu.setOnAction(e -> {
             primaryStage.close();
-            MainMenu.showWindow(primaryStage);
+            MainMenu.setupWindow(primaryStage);
         });
 
         // Slots Display Row
