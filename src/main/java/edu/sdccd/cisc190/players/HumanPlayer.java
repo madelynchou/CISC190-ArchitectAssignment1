@@ -1,27 +1,21 @@
-package edu.sdccd.cisc190;
+package edu.sdccd.cisc190.players;
 
-public class HumanPlayer extends Bot {
+import edu.sdccd.cisc190.players.bots.Bot;
 
+public class HumanPlayer {
     private static HumanPlayer instance;
-
     private String username;
-
     private Integer money;
-
-    private HumanPlayer() { /* Private constructor for singleton pattern */ }
+    private HumanPlayer() {}
 
 
     public static HumanPlayer getInstance() {
 
         if (instance == null) {
-
             instance = new HumanPlayer();
         }
-
         return instance;
-
     }
-
 
     // Getters and Setters for username and email
 

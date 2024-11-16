@@ -1,18 +1,13 @@
-package edu.sdccd.cisc190;
+package edu.sdccd.cisc190.players.bots;
 
 import java.util.ArrayList;
 
 public abstract class Bot {
-
+    public static ArrayList<Integer> amtHistory = new ArrayList<>();
     public static String name;
     public static int money;
-    public static ArrayList<Integer> amtHistory = new ArrayList<>();
     public static double luck;
     public static double aura;
-
-    public static void main(String[] args) {
-
-    }
 
     public static void set(String name, int money) {
         Bot.name = name;

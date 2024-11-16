@@ -1,6 +1,4 @@
-package edu.sdccd.cisc190.characters;
-
-import edu.sdccd.cisc190.Bot;
+package edu.sdccd.cisc190.players.bots;
 
 public class MrBrooks extends Bot {
 
