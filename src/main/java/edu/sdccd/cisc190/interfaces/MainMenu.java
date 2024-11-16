@@ -1,8 +1,6 @@
 package edu.sdccd.cisc190.interfaces;
 
 import edu.sdccd.cisc190.players.HumanPlayer;
-import edu.sdccd.cisc190.machines.Slot;
-import edu.sdccd.cisc190.machines.DiamondDash;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -13,6 +11,11 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class MainMenu extends Application {
 
@@ -106,6 +109,7 @@ public class MainMenu extends Application {
     }
 
     private static void quitApplication(Stage primaryStage) {
+        savePlayerData();
         primaryStage.close();
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Goodbye!");
@@ -113,6 +117,30 @@ public class MainMenu extends Application {
         alert.showAndWait();
     }
 
+    private static void savePlayerData() {
+        HumanPlayer player = HumanPlayer.getInstance();
+        String data = "Username: " + player.getUsername() + ", Money: $" + player.getMoney();
+
+        try {
+            // Delete the file if it exists
+            File file = new File("player_data.txt");
+            if (file.exists()) {
+                if (!file.delete()) {
+                    System.err.println("Failed to delete existing player_data.txt file.");
+                    return;
+                }
+            }
+
+            // Write new data to the file
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+                writer.write(data);
+                writer.newLine();
+            }
+
+        } catch (IOException e) {
+            System.err.println("Error saving player data: " + e.getMessage());
+        }
+    }
     private static void showMessage(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Selection");

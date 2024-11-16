@@ -48,10 +48,9 @@ abstract public class Slot {
     private static int evaluateWinCondition(String[] arr) {
         if (arr[0].equals(arr[1]) && arr[1].equals(arr[2])) {
             return 3; // Full match
-        } else if (arr[0].equals(arr[1]) || arr[1].equals(arr[2]) || arr[0].equals(arr[2])) {
-            return 2; // Partial (two-symbol) match
+        } else {
+            return 0;
         }
-        return 0; // No match
     }
 
     // Calculates the player's new money amount based on the outcome
@@ -60,8 +59,6 @@ abstract public class Slot {
         switch (winningCondition) {
             case 0: // No match
                 return moneyAmount - bet;
-            case 2: // Two-symbol match
-                return moneyAmount + bet * (returnAmt / 2);
             case 3: // Three-symbol match
                 return moneyAmount + bet;
             default:

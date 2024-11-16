@@ -13,11 +13,29 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+
 public class Setup extends Application {
     static String userName;
 
     @Override
     public void start(Stage primaryStage) {
+        // Check if player data file exists and load it
+        if (loadPlayerData()) {
+            // Proceed directly to the MainMenu if data was loaded
+            Stage mainMenuStage = new Stage();
+            MainMenu.setupWindow(mainMenuStage);
+            primaryStage.close();
+        } else {
+            // Show sign-in window if no data was loaded
+            showSignInWindow(primaryStage);
+        }
+    }
+
+    private void showSignInWindow(Stage primaryStage) {
         primaryStage.setTitle("Casino Royale - Sign In");
 
         // Welcome label with casino-style font
@@ -28,7 +46,7 @@ public class Setup extends Application {
         // Text field with placeholder
         TextField nameField = new TextField();
         nameField.setPromptText("Enter Your Name");
-        nameField.setPrefWidth(250);  // Wider for better UX
+        nameField.setPrefWidth(250); // Wider for better UX
         nameField.setStyle(
                 "-fx-background-color: #333333; " +
                         "-fx-text-fill: white; " +
@@ -65,6 +83,7 @@ public class Setup extends Application {
             userName = nameField.getText();
             HumanPlayer tempPlayer = HumanPlayer.getInstance();
             tempPlayer.setUsername(userName);
+            tempPlayer.setMoney(100); // Default starting money if no file was loaded
             primaryStage.close();
 
             Stage newWindow = new Stage();
@@ -72,7 +91,7 @@ public class Setup extends Application {
         });
 
         // Layout setup
-        VBox layout = new VBox(20);  // Spacing between components
+        VBox layout = new VBox(20); // Spacing between components
         layout.getChildren().addAll(nameLabel, nameField, submitButton);
         layout.setAlignment(Pos.CENTER);
         layout.setStyle(
@@ -81,9 +100,32 @@ public class Setup extends Application {
         );
 
         // Scene and Stage setup with smaller dimensions
-        Scene scene = new Scene(layout, 350, 250);  // Compact window size
+        Scene scene = new Scene(layout, 350, 250); // Compact window size
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
+
+    private boolean loadPlayerData() {
+        File file = new File("player_data.txt");
+        if (file.exists()) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+                String line = reader.readLine();
+                if (line != null) {
+                    String[] data = line.split(", ");
+                    String username = data[0].split(": ")[1];
+                    int money = Integer.parseInt(data[1].split(": ")[1].replace("$", ""));
+
+                    HumanPlayer player = HumanPlayer.getInstance();
+                    player.setUsername(username);
+                    player.setMoney(money);
+
+                    return true; // Data successfully loaded
+                }
+            } catch (IOException | NumberFormatException e) {
+                System.err.println("Error reading player data: " + e.getMessage());
+            }
+        }
+        return false; // File does not exist or data could not be loaded
     }
 
     public static void main(String[] args) {

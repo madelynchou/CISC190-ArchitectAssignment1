@@ -16,6 +16,9 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
+import java.io.File;
+import java.io.IOException;
+
 public class SlotMachine extends Application {
 
     private static Label betAmount = new Label();
@@ -126,6 +129,15 @@ public class SlotMachine extends Application {
 
             if (HumanPlayer.getInstance().getMoney() <= 0) {
                 showAlert("Game over", "You're out of money! Better luck next time.");
+                // Delete the file if it exists
+                File file = new File("player_data.txt");
+                if (file.exists()) {
+                    if (!file.delete()) {
+                        System.err.println("Failed to delete existing player_data.txt file.");
+                        return;
+                    }
+                }
+
                 primaryStage.close();
             }
         }
