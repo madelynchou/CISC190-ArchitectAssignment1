@@ -140,6 +140,8 @@ public class SlotMachine extends Application {
 
                 primaryStage.close();
             }
+
+
         }
     }
 

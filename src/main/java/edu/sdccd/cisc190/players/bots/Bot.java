@@ -1,5 +1,7 @@
 package edu.sdccd.cisc190.players.bots;
 
+import edu.sdccd.cisc190.players.HumanPlayer;
+
 import java.util.ArrayList;
 
 public abstract class Bot {
@@ -21,5 +23,7 @@ public abstract class Bot {
     public static void adjustMoney(int money) {
         Bot.money += money;
     }
+
+
 
 }

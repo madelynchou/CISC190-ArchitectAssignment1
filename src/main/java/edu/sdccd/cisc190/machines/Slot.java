@@ -1,5 +1,8 @@
 package edu.sdccd.cisc190.machines;
 
+import edu.sdccd.cisc190.players.HumanPlayer;
+import edu.sdccd.cisc190.players.bots.*;
+
 import java.util.*;
 
 abstract public class Slot {
@@ -13,6 +16,8 @@ abstract public class Slot {
 
     // Spins the slot machine symbols
     public static String[] spin() {
+        Chase.getInstance().setMoney(botPlay(Chase.getInstance()));
+        System.out.println(Chase.getInstance().getMoney());
         return generateSpunSymbols();
     }
 
@@ -64,5 +69,20 @@ abstract public class Slot {
             default:
                 return moneyAmount;
         }
+    }
+
+    private static int botPlay(Bot bot) {
+        int bet = (int) (bot.money * bot.aura);
+        System.out.println(bet);
+        float randomNumber = (float) (Math.random());
+
+        int resultAmt;
+        if (randomNumber >= bot.luck) {
+            resultAmt = bet + bot.money;
+        } else {
+            resultAmt = bot.money - bet;
+        }
+
+        return resultAmt;
     }
 }
