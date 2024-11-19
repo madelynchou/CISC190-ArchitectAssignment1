@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>C:/Users/Jayden/Desktop/CISC190-Marauder-Coded/src/main/java/edu/sdccd/cisc190</OriginalElement>
+  <nodes>
+    <node x="1475.8988082770657" y="578.3695948923054">edu.sdccd.cisc190.interfaces.Setup</node>
+    <node x="492.39501521532793" y="609.4951113643951">edu.sdccd.cisc190.players.bots.ProfessorHuang</node>
+    <node x="-87.00709535861606" y="1069.5087798803293">edu.sdccd.cisc190.machines.Slot</node>
+    <node x="613.7644603827902" y="147.25969273783704">edu.sdccd.cisc190.interfaces.MainMenu</node>
+    <node x="799.4245830402298" y="-2.3325363488235205">edu.sdccd.cisc190.Main</node>
+    <node x="768.9520016658286" y="609.1447988712642">edu.sdccd.cisc190.players.bots.HondaBoyz</node>
+    <node x="496.01605280163926" y="1206.4639145634205">edu.sdccd.cisc190.machines.MegaMoolah</node>
+    <node x="345.0150017971806" y="277.4493404759515">edu.sdccd.cisc190.interfaces.Leaderboard</node>
+    <node x="746.0719433205686" y="1220.1931039604692">edu.sdccd.cisc190.machines.HondaTrunk</node>
+    <node x="1371.4237337373538" y="1194.7041688785">edu.sdccd.cisc190.machines.RainbowRiches</node>
+    <node x="90.27998563002328" y="216.52804898151993">edu.sdccd.cisc190.players.HumanPlayer</node>
+    <node x="1621.4753442910685" y="1172.969430569704">edu.sdccd.cisc190.machines.DiamondDash</node>
+    <node x="1013.7101736162285" y="593.7826508263518">edu.sdccd.cisc190.players.bots.MrBrooks</node>
+    <node x="1014.3513586767108" y="276.5641091349921">edu.sdccd.cisc190.players.bots.Bot</node>
+    <node x="997.3786810093329" y="1139.9956979186563">edu.sdccd.cisc190.interfaces.SlotMachine</node>
+    <node x="1262.4584035934536" y="592.6701013220372">edu.sdccd.cisc190.players.bots.Chase</node>
+    <node x="714.5278401357194" y="832.6868927263154">edu.sdccd.cisc190.interfaces.Bet</node>
+    <node x="244.62891324088883" y="1195.361893454893">edu.sdccd.cisc190.machines.TreasureSpins</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="edu.sdccd.cisc190.players.bots.Chase" target="edu.sdccd.cisc190.players.bots.Bot" relationship="GENERALIZATION">
+      <point x="-4.035934534840635E-4" y="-81.50010132203727" />
+      <point x="1337.958" y="571.0" />
+      <point x="1106.851" y="571.0" />
+      <point x="-3.586767106753541E-4" y="68.4998908650079" />
+    </edge>
+    <edge source="edu.sdccd.cisc190.machines.RainbowRiches" target="edu.sdccd.cisc190.machines.Slot" relationship="GENERALIZATION">
+      <point x="2.6626264616425033E-4" y="-44.50016887850006" />
+      <point x="1466.424" y="1085.0" />
+      <point x="576.0160000000001" y="1085.0" />
+      <point x="576.0160000000001" y="1148.0" />
+      <point x="227.129" y="1148.0" />
+      <point x="227.129" y="1202.862" />
+      <point x="135.50009535861605" y="4.853220119670823" />
+    </edge>
+    <edge source="edu.sdccd.cisc190.machines.DiamondDash" target="edu.sdccd.cisc190.machines.Slot" relationship="GENERALIZATION">
+      <point x="-3.4429106858624436E-4" y="-44.500430569703894" />
+      <point x="1716.475" y="1085.0" />
+      <point x="576.0160000000001" y="1085.0" />
+      <point x="576.0160000000001" y="1148.0" />
+      <point x="227.129" y="1148.0" />
+      <point x="227.129" y="1202.862" />
+      <point x="135.50009535861605" y="4.853220119670823" />
+    </edge>
+    <edge source="edu.sdccd.cisc190.players.bots.HondaBoyz" target="edu.sdccd.cisc190.players.bots.Bot" relationship="GENERALIZATION">
+      <point x="-1.665828563091054E-6" y="-81.49979887126426" />
+      <point x="856.952" y="571.0" />
+      <point x="1106.851" y="571.0" />
+      <point x="-3.586767106753541E-4" y="68.4998908650079" />
+    </edge>
+    <edge source="edu.sdccd.cisc190.machines.MegaMoolah" target="edu.sdccd.cisc190.machines.Slot" relationship="GENERALIZATION">
+      <point x="-5.280163929910486E-5" y="-44.49991456342059" />
+      <point x="591.016" y="1148.0" />
+      <point x="227.129" y="1148.0" />
+      <point x="227.129" y="1202.862" />
+      <point x="135.50009535861605" y="4.853220119670823" />
+    </edge>
+    <edge source="edu.sdccd.cisc190.players.bots.MrBrooks" target="edu.sdccd.cisc190.players.bots.Bot" relationship="GENERALIZATION">
+      <point x="-1.736162284942111E-4" y="-81.49965082635174" />
+      <point x="1096.21" y="571.0" />
+      <point x="1106.851" y="571.0" />
+      <point x="-3.586767106753541E-4" y="68.4998908650079" />
+    </edge>
+    <edge source="edu.sdccd.cisc190.players.bots.ProfessorHuang" target="edu.sdccd.cisc190.players.bots.Bot" relationship="GENERALIZATION">
+      <point x="-1.5215327948681079E-5" y="-81.50011136439514" />
+      <point x="595.895" y="571.0" />
+      <point x="1106.851" y="571.0" />
+      <point x="-3.586767106753541E-4" y="68.4998908650079" />
+    </edge>
+    <edge source="edu.sdccd.cisc190.machines.TreasureSpins" target="edu.sdccd.cisc190.machines.Slot" relationship="GENERALIZATION">
+      <point x="8.67591111841648E-5" y="-44.49989345489303" />
+      <point x="339.629" y="1148.0" />
+      <point x="227.129" y="1148.0" />
+      <point x="227.129" y="1202.862" />
+      <point x="135.50009535861605" y="4.853220119670823" />
+    </edge>
+    <edge source="edu.sdccd.cisc190.machines.HondaTrunk" target="edu.sdccd.cisc190.machines.Slot" relationship="GENERALIZATION">
+      <point x="5.667943139542331E-5" y="-44.50010396046923" />
+      <point x="841.072" y="1148.0" />
+      <point x="227.129" y="1148.0" />
+      <point x="227.129" y="1202.862" />
+      <point x="135.50009535861605" y="4.853220119670823" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Compact" zoom="0.5182215743440233" showDependencies="false" x="872.0" y="642.6483825597751" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Constructors</Category>
+    <Category>Fields</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
