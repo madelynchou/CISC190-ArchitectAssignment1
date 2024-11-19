@@ -8,9 +8,13 @@ import java.util.*;
 abstract public class Slot {
     public double luck; // Instance-specific luck
     public static String[] symbols; // Instance-specific symbols
+
+    // TODO WIP
     public int maxBet; // Instance-specific max bet
     public int minBet; // Instance-specific min bet
     public static double returnAmt; // Instance-specific return multiplier
+
+    // TODO move scanner to UI class instead of in Slot
     static Scanner scanner = new Scanner(System.in); // Shared scanner
     public double bet; // Instance-specific bet amount
 
@@ -21,6 +25,7 @@ abstract public class Slot {
         return generateSpunSymbols();
     }
 
+    // TODO: collapse this method call that only calls another
     // Determines the win type based on the spun symbols
     public static int checkWinType(String[] arr) {
         return evaluateWinCondition(arr);

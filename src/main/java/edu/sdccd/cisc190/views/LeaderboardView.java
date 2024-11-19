@@ -1,11 +1,11 @@
-package edu.sdccd.cisc190.interfaces;
+package edu.sdccd.cisc190.views;
 
 import edu.sdccd.cisc190.players.bots.*;
 import javafx.application.Application;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 
-public class Leaderboard extends Application {
+public class LeaderboardView extends Application {
 
     public static TableView<Bot> leaderboardTable;
 

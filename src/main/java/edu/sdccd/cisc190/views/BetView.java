@@ -1,6 +1,5 @@
-package edu.sdccd.cisc190.interfaces;
+package edu.sdccd.cisc190.views;
 
-import edu.sdccd.cisc190.players.HumanPlayer;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -13,7 +12,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
-public class Bet extends Application {
+public class BetView extends Application {
     static int betAmt;
 
     @Override
@@ -61,7 +60,7 @@ public class Bet extends Application {
                 primaryStage.close();
 
                 Stage newWindow = new Stage();
-                SlotMachine.showWindow(newWindow, betAmt, selectedMachine);
+                SlotMachineView.showWindow(newWindow, betAmt, selectedMachine);
             }
         });
 

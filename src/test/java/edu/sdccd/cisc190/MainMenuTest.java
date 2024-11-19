@@ -1,6 +1,6 @@
 package edu.sdccd.cisc190;
 
-import edu.sdccd.cisc190.interfaces.MainMenu;
+import edu.sdccd.cisc190.views.MainMenu;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.text.Text;

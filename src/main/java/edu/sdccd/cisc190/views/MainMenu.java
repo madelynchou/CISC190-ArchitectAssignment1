@@ -1,4 +1,4 @@
-package edu.sdccd.cisc190.interfaces;
+package edu.sdccd.cisc190.views;
 
 import edu.sdccd.cisc190.players.HumanPlayer;
 import javafx.application.Application;
@@ -101,8 +101,8 @@ public class MainMenu extends Application {
     private static void handleSlotOption(Stage primaryStage, SlotOptions option) {
         switch (option) {
             case DIAMOND_DASH, HONDA_TRUNK, MEGA_MOOLAH, RAINBOW_RICHES, TREASURE_SPINS ->
-                    Bet.showWindow(primaryStage, option);
-            case LEADERBOARD -> Leaderboard.showWindow(primaryStage);
+                    BetView.showWindow(primaryStage, option);
+            case LEADERBOARD -> LeaderboardView.showWindow(primaryStage);
             case QUIT -> quitApplication(primaryStage);
             default -> showMessage("Default option selected.");
         }

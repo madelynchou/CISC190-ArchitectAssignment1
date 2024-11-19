@@ -1,4 +1,4 @@
-package edu.sdccd.cisc190.interfaces;
+package edu.sdccd.cisc190.views;
 
 import edu.sdccd.cisc190.players.HumanPlayer;
 import edu.sdccd.cisc190.machines.Slot;
@@ -17,9 +17,8 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 import java.io.File;
-import java.io.IOException;
 
-public class SlotMachine extends Application {
+public class SlotMachineView extends Application {
 
     private static Label betAmount = new Label();
     private static Label slot1 = new Label("❓");
@@ -79,7 +78,7 @@ public class SlotMachine extends Application {
         spinButton.setOnAction(e -> spin(betAmt, primaryStage));
         changeBet.setOnAction(e -> {
             primaryStage.close();
-            Bet.showWindow(primaryStage, machineSelect);
+            BetView.showWindow(primaryStage, machineSelect);
         });
         mainMenu.setOnAction(e -> {
             primaryStage.close();
@@ -108,7 +107,7 @@ public class SlotMachine extends Application {
         if (HumanPlayer.getInstance().getMoney() < betAmt) {
             showAlert("You can't bet that much!", "Please try again with a lower bet.");
             primaryStage.close();
-            Bet.showWindow(primaryStage, machineSelect);
+            BetView.showWindow(primaryStage, machineSelect);
         } else {
             slotMachine.initializeSymbols();
             String[] symbols = slotMachine.spin();

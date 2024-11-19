@@ -11,6 +11,7 @@ public abstract class Bot {
     public static double luck;
     public static double aura;
 
+    // TODO: change name and money to instance vars instead of static
     public static void set(String name, int money) {
         Bot.name = name;
         Bot.money = money;

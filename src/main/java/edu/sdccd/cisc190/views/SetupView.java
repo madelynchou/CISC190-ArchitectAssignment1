@@ -1,4 +1,4 @@
-package edu.sdccd.cisc190.interfaces;
+package edu.sdccd.cisc190.views;
 
 import edu.sdccd.cisc190.players.HumanPlayer;
 import javafx.application.Application;
@@ -18,11 +18,16 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class Setup extends Application {
+public class SetupView extends Application {
+    // TODO store pointer to Player and pass in instance of player when SetupView is constructed
     static String userName;
+
+    // TODO: create variable for BotService
 
     @Override
     public void start(Stage primaryStage) {
+        // TODO: fire up BotService somewhere below
+
         // Check if player data file exists and load it
         if (loadPlayerData()) {
             // Proceed directly to the MainMenu if data was loaded

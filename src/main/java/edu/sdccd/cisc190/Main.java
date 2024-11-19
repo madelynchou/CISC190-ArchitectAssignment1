@@ -1,16 +1,11 @@
 package edu.sdccd.cisc190;
 
-import edu.sdccd.cisc190.players.*;
-import edu.sdccd.cisc190.interfaces.MainMenu;
-import edu.sdccd.cisc190.interfaces.Setup;
-import edu.sdccd.cisc190.machines.TreasureSpins;
-
-import java.util.Scanner;
+import edu.sdccd.cisc190.views.SetupView;
 
 public class Main {
 
     public static void main(String[] args) {
-        Setup.launch(Setup.class, args);
+        SetupView.launch(SetupView.class, args);
 
     }
 
