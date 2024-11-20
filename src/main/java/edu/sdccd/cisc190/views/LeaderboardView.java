@@ -2,7 +2,15 @@ package edu.sdccd.cisc190.views;
 
 import edu.sdccd.cisc190.players.bots.*;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class LeaderboardView extends Application {
@@ -15,67 +23,51 @@ public class LeaderboardView extends Application {
     }
 
     public static void showWindow(Stage primaryStage) {
+        // Create the TableView for bots
+        leaderboardTable = new TableView<>();
+        leaderboardTable.setPrefHeight(300);
 
+        // Define columns for bot name and money amount
+        TableColumn<Bot, String> nameColumn = new TableColumn<>("Name");
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        nameColumn.setPrefWidth(150);
+
+        TableColumn<Bot, Integer> moneyColumn = new TableColumn<>("Money");
+        moneyColumn.setCellValueFactory(new PropertyValueFactory<>("money"));
+        moneyColumn.setPrefWidth(150);
+
+        // Add columns to the TableView
+        leaderboardTable.getColumns().addAll(nameColumn, moneyColumn);
+
+        // Populate TableView with bots
+        leaderboardTable.setItems(getBotsData());
+
+        // Create a main menu button
+        Button mainMenu = new Button("Main Menu");
+        mainMenu.setOnAction(event -> {
+            MainMenu.setupWindow(primaryStage);
+        });
+
+        // Layout setup
+        VBox layout = new VBox(20, leaderboardTable, mainMenu);
+        Scene scene = new Scene(layout, 400, 400); // Adjusted size
+        primaryStage.setScene(scene);
+        primaryStage.setTitle("Leaderboard");
+        primaryStage.show();
     }
-//        primaryStage.setTitle("Casino Royale - Leaderboard");
-//
-//        // Define columns for rank, name, and score with styling
-//        TableColumn<Bot, Integer> rankColumn = new TableColumn<>("Rank");
-//        rankColumn.setCellValueFactory(new PropertyValueFactory<>("rank"));
-//        rankColumn.setStyle("-fx-alignment: CENTER; -fx-font-weight: bold;");
-//
-//        TableColumn<Bot, String> nameColumn = new TableColumn<>("Name");
-//        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-//        nameColumn.setStyle("-fx-alignment: CENTER; -fx-font-weight: bold;");
-//
-//        TableColumn<Bot, Integer> scoreColumn = new TableColumn<>("Score");
-//        scoreColumn.setCellValueFactory(new PropertyValueFactory<>("score"));
-//        scoreColumn.setStyle("-fx-alignment: CENTER; -fx-font-weight: bold;");
-//
-//        // Initialize the TableView and add columns
-//        leaderboardTable = new TableView<>();
-//        leaderboardTable.getColumns().addAll(rankColumn, nameColumn, scoreColumn);
-//        leaderboardTable.setStyle(
-//                "-fx-background-color: transparent; " +
-//                        "-fx-border-color: gold; " +
-//                        "-fx-border-width: 2px; " +
-//                        "-fx-font-size: 14px; -fx-font-family: 'Arial';"
-//        );
-//
-//        // Add sample data to the leaderboard
-//        leaderboardTable.setItems(getSampleData());
-//        leaderboardTable.setPrefHeight(250);
-//
-//        // Title label
-//        javafx.scene.control.Label titleLabel = new javafx.scene.control.Label("Leaderboard");
-//        titleLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 24));
-//        titleLabel.setTextFill(Color.GOLD);
-//
-//        // Set layout and add TableView
-//        VBox layout = new VBox(20, titleLabel, leaderboardTable);
-//        layout.setAlignment(Pos.CENTER);
-//        layout.setStyle(
-//                "-fx-background-color: linear-gradient(to bottom, #000000, #660000);" +
-//                        "-fx-padding: 30px;"
-//        );
-//
-//        Scene scene = new Scene(layout, 600, 400); // Adjusted size
-//        primaryStage.setScene(scene);
-//        primaryStage.show();
-//    }
-//
-//    // Sample data for demonstration purposes
-//    private static ObservableList<Bot> getSampleData() {
-//        ObservableList<Bot> players = FXCollections.observableArrayList();
-//        players.add(Chase.getInstance());
-//        players.add(HondaBoyz.getInstance());
-//        players.add(ProfessorHuang.getInstance());
-//        players.add(MrBrooks.getInstance());
-//        return players;
-//    }
-//
+
+    // Create sample data for bots
+    private static ObservableList<Bot> getBotsData() {
+        return FXCollections.observableArrayList(
+                Chase.getInstance(),
+                HondaBoyz.getInstance(),
+                MrBrooks.getInstance(),
+                ProfessorHuang.getInstance(),
+                AnitaMaxWynn.getInstance()
+        );
+    }
+
     public static void main(String[] args) {
         launch(args);
     }
-
 }

@@ -26,5 +26,7 @@ public abstract class Bot {
     }
 
 
+    public void setMoney(int result) {
 
+    }
 }
