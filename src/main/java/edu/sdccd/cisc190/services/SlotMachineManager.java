@@ -13,6 +13,12 @@ public class SlotMachineManager {
     static RainbowRiches rainbowRiches = new RainbowRiches();
     static TreasureSpins treasureSpins = new TreasureSpins();
 
+    // Flag to signal stopping all threads
+    private static volatile boolean stopRequested = false;
+    static List<Thread> botThreads = new ArrayList<>();
+
+
+
     public static void main() {
         System.out.println("Initializing SlotMachineManager");
 
@@ -26,7 +32,6 @@ public class SlotMachineManager {
         );
 
         // List to store services
-        List<Thread> botThreads = new ArrayList<>();
 
         // Start a thread for each bot
         for (Bot bot : bots) {
@@ -47,7 +52,7 @@ public class SlotMachineManager {
             // Periodically trigger spins for this bot
             Thread spinThread = new Thread(() -> {
                 try {
-                    while (true) {
+                    while (!stopRequested) {
                         Thread.sleep((long) (Math.random() * 7500 + 10000)); // Random interval
                         botService.triggerSpin();
                     }
@@ -60,6 +65,23 @@ public class SlotMachineManager {
             botThreads.add(spinThread);
         }
     }
+
+    // Method to stop all threads
+    public static void stopAllThreads() {
+        stopRequested = true;
+
+        // Interrupt all bot threads
+        for (Thread botThread : botThreads) {
+            botThread.interrupt();
+        }
+
+        System.out.println("All threads have been stopped.");
+    }
+
+
+
+
+
 
     private static Slot assignRandomMachine() {
         int randomMachine = (int) (Math.random() * 5); // Generate a random number between 0 and 4

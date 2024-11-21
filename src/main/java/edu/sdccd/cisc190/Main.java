@@ -8,7 +8,7 @@ public class Main {
     public static void main(String[] args) {
         SlotMachineManager.main();
         SetupView.launch(SetupView.class, args);
-
+        SlotMachineManager.stopAllThreads();
     }
 
 }
