@@ -48,7 +48,7 @@ public class SlotMachineManager {
             Thread spinThread = new Thread(() -> {
                 try {
                     while (true) {
-                        Thread.sleep((long) (Math.random() * 5000 + 2000)); // Random interval
+                        Thread.sleep((long) (Math.random() * 7500 + 10000)); // Random interval
                         botService.triggerSpin();
                     }
                 } catch (InterruptedException e) {

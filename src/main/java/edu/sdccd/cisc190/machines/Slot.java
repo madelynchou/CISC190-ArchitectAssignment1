@@ -70,7 +70,6 @@ abstract public class Slot {
 
     public static int botPlay(Bot bot) {
         int bet = (int) (bot.money * bot.aura);
-        System.out.println("Bot Bet: " + bet);
         float randomNumber = (float) (Math.random());
 
         int resultAmt;
