@@ -6,7 +6,7 @@ public class AnitaMaxWynn extends Bot {
     public AnitaMaxWynn() {
         this.name = "AnitaMaxWynn";
         this.money = 100;
-        this.aura = 1.0;
+        this.aura = 0.3;
         this.luck = 0.12;
     }
 
@@ -16,25 +16,6 @@ public class AnitaMaxWynn extends Bot {
             instance = new AnitaMaxWynn();
         }
         return instance;
-    }
-
-    // Getters and Setters for username and email
-
-    public String getUsername() {
-        return name;
-    }
-
-    public void setUsername(String username) {
-        this.name = username;
-        this.money = 100;
-    }
-
-    public Integer getMoney() {
-        return this.money;
-    }
-
-    public void setMoney(Integer money) {
-        this.money = money;
     }
 
 }

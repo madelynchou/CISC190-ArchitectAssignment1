@@ -19,43 +19,6 @@ abstract public class Slot {
 
     // Spins the slot machine symbols
     public static String[] spin() {
-        // Create a thread pool to handle bot play
-        ExecutorService executorService = Executors.newFixedThreadPool(5);
-        List<Future<Integer>> futures = new ArrayList<>();
-
-        // List of bot instances
-        List<Bot> bots = Arrays.asList(
-                Chase.getInstance(), // Add other bot instances here
-                HondaBoyz.getInstance(),
-                MrBrooks.getInstance(),
-                ProfessorHuang.getInstance(),
-                AnitaMaxWynn.getInstance()
-        );
-
-        // Submit each bot's play task
-        for (Bot bot : bots) {
-            Future<Integer> future = executorService.submit(() -> {
-                int result = botPlay(bot);
-                bot.setMoney(result);
-                return result;
-            });
-            futures.add(future);
-        }
-
-        // Wait for all bot results
-        for (Future<Integer> future : futures) {
-            try {
-                System.out.println("Bot Result: " + future.get());
-            } catch (InterruptedException | ExecutionException e) {
-                System.err.println("Error processing bot play: " + e.getMessage());
-            }
-        }
-
-        // Shutdown the executor service
-        executorService.shutdown();
-
-        // Simulate human player spin concurrently
-        System.out.println("Human Player Result: " + Chase.getInstance().getMoney());
         return generateSpunSymbols();
     }
 
@@ -105,7 +68,7 @@ abstract public class Slot {
         }
     }
 
-    private static int botPlay(Bot bot) {
+    public static int botPlay(Bot bot) {
         int bet = (int) (bot.money * bot.aura);
         System.out.println("Bot Bet: " + bet);
         float randomNumber = (float) (Math.random());

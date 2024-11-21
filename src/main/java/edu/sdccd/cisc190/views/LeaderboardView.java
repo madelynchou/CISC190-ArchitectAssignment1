@@ -59,11 +59,11 @@ public class LeaderboardView extends Application {
     // Create sample data for bots
     private static ObservableList<Bot> getBotsData() {
         return FXCollections.observableArrayList(
-                Chase.getInstance(),
+                AnitaMaxWynn.getInstance(),
                 HondaBoyz.getInstance(),
                 MrBrooks.getInstance(),
                 ProfessorHuang.getInstance(),
-                AnitaMaxWynn.getInstance()
+                Chase.getInstance()
         );
     }
 

@@ -18,23 +18,4 @@ public class HondaBoyz extends Bot {
         return instance;
     }
 
-    // Getters and Setters for username and email
-
-    public String getUsername() {
-        return name;
-    }
-
-    public void setUsername(String username) {
-        this.name = username;
-        this.money = 100;
-    }
-
-    public Integer getMoney() {
-        return this.money;
-    }
-
-    public void setMoney(Integer money) {
-        this.money = money;
-    }
-
 }
