@@ -22,7 +22,6 @@ public class MainMenu extends Application {
     public void start(Stage primaryStage) {
         setupWindow(primaryStage);
     }
-
     static void setupWindow(Stage primaryStage) {
         VBox layout = createMainLayout();
         primaryStage.setTitle("Casino Royale Menu");
@@ -34,20 +33,51 @@ public class MainMenu extends Application {
                 createUserInfo("Money: $" + HumanPlayer.getInstance().getMoney(), Color.WHITE)
         );
 
-        // Add Delete File button
-        Button deleteFileButton = createStyledButton("Delete File");
-        deleteFileButton.setOnAction(e -> handleDeleteFile());
-
-        layout.getChildren().add(createDeleteButton(primaryStage));
-
-        layout.getChildren().add(deleteFileButton);
-
         // Add slot option buttons
         addSlotOptionButtons(layout, primaryStage);
+
+        // Add Delete File button
+        Button deleteFileButton = createDeleteButton();
+        layout.getChildren().add(deleteFileButton);
 
         // Setup and display the scene
         setupScene(primaryStage, layout);
     }
+
+    private static Button createDeleteButton() {
+        Button deleteButton = new Button("Delete User File");
+        deleteButton.setFont(Font.font("Arial", FontWeight.BOLD, 16));
+
+        // Default style
+        String defaultStyle = createButtonStyle("#ff3333", "#cc0000", "white");
+        String hoverStyle = createButtonStyle("#cc0000", "#990000", "yellow");
+
+        deleteButton.setStyle(defaultStyle);
+        deleteButton.setOnMouseEntered(e -> deleteButton.setStyle(hoverStyle));
+        deleteButton.setOnMouseExited(e -> deleteButton.setStyle(defaultStyle));
+
+        deleteButton.setOnAction(e -> handleDeleteFile());
+
+        return deleteButton;
+    }
+
+    private static void handleDeleteFile() {
+        // Show confirmation dialog
+        Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmationAlert.setTitle("Delete File");
+        confirmationAlert.setHeaderText("Are you sure you want to delete your file?");
+        confirmationAlert.setContentText("This action cannot be undone.");
+
+        // Wait for user's response
+        Optional<ButtonType> result = confirmationAlert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            // Simulate deletion logic (adjust this logic as needed)
+            showMessage("Your file has been deleted. (Logic not implemented)");
+        } else {
+            showMessage("File deletion canceled.");
+        }
+    }
+
 
     private static VBox createMainLayout() {
         VBox layout = new VBox(20);
@@ -96,21 +126,6 @@ public class MainMenu extends Application {
                 "-fx-text-fill: " + textColor + ";" +
                 "-fx-background-radius: 10;" +
                 "-fx-padding: 10px 20px;";
-    }
-
-    private static void handleDeleteFile() {
-        // Show confirmation dialog
-        Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmationAlert.setTitle("Delete File");
-        confirmationAlert.setHeaderText("Are you sure you want to delete your file?");
-        confirmationAlert.setContentText("This action cannot be undone.");
-
-        // Wait for user's response
-        Optional<ButtonType> result = confirmationAlert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            PlayerSavesService.deleteState();
-            showMessage("File deletion is not implemented yet.");
-        }
     }
 
     private static void showMessage(String message) {
@@ -197,4 +212,6 @@ public class MainMenu extends Application {
             return displayOption;
         }
     }
+
+
 }
