@@ -7,8 +7,8 @@ public class Chase extends Bot {
 
     private Chase() {
         this.name = "Chase";
-        this.money = 1000;
-        this.luck = 0.5;
+        this.money = 100;
+        this.luck = 0.25;
         this.aura = 0.1;
     }
 

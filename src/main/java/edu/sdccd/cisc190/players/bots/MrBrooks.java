@@ -7,7 +7,7 @@ public class MrBrooks extends Bot {
         this.name = "Mr.Brooks";
         this.money = 100;
         this.aura = 0.5;
-        this.luck = 0.21;
+        this.luck = 0.7;
     }
 
     public static MrBrooks getInstance() {

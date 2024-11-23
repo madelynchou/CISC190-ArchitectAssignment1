@@ -69,11 +69,13 @@ abstract public class Slot {
     }
 
     public static int botPlay(Bot bot) {
-        int bet = (int) (bot.money * bot.aura);
+        double betVarianceMultiplier = 0.8 + (Math.random() * 0.4); // Random number between 0.8 and 1.2
+        int bet = (int) (bot.money * bot.aura * betVarianceMultiplier);
+
         float randomNumber = (float) (Math.random());
 
         int resultAmt;
-        if (randomNumber >= bot.luck) {
+        if (randomNumber <= bot.luck) {
             resultAmt = bet + bot.money;
         } else {
             resultAmt = bot.money - bet;

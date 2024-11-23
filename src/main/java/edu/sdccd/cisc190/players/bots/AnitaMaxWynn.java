@@ -6,8 +6,8 @@ public class AnitaMaxWynn extends Bot {
     public AnitaMaxWynn() {
         this.name = "AnitaMaxWynn";
         this.money = 100;
-        this.aura = 0.3;
-        this.luck = 0.12;
+        this.aura = 0.9;
+        this.luck = 0.6;
     }
 
     public static AnitaMaxWynn getInstance() {

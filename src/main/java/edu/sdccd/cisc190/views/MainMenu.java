@@ -67,10 +67,20 @@ public class MainMenu extends Application {
     }
 
     private static void addSlotOptionButtons(VBox layout, Stage primaryStage) {
-        for (SlotOptions option : SlotOptions.values()) {
-            Button slotButton = createStyledButton(option.getDisplayOption());
-            slotButton.setOnAction(e -> handleSlotOption(primaryStage, option));
-            layout.getChildren().add(slotButton);
+        SlotOptions[] options = SlotOptions.values();
+
+        for (int i = 0; i < options.length; i++) {
+            Button button;
+            if (i < 5) {
+                // First 4 options use slotButton style
+                button = createStyledButton(options[i].getDisplayOption());
+            } else {
+                // Last 2 options use secondaryButton style
+                button = createSecondaryStyledButton(options[i].getDisplayOption());
+            }
+            int index = i; // For lambda capture
+            button.setOnAction(e -> handleSlotOption(primaryStage, options[index]));
+            layout.getChildren().add(button);
         }
     }
 
@@ -85,11 +95,12 @@ public class MainMenu extends Application {
         button.setFont(Font.font("Arial", FontWeight.BOLD, 16));
         button.setStyle(createButtonStyle("#ffcc00", "#ff9900", "black"));
 
-        button.setOnMouseEntered(e -> button.setStyle(createButtonStyle("#ff9900", "#ff6600", "white")));
-        button.setOnMouseExited(e -> button.setStyle(createButtonStyle("#ffcc00", "#ff9900", "black")));
+        button.setOnMouseEntered(e -> button.setStyle(createButtonStyle("#784800", "#943b00", "white")));
+        button.setOnMouseExited(e -> button.setStyle(createButtonStyle("#784800", "#943b00", "black")));
 
         return button;
     }
+
 
     private static String createButtonStyle(String topColor, String bottomColor, String textColor) {
         return "-fx-background-color: linear-gradient(to bottom, " + topColor + ", " + bottomColor + ");" +
@@ -97,6 +108,26 @@ public class MainMenu extends Application {
                 "-fx-background-radius: 10;" +
                 "-fx-padding: 10px 20px;";
     }
+
+
+    private static Button createSecondaryStyledButton(String text) {
+        Button button = new Button(text);
+        button.setFont(Font.font("Arial", FontWeight.NORMAL, 14));
+        button.setStyle(createSecondaryButtonStyle("#666666", "#333333", "white"));
+
+        button.setOnMouseEntered(e -> button.setStyle(createSecondaryButtonStyle("#555555", "#222222", "#ffcc00")));
+        button.setOnMouseExited(e -> button.setStyle(createSecondaryButtonStyle("#666666", "#333333", "white")));
+
+        return button;
+    }
+
+    private static String createSecondaryButtonStyle(String topColor, String bottomColor, String textColor) {
+        return "-fx-background-color: linear-gradient(to bottom, " + topColor + ", " + bottomColor + ");" +
+                "-fx-text-fill: " + textColor + ";" +
+                "-fx-background-radius: 10;" +
+                "-fx-padding: 10px 20px;";
+    }
+
 
     private static void handleSlotOption(Stage primaryStage, SlotOptions option) {
         switch (option) {
