@@ -143,8 +143,32 @@ public class MainMenu extends Application {
     }
 
     private static void addSlotOptionButtons(VBox layout, Stage primaryStage) {
-        // Add your slot buttons logic here
+        for (SlotOptions option : SlotOptions.values()) {
+            Button slotButton = createStyledButton(option.getDisplayOption());
+            slotButton.setOnAction(e -> handleSlotOption(primaryStage, option));
+            layout.getChildren().add(slotButton);
+        }
     }
+
+    private static void handleSlotOption(Stage primaryStage, SlotOptions option) {
+        switch (option) {
+            case DIAMOND_DASH, HONDA_TRUNK, MEGA_MOOLAH, RAINBOW_RICHES, TREASURE_SPINS ->
+                    BetView.showWindow(primaryStage, option);
+            case LEADERBOARD -> LeaderboardView.showWindow(primaryStage);
+            case QUIT -> quitApplication(primaryStage);
+            default -> showMessage("Default option selected.");
+        }
+    }
+
+    private static void quitApplication(Stage primaryStage) {
+        PlayerSavesService.saveState();
+        primaryStage.close();
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Goodbye!");
+        alert.setContentText("Come back soon! 99.9% of gamblers quit before hitting it big!");
+        alert.showAndWait();
+    }
+
 
     public static void main(String[] args) {
         launch(args);
