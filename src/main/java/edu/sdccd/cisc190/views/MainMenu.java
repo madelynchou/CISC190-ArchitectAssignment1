@@ -1,10 +1,12 @@
 package edu.sdccd.cisc190.views;
 
 import edu.sdccd.cisc190.players.HumanPlayer;
+import edu.sdccd.cisc190.services.PlayerSavesService;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -12,10 +14,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.util.Optional;
 
 public class MainMenu extends Application {
 
@@ -23,7 +22,6 @@ public class MainMenu extends Application {
     public void start(Stage primaryStage) {
         setupWindow(primaryStage);
     }
-
     static void setupWindow(Stage primaryStage) {
         VBox layout = createMainLayout();
         primaryStage.setTitle("Casino Royale Menu");
@@ -38,9 +36,48 @@ public class MainMenu extends Application {
         // Add slot option buttons
         addSlotOptionButtons(layout, primaryStage);
 
+        // Add Delete File button
+        Button deleteFileButton = createDeleteButton();
+        layout.getChildren().add(deleteFileButton);
+
         // Setup and display the scene
         setupScene(primaryStage, layout);
     }
+
+    private static Button createDeleteButton() {
+        Button deleteButton = new Button("Delete User File");
+        deleteButton.setFont(Font.font("Arial", FontWeight.BOLD, 16));
+
+        // Default style
+        String defaultStyle = createButtonStyle("#ff3333", "#cc0000", "white");
+        String hoverStyle = createButtonStyle("#cc0000", "#990000", "yellow");
+
+        deleteButton.setStyle(defaultStyle);
+        deleteButton.setOnMouseEntered(e -> deleteButton.setStyle(hoverStyle));
+        deleteButton.setOnMouseExited(e -> deleteButton.setStyle(defaultStyle));
+
+        deleteButton.setOnAction(e -> handleDeleteFile());
+
+        return deleteButton;
+    }
+
+    private static void handleDeleteFile() {
+        // Show confirmation dialog
+        Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmationAlert.setTitle("Delete File");
+        confirmationAlert.setHeaderText("Are you sure you want to delete your file?");
+        confirmationAlert.setContentText("This action cannot be undone.");
+
+        // Wait for user's response
+        Optional<ButtonType> result = confirmationAlert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            // Simulate deletion logic (adjust this logic as needed)
+            showMessage("Your file has been deleted. (Logic not implemented)");
+        } else {
+            showMessage("File deletion canceled.");
+        }
+    }
+
 
     private static VBox createMainLayout() {
         VBox layout = new VBox(20);
@@ -66,27 +103,20 @@ public class MainMenu extends Application {
         return userInfo;
     }
 
-    private static void addSlotOptionButtons(VBox layout, Stage primaryStage) {
-        for (SlotOptions option : SlotOptions.values()) {
-            Button slotButton = createStyledButton(option.getDisplayOption());
-            slotButton.setOnAction(e -> handleSlotOption(primaryStage, option));
-            layout.getChildren().add(slotButton);
-        }
-    }
-
-    private static void setupScene(Stage primaryStage, VBox layout) {
-        Scene scene = new Scene(layout, 600, 600);
-        primaryStage.setScene(scene);
-        primaryStage.show();
-    }
-
     private static Button createStyledButton(String text) {
         Button button = new Button(text);
         button.setFont(Font.font("Arial", FontWeight.BOLD, 16));
-        button.setStyle(createButtonStyle("#ffcc00", "#ff9900", "black"));
 
-        button.setOnMouseEntered(e -> button.setStyle(createButtonStyle("#ff9900", "#ff6600", "white")));
-        button.setOnMouseExited(e -> button.setStyle(createButtonStyle("#ffcc00", "#ff9900", "black")));
+        // Default style
+        String defaultStyle = createButtonStyle("#ffcc00", "#ff9900", "black");
+        String hoverStyle = createButtonStyle("#784800", "#943b00", "white");
+
+        // Apply default style initially
+        button.setStyle(defaultStyle);
+
+        // Change style on hover
+        button.setOnMouseEntered(e -> button.setStyle(hoverStyle));
+        button.setOnMouseExited(e -> button.setStyle(defaultStyle));
 
         return button;
     }
@@ -96,6 +126,28 @@ public class MainMenu extends Application {
                 "-fx-text-fill: " + textColor + ";" +
                 "-fx-background-radius: 10;" +
                 "-fx-padding: 10px 20px;";
+    }
+
+    private static void showMessage(String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    private static void setupScene(Stage primaryStage, VBox layout) {
+        Scene scene = new Scene(layout, 600, 600);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    private static void addSlotOptionButtons(VBox layout, Stage primaryStage) {
+        for (SlotOptions option : SlotOptions.values()) {
+            Button slotButton = createStyledButton(option.getDisplayOption());
+            slotButton.setOnAction(e -> handleSlotOption(primaryStage, option));
+            layout.getChildren().add(slotButton);
+        }
     }
 
     private static void handleSlotOption(Stage primaryStage, SlotOptions option) {
@@ -109,7 +161,7 @@ public class MainMenu extends Application {
     }
 
     private static void quitApplication(Stage primaryStage) {
-        savePlayerData();
+        PlayerSavesService.saveState();
         primaryStage.close();
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Goodbye!");
@@ -117,40 +169,52 @@ public class MainMenu extends Application {
         alert.showAndWait();
     }
 
-    private static void savePlayerData() {
-        HumanPlayer player = HumanPlayer.getInstance();
-        String data = "Username: " + player.getUsername() + ", Money: $" + player.getMoney();
-
-        try {
-            // Delete the file if it exists
-            File file = new File("player_data.txt");
-            if (file.exists()) {
-                if (!file.delete()) {
-                    System.err.println("Failed to delete existing player_data.txt file.");
-                    return;
-                }
-            }
-
-            // Write new data to the file
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
-                writer.write(data);
-                writer.newLine();
-            }
-
-        } catch (IOException e) {
-            System.err.println("Error saving player data: " + e.getMessage());
-        }
-    }
-    private static void showMessage(String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Selection");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+
+    private static Button createDeleteButton(Stage primaryStage) {
+        Button deleteButton = new Button("Delete User File");
+        deleteButton.setFont(Font.font("Arial", FontWeight.BOLD, 16));
+
+        // Default style
+        String defaultStyle = createButtonStyle("#ff3333", "#cc0000", "white");
+        String hoverStyle = createButtonStyle("#cc0000", "#990000", "yellow");
+
+        deleteButton.setStyle(defaultStyle);
+        deleteButton.setOnMouseEntered(e -> deleteButton.setStyle(hoverStyle));
+        deleteButton.setOnMouseExited(e -> deleteButton.setStyle(defaultStyle));
+
+        deleteButton.setOnAction(e -> {
+            // Show confirmation alert
+            Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
+            confirmationAlert.setTitle("Confirm Deletion");
+            confirmationAlert.setHeaderText("Are you sure?");
+            confirmationAlert.setContentText("This will delete your user file. This action cannot be undone.");
+
+            // Wait for user response
+            confirmationAlert.showAndWait().ifPresent(response -> {
+                if (response == ButtonType.OK) {
+                    // Confirmation received
+                    Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
+                    successAlert.setTitle("File Deletion");
+                    successAlert.setHeaderText(null);
+                    successAlert.setContentText("Your file has been successfully deleted! (Logic not implemented)");
+                    successAlert.showAndWait();
+                } else {
+                    // User canceled
+                    Alert cancelAlert = new Alert(Alert.AlertType.INFORMATION);
+                    cancelAlert.setTitle("File Deletion Canceled");
+                    cancelAlert.setHeaderText(null);
+                    cancelAlert.setContentText("Your file has not been deleted.");
+                    cancelAlert.showAndWait();
+                }
+            });
+        });
+
+        return deleteButton;
     }
 
     public enum SlotOptions {
@@ -172,4 +236,6 @@ public class MainMenu extends Application {
             return displayOption;
         }
     }
+
+
 }

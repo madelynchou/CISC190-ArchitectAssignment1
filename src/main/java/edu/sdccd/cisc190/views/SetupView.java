@@ -1,6 +1,7 @@
 package edu.sdccd.cisc190.views;
 
 import edu.sdccd.cisc190.players.HumanPlayer;
+import edu.sdccd.cisc190.services.PlayerSavesService;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -21,6 +22,7 @@ import java.io.IOException;
 public class SetupView extends Application {
     // TODO store pointer to Player and pass in instance of player when SetupView is constructed
     static String userName;
+    PlayerSavesService playerSavesService;
 
     // TODO: create variable for BotService
 
@@ -29,7 +31,7 @@ public class SetupView extends Application {
         // TODO: fire up BotService somewhere below
 
         // Check if player data file exists and load it
-        if (loadPlayerData()) {
+        if (playerSavesService.loadState()) {
             // Proceed directly to the MainMenu if data was loaded
             Stage mainMenuStage = new Stage();
             MainMenu.setupWindow(mainMenuStage);
@@ -110,28 +112,6 @@ public class SetupView extends Application {
         primaryStage.show();
     }
 
-    private boolean loadPlayerData() {
-        File file = new File("player_data.txt");
-        if (file.exists()) {
-            try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-                String line = reader.readLine();
-                if (line != null) {
-                    String[] data = line.split(", ");
-                    String username = data[0].split(": ")[1];
-                    int money = Integer.parseInt(data[1].split(": ")[1].replace("$", ""));
-
-                    HumanPlayer player = HumanPlayer.getInstance();
-                    player.setUsername(username);
-                    player.setMoney(money);
-
-                    return true; // Data successfully loaded
-                }
-            } catch (IOException | NumberFormatException e) {
-                System.err.println("Error reading player data: " + e.getMessage());
-            }
-        }
-        return false; // File does not exist or data could not be loaded
-    }
 
     public static void main(String[] args) {
         launch(args);
