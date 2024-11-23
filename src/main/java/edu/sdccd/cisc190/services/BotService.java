@@ -14,13 +14,17 @@ public class BotService implements Runnable {
         this.slotMachine = slotMachine;
     }
 
+    public Bot getBot() {
+        return bot;
+    }
+
     // Set the flag to trigger a spin
     public void triggerSpin() {
         spinFlag = true;
     }
 
     // Change the slot machine this bot interacts with
-    public void setSlotMachine(Slot newSlotMachine) {
+    public synchronized void setSlotMachine(Slot newSlotMachine) {
         this.slotMachine = newSlotMachine;
     }
 

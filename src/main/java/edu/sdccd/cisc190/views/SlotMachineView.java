@@ -3,6 +3,7 @@ package edu.sdccd.cisc190.views;
 import edu.sdccd.cisc190.players.HumanPlayer;
 import edu.sdccd.cisc190.machines.Slot;
 import edu.sdccd.cisc190.machines.*;
+import edu.sdccd.cisc190.services.PlayerSavesService;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -33,6 +34,7 @@ public class SlotMachineView extends Application {
 
     static MainMenu.SlotOptions machineSelect;
     static Slot slotMachine;
+    static PlayerSavesService playerSavesService;
 
     @Override
     public void start(Stage primaryStage) {
@@ -129,14 +131,7 @@ public class SlotMachineView extends Application {
             if (HumanPlayer.getInstance().getMoney() <= 0) {
                 showAlert("Game over", "You're out of money! Better luck next time.");
                 // Delete the file if it exists
-                File file = new File("player_data.txt");
-                if (file.exists()) {
-                    if (!file.delete()) {
-                        System.err.println("Failed to delete existing player_data.txt file.");
-                        return;
-                    }
-                }
-
+                playerSavesService.deleteState();
                 primaryStage.close();
             }
 

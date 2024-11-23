@@ -16,8 +16,7 @@ public class SlotMachineManager {
     // Flag to signal stopping all threads
     private static volatile boolean stopRequested = false;
     static List<Thread> botThreads = new ArrayList<>();
-
-
+    static List<BotService> botServices = new ArrayList<>();
 
     public static void main() {
         System.out.println("Initializing SlotMachineManager");
@@ -31,20 +30,20 @@ public class SlotMachineManager {
                 AnitaMaxWynn.getInstance()
         );
 
-        // List to store services
+        // List of slot machines
+        List<Slot> slotMachines = List.of(diamondDash, hondaTrunk, megaMoolah, rainbowRiches, treasureSpins);
 
-        // Start a thread for each bot
-        for (Bot bot : bots) {
-            // Assign the bot to a random slot machine
-            Slot machine = assignRandomMachine();
-
-            // Create a new BotService for the bot and machine
+        // Start a service for each bot
+        for (int i = 0; i < bots.size(); i++) {
+            Bot bot = bots.get(i);
+            Slot machine = slotMachines.get(i % slotMachines.size()); // Assign initial machine
             BotService botService = new BotService(bot, machine);
 
             // Wrap botService in a thread and start it
             Thread botThread = new Thread(botService);
             botThread.start();
             botThreads.add(botThread);
+            botServices.add(botService);
 
             // Log the bot's assignment
             System.out.println("Assigned " + bot.getName() + " to " + machine.getClass().getSimpleName());
@@ -64,6 +63,31 @@ public class SlotMachineManager {
             spinThread.start();
             botThreads.add(spinThread);
         }
+
+        // Start a thread to rotate machines
+        Thread rotationThread = new Thread(() -> {
+            try {
+                while (!stopRequested) {
+                    Thread.sleep(15000); // Rotate machines every 15 seconds
+                    rotateSlotMachines(slotMachines);
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+
+        rotationThread.start();
+        botThreads.add(rotationThread);
+    }
+
+    // Rotate slot machines for all bots
+    private static void rotateSlotMachines(List<Slot> slotMachines) {
+        for (int i = 0; i < botServices.size(); i++) {
+            BotService botService = botServices.get(i);
+            Slot newMachine = slotMachines.get((i + 1) % slotMachines.size()); // Rotate to the next machine
+            botService.setSlotMachine(newMachine);
+            System.out.println("Rotated " + botService.getBot().getName() + " to " + newMachine.getClass().getSimpleName());
+        }
     }
 
     // Method to stop all threads
@@ -76,22 +100,5 @@ public class SlotMachineManager {
         }
 
         System.out.println("All threads have been stopped.");
-    }
-
-
-
-
-
-
-    private static Slot assignRandomMachine() {
-        int randomMachine = (int) (Math.random() * 5); // Generate a random number between 0 and 4
-        switch (randomMachine) {
-            case 0: return diamondDash;
-            case 1: return hondaTrunk;
-            case 2: return megaMoolah;
-            case 3: return rainbowRiches;
-            case 4: return treasureSpins;
-            default: throw new IllegalStateException("Unexpected value: " + randomMachine);
-        }
     }
 }
