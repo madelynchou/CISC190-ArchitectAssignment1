@@ -3,8 +3,11 @@ package edu.sdccd.cisc190.services;
 import edu.sdccd.cisc190.machines.Slot;
 import edu.sdccd.cisc190.players.bots.Bot;
 import javafx.application.Platform;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class BotService implements Runnable {
+    private static final Logger LOGGER = LoggerFactory.getLogger(BotService.class);
     private final Bot bot;           // The bot instance this service manages
     private Slot slotMachine;        // The slot machine the bot interacts with
     private volatile boolean spinFlag = false; // Flag to indicate the bot should spin
@@ -53,7 +56,7 @@ public class BotService implements Runnable {
                 // Sleep for a short time to prevent busy-waiting
                 Thread.sleep(500);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                LOGGER.error("Thread has been interrupted", e);
             }
         }
     }

@@ -1,10 +1,14 @@
 package edu.sdccd.cisc190.services;
 
 import edu.sdccd.cisc190.players.HumanPlayer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 
 public class PlayerSavesService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(PlayerSavesService.class);
+
     public static void saveState() {
         HumanPlayer player = HumanPlayer.getInstance();
         String data = "Username: " + player.getUsername() + ", Money: $" + player.getMoney();
@@ -14,7 +18,7 @@ public class PlayerSavesService {
             File file = new File("player_data.txt");
             if (file.exists()) {
                 if (!file.delete()) {
-                    System.err.println("Failed to delete existing player_data.txt file.");
+                    LOGGER.error("Failed to delete existing player_data.txt file.");
                     return;
                 }
             }
@@ -26,7 +30,7 @@ public class PlayerSavesService {
             }
 
         } catch (IOException e) {
-            System.err.println("Error saving player data: " + e.getMessage());
+            LOGGER.error("Error saving player data", e);
         }
     }
 
@@ -47,7 +51,7 @@ public class PlayerSavesService {
                         return true; // Data successfully loaded
                     }
                 } catch (IOException | NumberFormatException e) {
-                    System.err.println("Error reading player data: " + e.getMessage());
+                    LOGGER.error("Error reading player data", e);
                 }
             }
             return false; // File does not exist or data could not be loaded

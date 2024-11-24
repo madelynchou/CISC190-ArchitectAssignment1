@@ -2,11 +2,14 @@ package edu.sdccd.cisc190.services;
 
 import edu.sdccd.cisc190.machines.*;
 import edu.sdccd.cisc190.players.bots.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SlotMachineManager {
+    private static final Logger LOGGER = LoggerFactory.getLogger(SlotMachineManager.class);
     static DiamondDash diamondDash = new DiamondDash();
     static HondaTrunk hondaTrunk = new HondaTrunk();
     static MegaMoolah megaMoolah = new MegaMoolah();
@@ -56,7 +59,7 @@ public class SlotMachineManager {
                         botService.triggerSpin();
                     }
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    LOGGER.error("Thread has been interrupted", e);
                 }
             });
 
@@ -72,7 +75,7 @@ public class SlotMachineManager {
                     rotateSlotMachines(slotMachines);
                 }
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                LOGGER.error("Thread has been interrupted", e);
             }
         });
 
