@@ -22,7 +22,7 @@ public class SlotMachineManager {
     static List<BotService> botServices = new ArrayList<>();
 
     public static void main() {
-        System.out.println("Initializing SlotMachineManager");
+        LOGGER.info("Initializing SlotMachineManager");
 
         // List of bots
         List<Bot> bots = List.of(
@@ -49,7 +49,7 @@ public class SlotMachineManager {
             botServices.add(botService);
 
             // Log the bot's assignment
-            System.out.println("Assigned " + bot.getName() + " to " + machine.getClass().getSimpleName());
+            LOGGER.debug("Assigned {} to {}", bot.getName(), machine.getClass().getSimpleName());
 
             // Periodically trigger spins for this bot
             Thread spinThread = new Thread(() -> {
@@ -59,7 +59,7 @@ public class SlotMachineManager {
                         botService.triggerSpin();
                     }
                 } catch (InterruptedException e) {
-                    LOGGER.error("Thread has been interrupted", e);
+                    LOGGER.info("Thread has been interrupted", e);
                 }
             });
 
@@ -75,7 +75,7 @@ public class SlotMachineManager {
                     rotateSlotMachines(slotMachines);
                 }
             } catch (InterruptedException e) {
-                LOGGER.error("Thread has been interrupted", e);
+                LOGGER.info("Thread has been interrupted", e);
             }
         });
 
@@ -89,7 +89,7 @@ public class SlotMachineManager {
             BotService botService = botServices.get(i);
             Slot newMachine = slotMachines.get((i + 1) % slotMachines.size()); // Rotate to the next machine
             botService.setSlotMachine(newMachine);
-            System.out.println("Rotated " + botService.getBot().getName() + " to " + newMachine.getClass().getSimpleName());
+            LOGGER.debug("Rotated {} to {}", botService.getBot().getName(), newMachine.getClass().getSimpleName());
         }
     }
 
@@ -102,6 +102,6 @@ public class SlotMachineManager {
             botThread.interrupt();
         }
 
-        System.out.println("All threads have been stopped.");
+        LOGGER.info("All threads have been stopped.");
     }
 }

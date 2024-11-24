@@ -40,9 +40,7 @@ public class BotService implements Runnable {
                     synchronized (this) { // Ensure thread safety
                         int newBalance = slotMachine.botPlay(bot); // Simulate the spin
                         bot.setMoney(newBalance); // Update bot's balance
-                        System.out.println(bot.getName() + " spun on "
-                                + slotMachine.getClass().getSimpleName()
-                                + " and new balance: " + newBalance);
+                        LOGGER.debug("{} spun on {} and new balance: {}", bot.getName(), slotMachine.getClass().getSimpleName(), newBalance);
 
                         // Update GUI components for this bot
                         Platform.runLater(() -> {
@@ -56,7 +54,7 @@ public class BotService implements Runnable {
                 // Sleep for a short time to prevent busy-waiting
                 Thread.sleep(500);
             } catch (InterruptedException e) {
-                LOGGER.error("Thread has been interrupted", e);
+                LOGGER.info("Thread interrupted", e);
             }
         }
     }

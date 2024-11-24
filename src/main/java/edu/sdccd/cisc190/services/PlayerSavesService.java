@@ -30,7 +30,7 @@ public class PlayerSavesService {
             }
 
         } catch (IOException e) {
-            LOGGER.error("Error saving player data", e);
+            LOGGER.error("Error saving player data.", e);
         }
     }
 
@@ -61,7 +61,7 @@ public class PlayerSavesService {
         File file = new File("player_data.txt");
         if (file.exists()) {
             if (!file.delete()) {
-                System.err.println("Failed to delete existing player_data.txt file.");
+                LOGGER.error("Failed to delete existing player_data.txt file.");
             }
         }
     }
