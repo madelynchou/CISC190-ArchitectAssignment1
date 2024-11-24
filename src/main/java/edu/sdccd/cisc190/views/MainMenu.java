@@ -11,6 +11,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -18,6 +20,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class MainMenu extends Application {
+    private static final Logger LOGGER = LoggerFactory.getLogger(MainMenu.class);
 
     @Override
     public void start(Stage primaryStage) {
@@ -138,7 +141,7 @@ public class MainMenu extends Application {
             }
 
         } catch (IOException e) {
-            System.err.println("Error saving player data: " + e.getMessage());
+            LOGGER.error("Error saving player data", e);
         }
     }
     private static void showMessage(String message) {

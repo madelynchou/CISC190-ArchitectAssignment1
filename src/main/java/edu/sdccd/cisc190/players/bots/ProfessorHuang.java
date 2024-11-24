@@ -4,10 +4,10 @@ public class ProfessorHuang extends Bot {
     private static ProfessorHuang instance;
 
     public ProfessorHuang() {
-        this.name = "Professor Huang (The G.O.A.T)";
-        this.money = 100;
-        this.aura = 1;
-        this.luck = 0.23;
+        name = "Professor Huang (The G.O.A.T)";
+        money = 100;
+        aura = 1;
+        luck = 0.23;
     }
     public static ProfessorHuang getInstance() {
 
@@ -24,16 +24,16 @@ public class ProfessorHuang extends Bot {
     }
 
     public void setUsername(String username) {
-        this.name = username;
-        this.money = 100;
+        name = username;
+        money = 100;
     }
 
     public Integer getMoney() {
-        return this.money;
+        return money;
     }
 
     public void setMoney(Integer money) {
-        this.money = money;
+        Bot.money = money;
     }
 
 

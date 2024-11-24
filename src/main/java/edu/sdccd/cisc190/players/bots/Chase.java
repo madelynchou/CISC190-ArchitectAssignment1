@@ -6,10 +6,10 @@ public class Chase extends Bot {
     private static Chase instance;
 
     public Chase() {
-        this.name = "Chase";
-        this.money = 100;
-        this.aura = 0.3;
-        this.luck = 0.09;
+        name = "Chase";
+        money = 100;
+        aura = 0.3;
+        luck = 0.09;
     }
 
     public static Chase getInstance() {
@@ -27,16 +27,16 @@ public class Chase extends Bot {
     }
 
     public void setUsername(String username) {
-        this.name = username;
-        this.money = 100;
+        name = username;
+        money = 100;
     }
 
     public Integer getMoney() {
-        return this.money;
+        return money;
     }
 
     public void setMoney(Integer money) {
-        this.money = money;
+        Bot.money = money;
     }
 
 

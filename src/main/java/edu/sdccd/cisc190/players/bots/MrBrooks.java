@@ -4,10 +4,10 @@ public class MrBrooks extends Bot {
     private static MrBrooks instance;
 
     public MrBrooks() {
-        this.name = "Mr.Brooks";
-        this.money = 100;
-        this.aura = 0.5;
-        this.luck = 0.21;
+        name = "Mr.Brooks";
+        money = 100;
+        aura = 0.5;
+        luck = 0.21;
     }
 
     public static MrBrooks getInstance() {
@@ -25,16 +25,16 @@ public class MrBrooks extends Bot {
     }
 
     public void setUsername(String username) {
-        this.name = username;
-        this.money = 100;
+        name = username;
+        money = 100;
     }
 
     public Integer getMoney() {
-        return this.money;
+        return money;
     }
 
     public void setMoney(Integer money) {
-        this.money = money;
+        Bot.money = money;
     }
 
 }

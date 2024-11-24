@@ -66,26 +66,25 @@ abstract public class Slot {
     // Calculates the player's new money amount based on the outcome
     private static int calculatePayout(int moneyAmount, String[] spunRow, int bet) {
         int winningCondition = evaluateWinCondition(spunRow);
-        switch (winningCondition) {
-            case 0: // No match
-                return moneyAmount - bet;
-            case 3: // Three-symbol match
-                return (int) (moneyAmount + Math.floor(bet * returnAmt));
-            default:
-                return moneyAmount;
-        }
+        return switch (winningCondition) {
+            case 0 -> // No match
+                    moneyAmount - bet;
+            case 3 -> // Three-symbol match
+                    (int) (moneyAmount + Math.floor(bet * returnAmt));
+            default -> moneyAmount;
+        };
     }
 
     private static int botPlay(Bot bot) {
-        int bet = (int) (bot.money * bot.aura);
+        int bet = (int) (Bot.money * Bot.aura);
         System.out.println(bet);
         float randomNumber = (float) (Math.random());
 
         int resultAmt;
-        if (randomNumber >= bot.luck) {
-            resultAmt = bet + bot.money;
+        if (randomNumber >= Bot.luck) {
+            resultAmt = bet + Bot.money;
         } else {
-            resultAmt = bot.money - bet;
+            resultAmt = Bot.money - bet;
         }
 
         return resultAmt;
