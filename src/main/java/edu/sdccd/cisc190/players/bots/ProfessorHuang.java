@@ -4,10 +4,10 @@ public class ProfessorHuang extends Bot {
     private static ProfessorHuang instance;
 
     public ProfessorHuang() {
-        name = "Professor Huang (The G.O.A.T)";
-        money = 100;
-        aura = 1;
-        luck = 0.23;
+        this.name = "Professor Huang (The G.O.A.T)";
+        this.money = 100;
+        this.aura = 0.4;
+        this.luck = 0.8;
     }
     public static ProfessorHuang getInstance() {
 
@@ -16,28 +16,4 @@ public class ProfessorHuang extends Bot {
         }
         return instance;
     }
-
-    // Getters and Setters for username and email
-
-    public String getUsername() {
-        return name;
-    }
-
-    public void setUsername(String username) {
-        name = username;
-        money = 100;
-    }
-
-    public Integer getMoney() {
-        return money;
-    }
-
-    public void setMoney(Integer money) {
-        Bot.money = money;
-    }
-
-
-
-
-
 }

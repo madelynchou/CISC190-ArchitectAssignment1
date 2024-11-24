@@ -25,7 +25,7 @@ public class HumanPlayer {
 
     public void setUsername(String username) {
         this.username = username;
-        this.money = 100;
+        this.money = 200;
     }
 
     public Integer getMoney() {
