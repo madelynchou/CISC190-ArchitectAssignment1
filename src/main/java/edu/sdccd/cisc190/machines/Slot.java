@@ -9,10 +9,18 @@ import java.util.concurrent.*;
 abstract public class Slot {
     public double luck; // Instance-specific luck
     public static String[] symbols; // Instance-specific symbols
-
-    public int maxBet; // Instance-specific max bet
-    public int minBet; // Instance-specific min bet
+    public static int maxBet; // Instance-specific max bet
+    public static int minBet; // Instance-specific min bet
     public static double returnAmt; // Instance-specific return multiplier
+
+
+    public int getMinBet() {
+        return minBet;
+    }
+
+    public int getMaxBet() {
+        return maxBet;
+    }
 
     static Scanner scanner = new Scanner(System.in); // Shared scanner
     public double bet; // Instance-specific bet amount
@@ -83,4 +91,6 @@ abstract public class Slot {
 
         return resultAmt;
     }
+
+
 }
