@@ -58,14 +58,13 @@ abstract public class Slot {
 
     private static int calculatePayout(int moneyAmount, String[] spunRow, int bet) {
         int winningCondition = evaluateWinCondition(spunRow);
-        switch (winningCondition) {
-            case 0: // No match
-                return moneyAmount - bet;
-            case 3: // Three-symbol match
-                return (int) (moneyAmount + Math.floor(bet * returnAmt));
-            default:
-                return moneyAmount;
-        }
+        return switch (winningCondition) {
+            case 0 -> // No match
+                    moneyAmount - bet;
+            case 3 -> // Three-symbol match
+                    (int) (moneyAmount + Math.floor(bet * returnAmt));
+            default -> moneyAmount;
+        };
     }
 
     public static int botPlay(Bot bot) {

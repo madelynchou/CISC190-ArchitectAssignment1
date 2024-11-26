@@ -21,7 +21,7 @@ import java.io.File;
 
 public class SlotMachineView extends Application {
 
-    private static Label betAmount = new Label();
+    private static final Label betAmount = new Label();
     private static Label slot1 = new Label("❓");
     private static Label slot2 = new Label("❓");
     private static Label slot3 = new Label("❓");
