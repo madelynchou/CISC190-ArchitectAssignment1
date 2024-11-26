@@ -46,6 +46,7 @@ public class SlotMachineView extends Application {
     }
 
     public static void showWindow(Stage primaryStage, int betAmt, MainMenu.SlotOptions selectedMachine) {
+
         machineSelect = selectedMachine;
         switch (selectedMachine) {
             case DIAMOND_DASH -> slotMachine = new DiamondDash();
@@ -55,6 +56,12 @@ public class SlotMachineView extends Application {
             case RAINBOW_RICHES -> slotMachine = new RainbowRiches();
             default -> slotMachine = new DiamondDash();
         }
+
+        System.out.println("Min Bet: " + slotMachine.minBet);
+        System.out.println("Min Bet: " + slotMachine.returnAmt);
+        System.out.println("Max Bet: " + slotMachine.maxBet);
+        System.out.println("Max Bet: " + slotMachine.symbols);
+
 
         primaryStage.setTitle("Casino Royale - Slot Machine");
 
@@ -107,12 +114,23 @@ public class SlotMachineView extends Application {
 
     private static void spin(int betAmt, Stage primaryStage) {
         if (HumanPlayer.getInstance().getMoney() < betAmt) {
-            showAlert("You can't bet that much!", "Please try again with a lower bet.");
+            showAlert("You can't bet that much!", "You don't have that much money. Please try again with a lower bet.");
             primaryStage.close();
             BetView.showWindow(primaryStage, machineSelect);
+            System.out.println(slotMachine.getMaxBet());
+        } else if (betAmt > slotMachine.getMaxBet()) {
+            showAlert("You can't bet that much!", "You've exceeded the maximum betting limit for this machine. Please try again with a lower bet.");
+            primaryStage.close();
+            BetView.showWindow(primaryStage, machineSelect);
+            System.out.println(slotMachine.getMaxBet());
+        } else if (betAmt < slotMachine.getMinBet()) {
+            showAlert("You can't bet that much!", "You're below the minimum betting limit for this machine. Please try again with a higher bet.");
+            primaryStage.close();
+            BetView.showWindow(primaryStage, machineSelect);
+            System.out.println(slotMachine.getMinBet());
         } else {
             slotMachine.initializeSymbols();
-            String[] symbols = slotMachine.spin();
+            String[] symbols = Slot.spin();
             slot1.setText(symbols[0]);
             slot2.setText(symbols[1]);
             slot3.setText(symbols[2]);
