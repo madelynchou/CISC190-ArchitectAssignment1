@@ -40,7 +40,7 @@ public class BotService implements Runnable {
                     synchronized (this) { // Ensure thread safety
                         int newBalance = slotMachine.botPlay(bot); // Simulate the spin
                         bot.setMoney(newBalance); // Update bot's balance
-                        LOGGER.debug("{} spun on {} and new balance: {}", bot.getName(), slotMachine.getClass().getSimpleName(), newBalance);
+                        LOGGER.info("{} spun on {} and new balance: {}", bot.getName(), slotMachine.getClass().getSimpleName(), newBalance);
 
                         // Update GUI components for this bot
                         Platform.runLater(() -> {

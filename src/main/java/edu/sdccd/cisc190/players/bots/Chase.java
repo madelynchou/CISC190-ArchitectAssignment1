@@ -1,7 +1,5 @@
 package edu.sdccd.cisc190.players.bots;
 
-import edu.sdccd.cisc190.players.HumanPlayer;
-
 public class Chase extends Bot {
     private static Chase instance;
 

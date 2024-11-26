@@ -1,10 +1,7 @@
 package edu.sdccd.cisc190.machines;
 
-import edu.sdccd.cisc190.players.HumanPlayer;
 import edu.sdccd.cisc190.players.bots.*;
-
 import java.util.*;
-import java.util.concurrent.*;
 
 abstract public class Slot {
     public double luck; // Instance-specific luck

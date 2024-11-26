@@ -89,7 +89,7 @@ public class SlotMachineManager {
             BotService botService = botServices.get(i);
             Slot newMachine = slotMachines.get((i + 1) % slotMachines.size()); // Rotate to the next machine
             botService.setSlotMachine(newMachine);
-            LOGGER.debug("Rotated {} to {}", botService.getBot().getName(), newMachine.getClass().getSimpleName());
+            LOGGER.info("Rotated {} to {}", botService.getBot().getName(), newMachine.getClass().getSimpleName());
         }
     }
 
