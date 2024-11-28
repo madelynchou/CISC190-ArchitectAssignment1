@@ -17,9 +17,27 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.control.Tooltip;
 
+import java.awt.*;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.Optional;
+import java.util.Random;
 
 public class MainMenu extends Application {
+    private static final ArrayList<String> MOTIVATIONAL_URLS = new ArrayList<>() {{
+        add("https://www.instagram.com/reel/C_JDcZVya_1/?igsh=NTc4MTIwNjQ2YQ=="); // Add your own motivational URLs
+        add("https://www.instagram.com/reel/DAZR6WlSsVk/?igsh=NTc4MTIwNjQ2YQ==");
+        add("https://www.instagram.com/reel/DCz7-k5JxLT/?igsh=NTc4MTIwNjQ2YQ==");
+        add("https://www.instagram.com/reel/DB1tqWqNWL8/?igsh=NTc4MTIwNjQ2YQ==");
+        add("https://www.instagram.com/reel/DB9nUPfS1WC/?igsh=NTc4MTIwNjQ2YQ==");
+        add("https://www.instagram.com/reel/DBpDgUVoFcK/?igsh=NTc4MTIwNjQ2YQ==");
+        add("https://www.instagram.com/reel/DB8nzu7oW8K/?igsh=NTc4MTIwNjQ2YQ==");
+        add("https://www.instagram.com/reel/C7ZnLuWoRbW/?igsh=NTc4MTIwNjQ2YQ==");
+        add("https://www.instagram.com/reel/C_8R_SJPOe6/?igsh=NTc4MTIwNjQ2YQ==");
+    }};
+
     static Stage primaryStage;
 
     @Override
@@ -43,12 +61,34 @@ public class MainMenu extends Application {
         // Add slot option buttons
         addSlotOptionButtons(layout, primaryStage);
 
+        Button motivationButton = createMotivationButton();
+        layout.getChildren().add(motivationButton);
+
         // Add Delete File button
         Button deleteFileButton = createDeleteButton();
         layout.getChildren().add(deleteFileButton);
 
         // Setup and display the scene
         setupScene(primaryStage, layout);
+    }
+
+    private static Button createMotivationButton() {
+        Button motivationButton = createStyledButton("Motivation", "Get inspired to keep going!");
+
+        motivationButton.setOnAction(event -> {
+            Random random = new Random();
+            int randomIndex = random.nextInt(MOTIVATIONAL_URLS.size());
+            String selectedUrl = MOTIVATIONAL_URLS.get(randomIndex);
+
+            try {
+                Desktop desktop = Desktop.getDesktop();
+                desktop.browse(new URI(selectedUrl));
+            } catch (IOException | URISyntaxException e) {
+                showMessage("Failed to open the link. Please try again.");
+            }
+        });
+
+        return motivationButton;
     }
 
     private static Button createDeleteButton() {
