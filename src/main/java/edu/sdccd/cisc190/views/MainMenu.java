@@ -68,7 +68,8 @@ public class MainMenu extends Application {
                     PlayerSavesService.deleteState();
                     successAlert.setContentText("Your file has been successfully deleted! (Logic not implemented)");
                     successAlert.showAndWait();
-                    Platform.exit();
+                    quitApplication();
+
                 } else {
                     Alert cancelAlert = new Alert(Alert.AlertType.INFORMATION);
                     cancelAlert.setTitle("File Deletion Canceled");
@@ -209,26 +210,19 @@ public class MainMenu extends Application {
             case DIAMOND_DASH, HONDA_TRUNK, MEGA_MOOLAH, RAINBOW_RICHES, TREASURE_SPINS ->
                     BetView.showWindow(primaryStage, option);
             case LEADERBOARD -> LeaderboardView.showWindow(primaryStage);
-            case QUIT -> quitApplication(primaryStage);
+            case QUIT -> quitApplication();
             default -> showMessage("Default option selected.");
         }
     }
 
-    private static void quitApplication(Stage primaryStage) {
-        // Stop all threads in SlotMachineManager
-        SlotMachineManager.stopAllThreads();
-
-        // Save the player's state
-        PlayerSavesService.saveState();
-
-        // Close the application
-        primaryStage.close();
-
+    private static void quitApplication() {
         // Show goodbye message
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Goodbye!");
         alert.setContentText("Come back soon! 99.9% of gamblers quit before hitting it big!");
         alert.showAndWait();
+
+        Platform.exit();
 
         // Exit the program
         System.exit(0);
