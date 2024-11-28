@@ -22,11 +22,11 @@ import java.io.File;
 public class SlotMachineView extends Application {
 
     private static final Label betAmount = new Label();
-    private static Label slot1 = new Label("❓");
-    private static Label slot2 = new Label("❓");
-    private static Label slot3 = new Label("❓");
-    private static Label won = new Label("Spin to see!");
-    private static Label money = new Label("Balance: $" + HumanPlayer.getInstance().getMoney().toString());
+    private static final Label slot1 = new Label("❓");
+    private static final Label slot2 = new Label("❓");
+    private static final Label slot3 = new Label("❓");
+    private static final Label won = new Label("Spin to see!");
+    private static final Label money = new Label("Balance: $" + HumanPlayer.getInstance().getMoney().toString());
 
     static Button spinButton = createStyledButton("Spin");
     static Button changeBet = createStyledButton("Change Bet");
@@ -57,10 +57,10 @@ public class SlotMachineView extends Application {
             default -> slotMachine = new DiamondDash();
         }
 
-        System.out.println("Min Bet: " + slotMachine.minBet);
-        System.out.println("Min Bet: " + slotMachine.returnAmt);
-        System.out.println("Max Bet: " + slotMachine.maxBet);
-        System.out.println("Max Bet: " + slotMachine.symbols);
+        System.out.println("Min Bet: " + Slot.minBet);
+        System.out.println("Min Bet: " + Slot.returnAmt);
+        System.out.println("Max Bet: " + Slot.maxBet);
+        System.out.println("Max Bet: " + Slot.symbols);
 
 
         primaryStage.setTitle("Casino Royale - Slot Machine");
@@ -138,7 +138,7 @@ public class SlotMachineView extends Application {
             int isWinner = DiamondDash.evaluateWinCondition(symbols);
             if (isWinner == 2 || isWinner == 3) {
                 won.setText("Wow, you won!");
-                HumanPlayer.getInstance().setMoney(slotMachine.calculatePayout(HumanPlayer.getInstance().getMoney(), symbols, betAmt));
+                HumanPlayer.getInstance().setMoney(Slot.calculatePayout(HumanPlayer.getInstance().getMoney(), symbols, betAmt));
             } else {
                 won.setText("You lost :(");
                 HumanPlayer.getInstance().setMoney(DiamondDash.calculatePayout(HumanPlayer.getInstance().getMoney(), symbols, betAmt));
@@ -149,7 +149,7 @@ public class SlotMachineView extends Application {
             if (HumanPlayer.getInstance().getMoney() <= 0) {
                 showAlert("Game over", "You're out of money! Better luck next time.");
                 // Delete the file if it exists
-                playerSavesService.deleteState();
+                PlayerSavesService.deleteState();
                 primaryStage.close();
             }
 
