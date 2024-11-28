@@ -22,6 +22,7 @@ public class MainMenu extends Application {
     public void start(Stage primaryStage) {
         setupWindow(primaryStage);
     }
+
     static void setupWindow(Stage primaryStage) {
         VBox layout = createMainLayout();
         primaryStage.setTitle("Casino Royale Menu");
@@ -45,149 +46,9 @@ public class MainMenu extends Application {
     }
 
     private static Button createDeleteButton() {
-        Button deleteButton = new Button("Delete User File");
-        deleteButton.setFont(Font.font("Arial", FontWeight.BOLD, 16));
+        Button deleteButton = createSecondaryButton("Delete User File");
 
-        // Default style
-        String defaultStyle = createButtonStyle("#ff3333", "#cc0000", "white");
-        String hoverStyle = createButtonStyle("#cc0000", "#990000", "yellow");
-
-        deleteButton.setStyle(defaultStyle);
-        deleteButton.setOnMouseEntered(_ -> deleteButton.setStyle(hoverStyle));
-        deleteButton.setOnMouseExited(_ -> deleteButton.setStyle(defaultStyle));
-
-        deleteButton.setOnAction(_ -> handleDeleteFile());
-
-        return deleteButton;
-    }
-
-    private static void handleDeleteFile() {
-        // Show confirmation dialog
-        Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmationAlert.setTitle("Delete File");
-        confirmationAlert.setHeaderText("Are you sure you want to delete your file?");
-        confirmationAlert.setContentText("This action cannot be undone.");
-
-        // Wait for user's response
-        Optional<ButtonType> result = confirmationAlert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            // Simulate deletion logic (adjust this logic as needed)
-            showMessage("Your file has been deleted. (Logic not implemented)");
-        } else {
-            showMessage("File deletion canceled.");
-        }
-    }
-
-
-    private static VBox createMainLayout() {
-        VBox layout = new VBox(20);
-        layout.setStyle(
-                "-fx-background-color: linear-gradient(to bottom, #000000, #660000);" +
-                        "-fx-padding: 30px;"
-        );
-        layout.setAlignment(javafx.geometry.Pos.CENTER);
-        return layout;
-    }
-
-    private static Text createHeader() {
-        Text header = new Text("Casino Royale");
-        header.setFont(Font.font("Verdana", FontWeight.BOLD, 30));
-        header.setFill(Color.GOLD);
-        return header;
-    }
-
-    private static Text createUserInfo(String text, Color color) {
-        Text userInfo = new Text(text);
-        userInfo.setFont(Font.font("Arial", FontWeight.SEMI_BOLD, 18));
-        userInfo.setFill(color);
-        return userInfo;
-    }
-
-    private static Button createStyledButton(String text) {
-        Button button = new Button(text);
-        button.setFont(Font.font("Arial", FontWeight.BOLD, 16));
-
-        // Default style
-        String defaultStyle = createButtonStyle("#ffcc00", "#ff9900", "black");
-        String hoverStyle = createButtonStyle("#784800", "#943b00", "white");
-
-        // Apply default style initially
-        button.setStyle(defaultStyle);
-
-        // Change style on hover
-        button.setOnMouseEntered(e -> button.setStyle(hoverStyle));
-        button.setOnMouseExited(_ -> button.setStyle(defaultStyle));
-
-        return button;
-    }
-
-    private static String createButtonStyle(String topColor, String bottomColor, String textColor) {
-        return "-fx-background-color: linear-gradient(to bottom, " + topColor + ", " + bottomColor + ");" +
-                "-fx-text-fill: " + textColor + ";" +
-                "-fx-background-radius: 10;" +
-                "-fx-padding: 10px 20px;";
-    }
-
-    private static void showMessage(String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Information");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
-
-    private static void setupScene(Stage primaryStage, VBox layout) {
-        Scene scene = new Scene(layout, 600, 600);
-        primaryStage.setScene(scene);
-        primaryStage.show();
-    }
-
-    private static void addSlotOptionButtons(VBox layout, Stage primaryStage) {
-        for (SlotOptions option : SlotOptions.values()) {
-            Button slotButton = createStyledButton(option.getDisplayOption());
-            slotButton.setOnAction(_ -> handleSlotOption(primaryStage, option));
-            layout.getChildren().add(slotButton);
-        }
-    }
-
-    private static void handleSlotOption(Stage primaryStage, SlotOptions option) {
-        switch (option) {
-            case DIAMOND_DASH, HONDA_TRUNK, MEGA_MOOLAH, RAINBOW_RICHES, TREASURE_SPINS ->
-                    BetView.showWindow(primaryStage, option);
-            case LEADERBOARD -> LeaderboardView.showWindow(primaryStage);
-            case QUIT -> quitApplication(primaryStage);
-            default -> showMessage("Default option selected.");
-        }
-    }
-
-    private static void quitApplication(Stage primaryStage) {
-        PlayerSavesService.saveState();
-        primaryStage.close();
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Goodbye!");
-        alert.setContentText("Come back soon! 99.9% of gamblers quit before hitting it big!");
-        alert.showAndWait();
-    }
-
-
-    public static void main(String[] args) {
-        launch(args);
-    }
-
-
-    private static Button createDeleteButton(Stage primaryStage) {
-        Button deleteButton = new Button("Delete User File");
-        deleteButton.setFont(Font.font("Arial", FontWeight.BOLD, 16));
-
-        // Default style
-        String defaultStyle = createButtonStyle("#ff3333", "#cc0000", "white");
-        String hoverStyle = createButtonStyle("#cc0000", "#990000", "yellow");
-
-        deleteButton.setStyle(defaultStyle);
-        deleteButton.setOnMouseEntered(e -> deleteButton.setStyle(hoverStyle));
-        deleteButton.setOnMouseExited(e -> deleteButton.setStyle(defaultStyle));
-
-        deleteButton.setOnAction(e -> {
+        deleteButton.setOnAction(_ -> {
             // Show confirmation alert
             Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
             confirmationAlert.setTitle("Confirm Deletion");
@@ -217,6 +78,130 @@ public class MainMenu extends Application {
         return deleteButton;
     }
 
+    private static void handleDeleteFile() {
+        Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmationAlert.setTitle("Delete File");
+        confirmationAlert.setHeaderText("Are you sure you want to delete your file?");
+        confirmationAlert.setContentText("This action cannot be undone.");
+        Optional<ButtonType> result = confirmationAlert.showAndWait();
+
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            showMessage("Your file has been deleted. (Logic not implemented)");
+        } else {
+            showMessage("File deletion canceled.");
+        }
+    }
+
+    private static VBox createMainLayout() {
+        VBox layout = new VBox(20);
+        layout.setStyle(
+                "-fx-background-color: linear-gradient(to bottom, #000000, #660000);" +
+                        "-fx-padding: 30px;"
+        );
+        layout.setAlignment(javafx.geometry.Pos.CENTER);
+        return layout;
+    }
+
+    private static Text createHeader() {
+        Text header = new Text("Casino Royale");
+        header.setFont(Font.font("Verdana", FontWeight.BOLD, 30));
+        header.setFill(Color.GOLD);
+        return header;
+    }
+
+    private static Text createUserInfo(String text, Color color) {
+        Text userInfo = new Text(text);
+        userInfo.setFont(Font.font("Arial", FontWeight.SEMI_BOLD, 18));
+        userInfo.setFill(color);
+        return userInfo;
+    }
+
+    private static Button createStyledButton(String text) {
+        Button button = new Button(text);
+        button.setFont(Font.font("Arial", FontWeight.BOLD, 16));
+
+        String defaultStyle = createButtonStyle("#ffcc00", "#ff9900", "black");
+        String hoverStyle = createButtonStyle("#784800", "#943b00", "white");
+
+        button.setStyle(defaultStyle);
+        button.setOnMouseEntered(e -> button.setStyle(hoverStyle));
+        button.setOnMouseExited(_ -> button.setStyle(defaultStyle));
+
+        return button;
+    }
+
+    private static Button createSecondaryButton(String text) {
+        Button button = new Button(text);
+        button.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+
+        String defaultStyle = createButtonStyle("#cccccc", "#888888", "black");
+        String hoverStyle = createButtonStyle("#aaaaaa", "#666666", "white");
+
+        button.setStyle(defaultStyle);
+        button.setOnMouseEntered(e -> button.setStyle(hoverStyle));
+        button.setOnMouseExited(_ -> button.setStyle(defaultStyle));
+
+        return button;
+    }
+
+    private static String createButtonStyle(String topColor, String bottomColor, String textColor) {
+        return "-fx-background-color: linear-gradient(to bottom, " + topColor + ", " + bottomColor + ");" +
+                "-fx-text-fill: " + textColor + ";" +
+                "-fx-background-radius: 10;" +
+                "-fx-padding: 10px 20px;";
+    }
+
+    private static void showMessage(String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    private static void setupScene(Stage primaryStage, VBox layout) {
+        Scene scene = new Scene(layout, 600, 600);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    private static void addSlotOptionButtons(VBox layout, Stage primaryStage) {
+        SlotOptions[] options = SlotOptions.values();
+        for (int i = 0; i < options.length; i++) {
+            SlotOptions option = options[i];
+            Button slotButton;
+
+            // Use secondary style for last three buttons
+            if (i >= options.length - 2) {
+                slotButton = createSecondaryButton(option.getDisplayOption());
+            } else {
+                slotButton = createStyledButton(option.getDisplayOption());
+            }
+
+            slotButton.setOnAction(_ -> handleSlotOption(primaryStage, option));
+            layout.getChildren().add(slotButton);
+        }
+    }
+
+    private static void handleSlotOption(Stage primaryStage, SlotOptions option) {
+        switch (option) {
+            case DIAMOND_DASH, HONDA_TRUNK, MEGA_MOOLAH, RAINBOW_RICHES, TREASURE_SPINS ->
+                    BetView.showWindow(primaryStage, option);
+            case LEADERBOARD -> LeaderboardView.showWindow(primaryStage);
+            case QUIT -> quitApplication(primaryStage);
+            default -> showMessage("Default option selected.");
+        }
+    }
+
+    private static void quitApplication(Stage primaryStage) {
+        PlayerSavesService.saveState();
+        primaryStage.close();
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Goodbye!");
+        alert.setContentText("Come back soon! 99.9% of gamblers quit before hitting it big!");
+        alert.showAndWait();
+    }
+
     public enum SlotOptions {
         DIAMOND_DASH("Diamond Dash"),
         HONDA_TRUNK("Honda Trunk"),
@@ -236,6 +221,4 @@ public class MainMenu extends Application {
             return displayOption;
         }
     }
-
-
 }
