@@ -12,7 +12,7 @@ class SlotTest {
         // Mock symbols for the test
         TreasureSpins.symbols = new String[]{"Cherry", "Lemon", "Bell"};
 
-        String[] spunSymbols = TreasureSpins.spin();
+        String[] spunSymbols = TreasureSpins.generateSpunSymbols();
 
         // Verify that spunSymbols contains valid elements from symbols
         for (String symbol : spunSymbols) {
@@ -26,7 +26,7 @@ class SlotTest {
     @Test
     void testEvaluateWinCondition_FullMatch() {
         String[] spunRow = {"Cherry", "Cherry", "Cherry"};
-        int result = TreasureSpins.checkWinType(spunRow);
+        int result = TreasureSpins.evaluateWinCondition(spunRow);
 
         assertEquals(3, result, "Full match should return 3.");
     }
@@ -34,7 +34,7 @@ class SlotTest {
     @Test
     void testEvaluateWinCondition_TwoMatch() {
         String[] spunRow = {"Cherry", "Lemon", "Cherry"};
-        int result = TreasureSpins.checkWinType(spunRow);
+        int result = TreasureSpins.evaluateWinCondition(spunRow);
 
         assertEquals(2, result, "Two matches should return 2.");
     }
@@ -42,7 +42,7 @@ class SlotTest {
     @Test
     void testEvaluateWinCondition_NoMatch() {
         String[] spunRow = {"Cherry", "Lemon", "Bell"};
-        int result = TreasureSpins.checkWinType(spunRow);
+        int result = TreasureSpins.evaluateWinCondition(spunRow);
 
         assertEquals(0, result, "No match should return 0.");
     }
@@ -52,7 +52,7 @@ class SlotTest {
         String[] spunRow = {"Cherry", "Lemon", "Bell"};
         int initialMoney = 100;
         int bet = 10;
-        int newMoney = TreasureSpins.checkIfWon(initialMoney, spunRow, bet);
+        int newMoney = TreasureSpins.calculatePayout(initialMoney, spunRow, bet);
 
         assertEquals(90, newMoney, "Losing the bet should deduct the bet amount.");
     }
@@ -63,7 +63,7 @@ class SlotTest {
         int initialMoney = 100;
         int bet = 10;
         TreasureSpins.returnAmt = 4; // Assume return multiplier is 4
-        int newMoney = TreasureSpins.checkIfWon(initialMoney, spunRow, bet);
+        int newMoney = TreasureSpins.calculatePayout(initialMoney, spunRow, bet);
 
         assertEquals(120, newMoney, "Winning with two matches should add bet * (returnAmt / 2).");
     }
@@ -74,7 +74,7 @@ class SlotTest {
         int initialMoney = 100;
         int bet = 10;
         TreasureSpins.returnAmt = 4; // Assume return multiplier is 4
-        int newMoney = TreasureSpins.checkIfWon(initialMoney, spunRow, bet);
+        int newMoney = TreasureSpins.calculatePayout(initialMoney, spunRow, bet);
 
         assertEquals(110, newMoney, "Winning with three matches should add the bet amount.");
     }

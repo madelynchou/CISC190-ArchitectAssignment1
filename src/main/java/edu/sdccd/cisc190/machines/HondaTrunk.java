@@ -4,7 +4,7 @@ public class HondaTrunk extends Slot {
     public HondaTrunk() {
         returnAmt = 1.5;
         symbols = new String[]{"🚗", "🛻", "🚕"};
-        minBet = 5;
+        minBet = 1;
         maxBet = 1000;
     }
 

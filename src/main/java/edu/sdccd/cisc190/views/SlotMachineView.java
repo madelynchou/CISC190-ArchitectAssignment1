@@ -130,18 +130,18 @@ public class SlotMachineView extends Application {
             System.out.println(slotMachine.getMinBet());
         } else {
             slotMachine.initializeSymbols();
-            String[] symbols = Slot.spin();
+            String[] symbols = Slot.generateSpunSymbols();
             slot1.setText(symbols[0]);
             slot2.setText(symbols[1]);
             slot3.setText(symbols[2]);
 
-            int isWinner = DiamondDash.checkWinType(symbols);
+            int isWinner = DiamondDash.evaluateWinCondition(symbols);
             if (isWinner == 2 || isWinner == 3) {
                 won.setText("Wow, you won!");
-                HumanPlayer.getInstance().setMoney(slotMachine.checkIfWon(HumanPlayer.getInstance().getMoney(), symbols, betAmt));
+                HumanPlayer.getInstance().setMoney(slotMachine.calculatePayout(HumanPlayer.getInstance().getMoney(), symbols, betAmt));
             } else {
                 won.setText("You lost :(");
-                HumanPlayer.getInstance().setMoney(DiamondDash.checkIfWon(HumanPlayer.getInstance().getMoney(), symbols, betAmt));
+                HumanPlayer.getInstance().setMoney(DiamondDash.calculatePayout(HumanPlayer.getInstance().getMoney(), symbols, betAmt));
             }
 
             money.setText("Balance: $" + HumanPlayer.getInstance().getMoney().toString());
