@@ -9,13 +9,12 @@ abstract public class Slot {
     public static int minBet; // Instance-specific min bet
     public static double returnAmt; // Instance-specific return multiplier
 
+    public int getMaxBet() {
+        return maxBet;
+    }
 
     public int getMinBet() {
         return minBet;
-    }
-
-    public int getMaxBet() {
-        return maxBet;
     }
 
     public void initializeSymbols() {}
@@ -68,6 +67,4 @@ abstract public class Slot {
 
         return resultAmt;
     }
-
-
 }

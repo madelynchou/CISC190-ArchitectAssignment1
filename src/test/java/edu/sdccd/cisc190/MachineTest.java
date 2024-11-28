@@ -15,6 +15,10 @@ class MachineTest {
 
         assertEquals(15, diamondDash.getMinBet());
         assertEquals(1000, diamondDash.getMaxBet());
+        assertEquals(2, Slot.returnAmt);
+
+        String[] expectedDDSymbols = {"💍", "💠", "💎"};
+        assertArrayEquals(expectedDDSymbols, Slot.symbols);
     }
 
     @Test
@@ -23,8 +27,11 @@ class MachineTest {
 
         assertInstanceOf(Slot.class, hondaTrunk);
 
-        assertEquals(5, hondaTrunk.getMinBet());
+        assertEquals(1, hondaTrunk.getMinBet());
         assertEquals(1000, hondaTrunk.getMaxBet());
+
+        String[] expectedHTSymbols = {"🚗", "🛻", "🚕"};
+        assertArrayEquals(expectedHTSymbols, Slot.symbols);
     }
 
     @Test
@@ -35,6 +42,9 @@ class MachineTest {
 
         assertEquals(10, megaMoolah.getMinBet());
         assertEquals(1000, megaMoolah.getMaxBet());
+
+        String[] expectedMMSymbols = {"\uD83D\uDCB0", "\uD83E\uDD11", "\uD83D\uDCB8"};
+        assertArrayEquals(expectedMMSymbols, Slot.symbols);
     }
 
     @Test
@@ -45,6 +55,9 @@ class MachineTest {
 
         assertEquals(25, rainbowRiches.getMinBet());
         assertEquals(1000, rainbowRiches.getMaxBet());
+
+        String[] expectedRRSymbols = {"\uD83C\uDF08", "\uD83C\uDF27", "\uD83C\uDF24"};
+        assertArrayEquals(expectedRRSymbols, Slot.symbols);
     }
 
     @Test
@@ -55,6 +68,9 @@ class MachineTest {
 
         assertEquals(50, treasureSpins.getMinBet());
         assertEquals(1000, treasureSpins.getMaxBet());
+
+        String[] expectedTSSymbols = {"\uD83C\uDF53", "\uD83C\uDF4C", "\uD83C\uDF4A"};
+        assertArrayEquals(expectedTSSymbols, Slot.symbols);
     }
 
 }
