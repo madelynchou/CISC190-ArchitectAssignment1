@@ -3,6 +3,7 @@ package edu.sdccd.cisc190.views;
 import edu.sdccd.cisc190.players.HumanPlayer;
 import edu.sdccd.cisc190.players.bots.*;
 import javafx.application.Application;
+import javafx.beans.property.IntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
@@ -20,10 +21,26 @@ import javafx.stage.Stage;
 public class LeaderboardView extends Application {
 
     public static TableView<LeaderboardEntry> leaderboardTable;
+    private static ObservableList<LeaderboardEntry> entries = FXCollections.observableArrayList();
 
     @Override
     public void start(Stage primaryStage) {
+        // Listen to human player money changes
+        HumanPlayer.getInstance().moneyProperty().addListener((obs, oldVal, newVal) -> updateLeaderboard());
+
+        // Add listeners for all bot players
+        AnitaMaxWynn.getInstance().moneyProperty().addListener((obs, oldVal, newVal) -> updateLeaderboard());
+        HondaBoyz.getInstance().moneyProperty().addListener((obs, oldVal, newVal) -> updateLeaderboard());
+        MrBrooks.getInstance().moneyProperty().addListener((obs, oldVal, newVal) -> updateLeaderboard());
+        ProfessorHuang.getInstance().moneyProperty().addListener((obs, oldVal, newVal) -> updateLeaderboard());
+        Chase.getInstance().moneyProperty().addListener((obs, oldVal, newVal) -> updateLeaderboard());
+
         showWindow(primaryStage);
+    }
+
+    private static void updateLeaderboard() {
+        FXCollections.sort(entries, (entry1, entry2) -> Integer.compare(entry2.getMoney().get(), entry1.getMoney().get()));
+        leaderboardTable.refresh();
     }
 
     public static void showWindow(Stage primaryStage) {
@@ -72,7 +89,7 @@ public class LeaderboardView extends Application {
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         nameColumn.setPrefWidth(150);
 
-        TableColumn<LeaderboardEntry, Integer> moneyColumn = new TableColumn<>("Money");
+        TableColumn<LeaderboardEntry, IntegerProperty> moneyColumn = new TableColumn<>("Money");
         moneyColumn.setCellValueFactory(new PropertyValueFactory<>("money"));
         moneyColumn.setPrefWidth(150);
 
@@ -86,23 +103,17 @@ public class LeaderboardView extends Application {
     }
 
     private static ObservableList<LeaderboardEntry> getSortedLeaderboardData() {
-        // Create observable list for leaderboard entries
-        ObservableList<LeaderboardEntry> entries = FXCollections.observableArrayList();
-
-        // Add bots to the leaderboard
-        entries.add(new LeaderboardEntry(AnitaMaxWynn.getInstance().getName(), AnitaMaxWynn.getInstance().getMoney()));
-        entries.add(new LeaderboardEntry(HondaBoyz.getInstance().getName(), HondaBoyz.getInstance().getMoney()));
-        entries.add(new LeaderboardEntry(MrBrooks.getInstance().getName(), MrBrooks.getInstance().getMoney()));
-        entries.add(new LeaderboardEntry(ProfessorHuang.getInstance().getName(), ProfessorHuang.getInstance().getMoney()));
-        entries.add(new LeaderboardEntry(Chase.getInstance().getName(), Chase.getInstance().getMoney()));
-
-        // Add HumanPlayer to the leaderboard
-        HumanPlayer humanPlayer = HumanPlayer.getInstance();
-        entries.add(new LeaderboardEntry(humanPlayer.getUsername(), humanPlayer.getMoney()));
-
-        // Sort leaderboard by money in descending order
-        FXCollections.sort(entries, (entry1, entry2) -> Integer.compare(entry2.getMoney(), entry1.getMoney()));
-
+        // Ensure that this method populates the list correctly and considers all players.
+        if (entries.isEmpty()) {
+            entries.addAll(
+                    new LeaderboardEntry(HumanPlayer.getInstance().getName(), HumanPlayer.getInstance().moneyProperty()),
+                    new LeaderboardEntry(AnitaMaxWynn.getInstance().getName(), AnitaMaxWynn.getInstance().moneyProperty()),
+                    new LeaderboardEntry(Chase.getInstance().getName(), Chase.getInstance().moneyProperty()),
+                    new LeaderboardEntry(HondaBoyz.getInstance().getName(), HondaBoyz.getInstance().moneyProperty()),
+                    new LeaderboardEntry(MrBrooks.getInstance().getName(), MrBrooks.getInstance().moneyProperty()),
+                    new LeaderboardEntry(ProfessorHuang.getInstance().getName(), ProfessorHuang.getInstance().moneyProperty())
+            );
+        }
         return entries;
     }
 
@@ -137,9 +148,9 @@ public class LeaderboardView extends Application {
     // Nested class for leaderboard entry
     public static class LeaderboardEntry {
         private final String name;
-        private final Integer money;
+        private final IntegerProperty money;
 
-        public LeaderboardEntry(String name, Integer money) {
+        public LeaderboardEntry(String name, IntegerProperty money) {
             this.name = name;
             this.money = money;
         }
@@ -148,7 +159,11 @@ public class LeaderboardView extends Application {
             return name;
         }
 
-        public Integer getMoney() {
+        public IntegerProperty getMoney() {
+            return money;
+        }
+
+        public IntegerProperty moneyProperty() {
             return money;
         }
     }

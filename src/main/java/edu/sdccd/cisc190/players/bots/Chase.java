@@ -1,20 +1,16 @@
 package edu.sdccd.cisc190.players.bots;
 
 public class Chase extends Bot {
-    private static Chase instance;
+
+    private static Chase instance = new Chase();
 
     private Chase() {
-        this.name = "Chase";
-        this.money = 100;
-        this.luck = 0.25;
-        this.aura = 0.1;
+        super("Chase Allan", 1000, 0.25, 0.1); // Initial money, luck, and aura values
     }
 
     public static Chase getInstance() {
-        if (instance == null) {
-            instance = new Chase();
-        }
         return instance;
     }
+
 
 }

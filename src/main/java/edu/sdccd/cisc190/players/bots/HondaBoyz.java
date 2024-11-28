@@ -1,21 +1,15 @@
 package edu.sdccd.cisc190.players.bots;
 
 public class HondaBoyz extends Bot {
-    private static HondaBoyz instance;
+    private static HondaBoyz instance = new HondaBoyz();
 
-    public HondaBoyz() {
-        this.name = "HondaBoyz";
-        this.money = 100;
-        this.aura = 1.0;
-        this.luck = 0.1;
+    private HondaBoyz() {
+        super("HondaBoyz", 1000, 1.0, 0.1); // Initial money, luck, and aura values
     }
 
     public static HondaBoyz getInstance() {
-
-        if (instance == null) {
-            instance = new HondaBoyz();
-        }
         return instance;
     }
+
 
 }

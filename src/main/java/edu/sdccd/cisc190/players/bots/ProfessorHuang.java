@@ -1,19 +1,14 @@
 package edu.sdccd.cisc190.players.bots;
 
 public class ProfessorHuang extends Bot {
-    private static ProfessorHuang instance;
+    private static ProfessorHuang instance = new ProfessorHuang();
 
-    public ProfessorHuang() {
-        this.name = "Professor Huang (The G.O.A.T)";
-        this.money = 100;
-        this.aura = 0.4;
-        this.luck = 0.8;
+    private ProfessorHuang() {
+        super("Professor Huang", 1000, 0.95, 0.6); // Initial money, luck, and aura values
     }
-    public static ProfessorHuang getInstance() {
 
-        if (instance == null) {
-            instance = new ProfessorHuang();
-        }
+    public static ProfessorHuang getInstance() {
         return instance;
     }
+
 }

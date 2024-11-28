@@ -54,7 +54,7 @@ public class MainMenu extends Application {
         // Add header and user info
         layout.getChildren().addAll(
                 createHeader(),
-                createUserInfo("Username: " + HumanPlayer.getInstance().getUsername(), Color.WHITE),
+                createUserInfo("Username: " + HumanPlayer.getInstance().getName(), Color.WHITE),
                 createUserInfo("Money: $" + HumanPlayer.getInstance().getMoney(), Color.WHITE)
         );
 
@@ -73,7 +73,7 @@ public class MainMenu extends Application {
     }
 
     private static Button createMotivationButton() {
-        Button motivationButton = createStyledButton("Motivation", "Get inspired to keep going!");
+        Button motivationButton = createSecondaryButton("Motivation", "Get inspired to keep going!");
 
         motivationButton.setOnAction(event -> {
             Random random = new Random();
@@ -213,7 +213,8 @@ public class MainMenu extends Application {
     }
 
     private static void setupScene(Stage primaryStage, VBox layout) {
-        Scene scene = new Scene(layout, 600, 600);
+        // Adjust the width and height as desired
+        Scene scene = new Scene(layout, 800, 800); // Changed from 600, 600 to 800, 800
         primaryStage.setScene(scene);
         primaryStage.show();
     }

@@ -1,21 +1,13 @@
 package edu.sdccd.cisc190.players.bots;
 
 public class AnitaMaxWynn extends Bot {
-    private static AnitaMaxWynn instance;
+    private static AnitaMaxWynn instance = new AnitaMaxWynn();
 
-    public AnitaMaxWynn() {
-        this.name = "AnitaMaxWynn";
-        this.money = 100;
-        this.aura = 0.9;
-        this.luck = 0.6;
+    private AnitaMaxWynn() {
+        super("Anita Max Wynn", 1000, 0.8, 0.3); // Initial money, luck, and aura values
     }
 
     public static AnitaMaxWynn getInstance() {
-
-        if (instance == null) {
-            instance = new AnitaMaxWynn();
-        }
         return instance;
     }
-
 }

@@ -1,23 +1,42 @@
 package edu.sdccd.cisc190.players.bots;
 
-import edu.sdccd.cisc190.players.HumanPlayer;
-
-import java.util.ArrayList;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 
 public abstract class Bot {
-    public String name;
-    public int money;
-    public double luck;
-    public double aura;
+    private String name;
+    private IntegerProperty money = new SimpleIntegerProperty();
+    private double luck;
+    private double aura;
+
+    public Bot(String name, int initialMoney, double luck, double aura) {
+        this.name = name;
+        this.money.set(initialMoney);
+        this.luck = luck;
+        this.aura = aura;
+    }
 
     public String getName() {
         return name;
     }
 
-    public Integer getMoney() {
-        return this.money;
+    public final int getMoney() {
+        return money.get();
     }
 
-    public void setMoney(Integer money) { this.money = money; }
+    public final void setMoney(int value) {
+        money.set(value);
+    }
 
+    public IntegerProperty moneyProperty() {
+        return money;
+    }
+
+    public double getLuck() {
+        return luck;
+    }
+
+    public double getAura() {
+        return aura;
+    }
 }

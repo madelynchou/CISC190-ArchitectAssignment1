@@ -54,15 +54,15 @@ abstract public class Slot {
     //create a bet amount for the bot using the bot's money, aura, and a randomly generated bet multiplier
     public static int botPlay(Bot bot) {
         double betVarianceMultiplier = 0.8 + (Math.random() * 0.4); // Random number between 0.8 and 1.2
-        int bet = (int) (bot.money * bot.aura * betVarianceMultiplier);
+        int bet = (int) (bot.getMoney() * bot.getAura() * betVarianceMultiplier);
 
         float randomNumber = (float) (Math.random());
 
         int resultAmt;
-        if (randomNumber <= bot.luck) {
-            resultAmt = bet + bot.money;
+        if (randomNumber <= bot.getLuck()) {
+            resultAmt = bet + bot.getMoney();
         } else {
-            resultAmt = bot.money - bet;
+            resultAmt = bot.getMoney() - bet;
         }
 
         return resultAmt;

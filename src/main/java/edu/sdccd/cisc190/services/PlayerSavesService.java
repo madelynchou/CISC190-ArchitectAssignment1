@@ -11,7 +11,7 @@ public class PlayerSavesService {
 
     public static void saveState() {
         HumanPlayer player = HumanPlayer.getInstance();
-        String data = "Username: " + player.getUsername() + ", Money: $" + player.getMoney();
+        String data = "Username: " + player.getName() + ", Money: $" + player.getMoney();
 
         try {
             // Delete the file if it exists

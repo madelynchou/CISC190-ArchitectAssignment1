@@ -1,12 +1,16 @@
 package edu.sdccd.cisc190.players;
 
 import edu.sdccd.cisc190.players.bots.Bot;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 
 public class HumanPlayer {
     private static HumanPlayer instance;
     private String username;
-    private Integer money;
+    private final IntegerProperty money = new SimpleIntegerProperty(this, "money", 1000);
+
     private HumanPlayer() {}
+
 
 
     public static HumanPlayer getInstance() {
@@ -19,21 +23,24 @@ public class HumanPlayer {
 
     // Getters and Setters for username and email
 
-    public String getUsername() {
-        return username;
-    }
 
     public void setUsername(String username) {
         this.username = username;
-        this.money = 200;
     }
 
-    public Integer getMoney() {
-        return this.money;
+    public final void setMoney(int value) {
+        money.set(value);
     }
 
-    public void setMoney(Integer money) {
-        this.money = money;
+    public final int getMoney() {
+        return money.get();
     }
 
+    public IntegerProperty moneyProperty() {
+        return money;
+    }
+
+    public String getName() {
+        return username;
+    }
 }

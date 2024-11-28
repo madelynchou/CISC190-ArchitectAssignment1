@@ -46,14 +46,22 @@ public class SetupView extends Application {
         primaryStage.setTitle("Casino Royale - Sign In");
 
         // Welcome label with casino-style font
-        Label nameLabel = new Label("Welcome to Casino Royale! What's your name?");
+        Label welcomeLabel = new Label("Welcome to Casino Royale!");
+        Label nameLabel = new Label("What's your name?");
         nameLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 16));
         nameLabel.setTextFill(Color.GOLD);
 
         // Text field with placeholder
         TextField nameField = new TextField();
         nameField.setPromptText("Enter Your Name");
-        nameField.setPrefWidth(250); // Wider for better UX
+        nameField.setPrefWidth(250);
+        welcomeLabel.setStyle(
+                "-fx-background-color: #333333; " +
+                        "-fx-text-fill: white; " +
+                        "-fx-prompt-text-fill: #aaaaaa; " +
+                        "-fx-background-radius: 10; " +
+                        "-fx-padding: 10px;"
+        );
         nameField.setStyle(
                 "-fx-background-color: #333333; " +
                         "-fx-text-fill: white; " +
@@ -61,6 +69,7 @@ public class SetupView extends Application {
                         "-fx-background-radius: 10; " +
                         "-fx-padding: 10px;"
         );
+
 
         // Submit button with casino-style hover effects
         Button submitButton = new Button("Enter the Casino");
@@ -99,7 +108,7 @@ public class SetupView extends Application {
 
         // Layout setup
         VBox layout = new VBox(20); // Spacing between components
-        layout.getChildren().addAll(nameLabel, nameField, submitButton);
+        layout.getChildren().addAll(welcomeLabel, nameLabel, nameField, submitButton);
         layout.setAlignment(Pos.CENTER);
         layout.setStyle(
                 "-fx-background-color: linear-gradient(to bottom, #000000, #660000);" + // Casino gradient
