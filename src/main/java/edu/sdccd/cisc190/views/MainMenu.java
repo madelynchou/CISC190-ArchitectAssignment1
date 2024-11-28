@@ -53,10 +53,10 @@ public class MainMenu extends Application {
         String hoverStyle = createButtonStyle("#cc0000", "#990000", "yellow");
 
         deleteButton.setStyle(defaultStyle);
-        deleteButton.setOnMouseEntered(e -> deleteButton.setStyle(hoverStyle));
-        deleteButton.setOnMouseExited(e -> deleteButton.setStyle(defaultStyle));
+        deleteButton.setOnMouseEntered(_ -> deleteButton.setStyle(hoverStyle));
+        deleteButton.setOnMouseExited(_ -> deleteButton.setStyle(defaultStyle));
 
-        deleteButton.setOnAction(e -> handleDeleteFile());
+        deleteButton.setOnAction(_ -> handleDeleteFile());
 
         return deleteButton;
     }
@@ -116,7 +116,7 @@ public class MainMenu extends Application {
 
         // Change style on hover
         button.setOnMouseEntered(e -> button.setStyle(hoverStyle));
-        button.setOnMouseExited(e -> button.setStyle(defaultStyle));
+        button.setOnMouseExited(_ -> button.setStyle(defaultStyle));
 
         return button;
     }
@@ -145,7 +145,7 @@ public class MainMenu extends Application {
     private static void addSlotOptionButtons(VBox layout, Stage primaryStage) {
         for (SlotOptions option : SlotOptions.values()) {
             Button slotButton = createStyledButton(option.getDisplayOption());
-            slotButton.setOnAction(e -> handleSlotOption(primaryStage, option));
+            slotButton.setOnAction(_ -> handleSlotOption(primaryStage, option));
             layout.getChildren().add(slotButton);
         }
     }
