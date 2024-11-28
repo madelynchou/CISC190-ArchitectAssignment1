@@ -1,5 +1,6 @@
 package edu.sdccd.cisc190.views;
 
+import edu.sdccd.cisc190.players.HumanPlayer;
 import edu.sdccd.cisc190.players.bots.*;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -18,7 +19,7 @@ import javafx.stage.Stage;
 
 public class LeaderboardView extends Application {
 
-    public static TableView<Bot> leaderboardTable;
+    public static TableView<LeaderboardEntry> leaderboardTable;
 
     @Override
     public void start(Stage primaryStage) {
@@ -62,16 +63,16 @@ public class LeaderboardView extends Application {
         return header;
     }
 
-    private static TableView<Bot> createLeaderboardTable() {
-        TableView<Bot> table = new TableView<>();
+    private static TableView<LeaderboardEntry> createLeaderboardTable() {
+        TableView<LeaderboardEntry> table = new TableView<>();
         table.setPrefHeight(300);
 
         // Define columns
-        TableColumn<Bot, String> nameColumn = new TableColumn<>("Name");
+        TableColumn<LeaderboardEntry, String> nameColumn = new TableColumn<>("Name");
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         nameColumn.setPrefWidth(150);
 
-        TableColumn<Bot, Integer> moneyColumn = new TableColumn<>("Money");
+        TableColumn<LeaderboardEntry, Integer> moneyColumn = new TableColumn<>("Money");
         moneyColumn.setCellValueFactory(new PropertyValueFactory<>("money"));
         moneyColumn.setPrefWidth(150);
 
@@ -79,24 +80,30 @@ public class LeaderboardView extends Application {
         table.getColumns().addAll(nameColumn, moneyColumn);
 
         // Populate and sort data
-        table.setItems(getSortedBotsData());
+        table.setItems(getSortedLeaderboardData());
 
         return table;
     }
 
-    private static ObservableList<Bot> getSortedBotsData() {
-        ObservableList<Bot> bots = FXCollections.observableArrayList(
-                AnitaMaxWynn.getInstance(),
-                HondaBoyz.getInstance(),
-                MrBrooks.getInstance(),
-                ProfessorHuang.getInstance(),
-                Chase.getInstance()
-        );
+    private static ObservableList<LeaderboardEntry> getSortedLeaderboardData() {
+        // Create observable list for leaderboard entries
+        ObservableList<LeaderboardEntry> entries = FXCollections.observableArrayList();
 
-        // Sort bots by money in descending order
-        FXCollections.sort(bots, (bot1, bot2) -> Integer.compare(bot2.getMoney(), bot1.getMoney()));
+        // Add bots to the leaderboard
+        entries.add(new LeaderboardEntry(AnitaMaxWynn.getInstance().getName(), AnitaMaxWynn.getInstance().getMoney()));
+        entries.add(new LeaderboardEntry(HondaBoyz.getInstance().getName(), HondaBoyz.getInstance().getMoney()));
+        entries.add(new LeaderboardEntry(MrBrooks.getInstance().getName(), MrBrooks.getInstance().getMoney()));
+        entries.add(new LeaderboardEntry(ProfessorHuang.getInstance().getName(), ProfessorHuang.getInstance().getMoney()));
+        entries.add(new LeaderboardEntry(Chase.getInstance().getName(), Chase.getInstance().getMoney()));
 
-        return bots;
+        // Add HumanPlayer to the leaderboard
+        HumanPlayer humanPlayer = HumanPlayer.getInstance();
+        entries.add(new LeaderboardEntry(humanPlayer.getUsername(), humanPlayer.getMoney()));
+
+        // Sort leaderboard by money in descending order
+        FXCollections.sort(entries, (entry1, entry2) -> Integer.compare(entry2.getMoney(), entry1.getMoney()));
+
+        return entries;
     }
 
     private static Button createStyledButton(String text) {
@@ -125,5 +132,24 @@ public class LeaderboardView extends Application {
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    // Nested class for leaderboard entry
+    public static class LeaderboardEntry {
+        private final String name;
+        private final Integer money;
+
+        public LeaderboardEntry(String name, Integer money) {
+            this.name = name;
+            this.money = money;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public Integer getMoney() {
+            return money;
+        }
     }
 }
