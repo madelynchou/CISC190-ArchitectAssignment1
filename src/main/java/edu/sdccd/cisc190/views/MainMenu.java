@@ -2,6 +2,7 @@ package edu.sdccd.cisc190.views;
 
 import edu.sdccd.cisc190.players.HumanPlayer;
 import edu.sdccd.cisc190.services.PlayerSavesService;
+import edu.sdccd.cisc190.services.SlotMachineManager;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -194,12 +195,23 @@ public class MainMenu extends Application {
     }
 
     private static void quitApplication(Stage primaryStage) {
+        // Stop all threads in SlotMachineManager
+        SlotMachineManager.stopAllThreads();
+
+        // Save the player's state
         PlayerSavesService.saveState();
+
+        // Close the application
         primaryStage.close();
+
+        // Show goodbye message
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Goodbye!");
         alert.setContentText("Come back soon! 99.9% of gamblers quit before hitting it big!");
         alert.showAndWait();
+
+        // Exit the program
+        System.exit(0);
     }
 
     public enum SlotOptions {
