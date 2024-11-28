@@ -4,10 +4,21 @@ import edu.sdccd.cisc190.players.bots.*;
 import java.util.*;
 
 abstract public class Slot {
-    public static String[] symbols; // Instance-specific symbols
-    public static int maxBet; // Instance-specific max bet
-    public static int minBet; // Instance-specific min bet
-    public static double returnAmt; // Instance-specific return multiplier
+    protected String[] symbols; // Instance-specific symbols
+    protected int maxBet; // Instance-specific max bet
+    protected int minBet; // Instance-specific min bet
+    protected double returnAmt; // Instance-specific return multiplier
+
+    public Slot(String[] symbols, int maxBet, int minBet, double returnAmt) {
+        this.symbols = symbols;
+        this.maxBet = maxBet;
+        this.minBet = minBet;
+        this.returnAmt = returnAmt;
+    }
+
+    public String[] getSymbols() {
+        return symbols;
+    }
 
     public int getMaxBet() {
         return maxBet;
@@ -17,10 +28,12 @@ abstract public class Slot {
         return minBet;
     }
 
-    public void initializeSymbols() {}
+    public double getReturnAmt() {
+        return returnAmt;
+    }
 
     //method to generate the symbols
-    public static String[] generateSpunSymbols() {
+    public String[] generateSpunSymbols() {
         Random rand = new Random();
         String[] spunSlots = new String[symbols.length];
 
@@ -31,7 +44,7 @@ abstract public class Slot {
     }
 
     //check if the displayed symbol is a full match, otherwise it has no match
-    public static int evaluateWinCondition(String[] arr) {
+    public int evaluateWinCondition(String[] arr) {
         if (arr[0].equals(arr[1]) && arr[1].equals(arr[2])) {
             return 3; // Full match
         } else {
@@ -40,7 +53,7 @@ abstract public class Slot {
     }
 
     //if the user gets a full match, they earn their bet times the return multiplier of their slot, else they lose their bet
-    public static int calculatePayout(int moneyAmount, String[] spunRow, int bet) {
+    public int calculatePayout(int moneyAmount, String[] spunRow, int bet) {
         int winningCondition = evaluateWinCondition(spunRow);
         return switch (winningCondition) {
             case 0 -> // No match
@@ -52,7 +65,7 @@ abstract public class Slot {
     }
 
     //create a bet amount for the bot using the bot's money, aura, and a randomly generated bet multiplier
-    public static int botPlay(Bot bot) {
+    public int botPlay(Bot bot) {
         double betVarianceMultiplier = 0.8 + (Math.random() * 0.4); // Random number between 0.8 and 1.2
         int bet = (int) (bot.money * bot.aura * betVarianceMultiplier);
 
