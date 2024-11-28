@@ -26,7 +26,7 @@ public class SlotMachineView extends Application {
     private static final Label slot2 = new Label("❓");
     private static final Label slot3 = new Label("❓");
     private static final Label won = new Label("Spin to see!");
-    private static final Label money = new Label("Balance: $" + HumanPlayer.getInstance().getMoney());
+    private static final Label money = new Label("Balance: $" + HumanPlayer.getInstance().getMoney().toString());
 
     static Button spinButton = createStyledButton("Spin");
     static Button changeBet = createStyledButton("Change Bet");
@@ -57,10 +57,10 @@ public class SlotMachineView extends Application {
             default -> slotMachine = new DiamondDash();
         }
 
-        System.out.println("Min Bet: " + Slot.minBet);
-        System.out.println("Min Bet: " + Slot.returnAmt);
-        System.out.println("Max Bet: " + Slot.maxBet);
-        System.out.println("Max Bet: " + Slot.symbols);
+        //System.out.println("Min Bet: " + Slot.minBet);
+        //System.out.println("Min Bet: " + Slot.returnAmt);
+        //System.out.println("Max Bet: " + Slot.maxBet);
+        //System.out.println("Max Bet: " + Slot.symbols);
 
 
         primaryStage.setTitle("Casino Royale - Slot Machine");
@@ -129,22 +129,21 @@ public class SlotMachineView extends Application {
             BetView.showWindow(primaryStage, machineSelect);
             System.out.println(slotMachine.getMinBet());
         } else {
-            slotMachine.initializeSymbols();
-            String[] symbols = Slot.generateSpunSymbols();
+            String[] symbols = slotMachine.generateSpunSymbols();
             slot1.setText(symbols[0]);
             slot2.setText(symbols[1]);
             slot3.setText(symbols[2]);
 
-            int isWinner = DiamondDash.evaluateWinCondition(symbols);
+            int isWinner = slotMachine.evaluateWinCondition(symbols);
+            int newBalance = slotMachine.calculatePayout(HumanPlayer.getInstance().getMoney(), symbols, betAmt);
             if (isWinner == 2 || isWinner == 3) {
                 won.setText("Wow, you won!");
-                HumanPlayer.getInstance().setMoney(Slot.calculatePayout(HumanPlayer.getInstance().getMoney(), symbols, betAmt));
             } else {
                 won.setText("You lost :(");
-                HumanPlayer.getInstance().setMoney(DiamondDash.calculatePayout(HumanPlayer.getInstance().getMoney(), symbols, betAmt));
             }
 
-            money.setText("Balance: $" + HumanPlayer.getInstance().getMoney());
+            HumanPlayer.getInstance().setMoney(newBalance);
+            money.setText("Balance: $" + HumanPlayer.getInstance().getMoney().toString());
 
             if (HumanPlayer.getInstance().getMoney() <= 0) {
                 showAlert("Game over", "You're out of money! Better luck next time.");
