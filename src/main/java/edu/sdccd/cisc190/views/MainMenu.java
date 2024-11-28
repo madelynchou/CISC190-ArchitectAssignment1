@@ -4,6 +4,7 @@ import edu.sdccd.cisc190.players.HumanPlayer;
 import edu.sdccd.cisc190.services.PlayerSavesService;
 import edu.sdccd.cisc190.services.SlotMachineManager;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -14,17 +15,21 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.scene.control.Tooltip;
 
 import java.util.Optional;
 
 public class MainMenu extends Application {
+    static Stage primaryStage;
 
     @Override
     public void start(Stage primaryStage) {
+        this.primaryStage = primaryStage;
         setupWindow(primaryStage);
     }
 
     static void setupWindow(Stage primaryStage) {
+        primaryStage = primaryStage;
         VBox layout = createMainLayout();
         primaryStage.setTitle("Casino Royale Menu");
 
@@ -47,26 +52,24 @@ public class MainMenu extends Application {
     }
 
     private static Button createDeleteButton() {
-        Button deleteButton = createSecondaryButton("Delete User File");
+        Button deleteButton = createSecondaryButton("Delete User File", "DON'T QUIT GAMBLING!!! 99.9% OF GAMBLERS QUIT FOR HITTING IT BIG!!!!!!");
 
         deleteButton.setOnAction(_ -> {
-            // Show confirmation alert
             Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
             confirmationAlert.setTitle("Confirm Deletion");
             confirmationAlert.setHeaderText("Are you sure?");
             confirmationAlert.setContentText("This will delete your user file. This action cannot be undone.");
 
-            // Wait for user response
             confirmationAlert.showAndWait().ifPresent(response -> {
                 if (response == ButtonType.OK) {
-                    // Confirmation received
                     Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
                     successAlert.setTitle("File Deletion");
                     successAlert.setHeaderText(null);
+                    PlayerSavesService.deleteState();
                     successAlert.setContentText("Your file has been successfully deleted! (Logic not implemented)");
                     successAlert.showAndWait();
+                    Platform.exit();
                 } else {
-                    // User canceled
                     Alert cancelAlert = new Alert(Alert.AlertType.INFORMATION);
                     cancelAlert.setTitle("File Deletion Canceled");
                     cancelAlert.setHeaderText(null);
@@ -78,6 +81,7 @@ public class MainMenu extends Application {
 
         return deleteButton;
     }
+
 
     private static void handleDeleteFile() {
         Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -117,7 +121,7 @@ public class MainMenu extends Application {
         return userInfo;
     }
 
-    private static Button createStyledButton(String text) {
+    private static Button createStyledButton(String text, String tooltipText) {
         Button button = new Button(text);
         button.setFont(Font.font("Arial", FontWeight.BOLD, 16));
 
@@ -128,10 +132,14 @@ public class MainMenu extends Application {
         button.setOnMouseEntered(e -> button.setStyle(hoverStyle));
         button.setOnMouseExited(_ -> button.setStyle(defaultStyle));
 
+        if (tooltipText != null) {
+            button.setTooltip(createTooltip(tooltipText));
+        }
+
         return button;
     }
 
-    private static Button createSecondaryButton(String text) {
+    private static Button createSecondaryButton(String text, String tooltipText) {
         Button button = new Button(text);
         button.setFont(Font.font("Arial", FontWeight.BOLD, 14));
 
@@ -142,9 +150,12 @@ public class MainMenu extends Application {
         button.setOnMouseEntered(e -> button.setStyle(hoverStyle));
         button.setOnMouseExited(_ -> button.setStyle(defaultStyle));
 
+        if (tooltipText != null) {
+            button.setTooltip(createTooltip(tooltipText));
+        }
+
         return button;
     }
-
     private static String createButtonStyle(String topColor, String bottomColor, String textColor) {
         return "-fx-background-color: linear-gradient(to bottom, " + topColor + ", " + bottomColor + ");" +
                 "-fx-text-fill: " + textColor + ";" +
@@ -172,11 +183,20 @@ public class MainMenu extends Application {
             SlotOptions option = options[i];
             Button slotButton;
 
-            // Use secondary style for last three buttons
-            if (i >= options.length - 2) {
-                slotButton = createSecondaryButton(option.getDisplayOption());
+            String tooltipText = switch (option) {
+                case DIAMOND_DASH -> "Play Diamond Dash for sparkling wins! Min Bet: 15, Max Bet: 1000, Return: 2x";
+                case HONDA_TRUNK -> "Spin the wheels with Honda Trunk. Min Bet: 5, Max Bet: 1000, Return: 1.5x";
+                case MEGA_MOOLAH -> "Massive jackpots in Mega Moolah! Min Bet: 10, Max Bet: 1000, Return: 3x";
+                case RAINBOW_RICHES -> "Discover treasures in Rainbow Riches. Min Bet: 25, Max Bet: 1000, Return: 5x";
+                case TREASURE_SPINS -> "Uncover hidden wealth with Treasure Spins. Min Bet: 50, Max Bet: 1000, Return: 10x";
+                case LEADERBOARD -> "View the current leaderboard standings.";
+                case QUIT -> "Return to the Matrix";
+            };
+
+            if (i >= options.length - 2) { // Use secondary style for last buttons
+                slotButton = createSecondaryButton(option.getDisplayOption(), tooltipText);
             } else {
-                slotButton = createStyledButton(option.getDisplayOption());
+                slotButton = createStyledButton(option.getDisplayOption(), tooltipText);
             }
 
             slotButton.setOnAction(_ -> handleSlotOption(primaryStage, option));
@@ -232,5 +252,12 @@ public class MainMenu extends Application {
         public String getDisplayOption() {
             return displayOption;
         }
+    }
+
+    private static Tooltip createTooltip(String text) {
+        Tooltip tooltip = new Tooltip(text);
+        tooltip.setFont(Font.font("Arial", FontWeight.NORMAL, 12));
+        tooltip.setStyle("-fx-background-color: #444; -fx-text-fill: white; -fx-padding: 5px;");
+        return tooltip;
     }
 }
