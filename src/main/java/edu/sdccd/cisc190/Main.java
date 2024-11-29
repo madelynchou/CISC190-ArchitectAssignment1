@@ -9,5 +9,4 @@ public class Main {
         SlotMachineManager.main();
         SetupView.launch(SetupView.class, args);
     }
-
 }
