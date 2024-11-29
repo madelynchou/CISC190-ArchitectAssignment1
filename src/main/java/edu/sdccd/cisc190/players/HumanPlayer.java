@@ -11,8 +11,6 @@ public class HumanPlayer {
 
     private HumanPlayer() {}
 
-
-
     public static HumanPlayer getInstance() {
 
         if (instance == null) {

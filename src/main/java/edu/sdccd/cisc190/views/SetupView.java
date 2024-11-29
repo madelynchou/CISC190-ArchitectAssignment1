@@ -99,7 +99,7 @@ public class SetupView extends Application {
             userName = nameField.getText();
             HumanPlayer tempPlayer = HumanPlayer.getInstance();
             tempPlayer.setUsername(userName);
-            tempPlayer.setMoney(100); // Default starting money if no file was loaded
+            tempPlayer.setMoney(1000); // Default starting money if no file was loaded
             primaryStage.close();
 
             Stage newWindow = new Stage();

@@ -1,5 +1,6 @@
 package edu.sdccd.cisc190.machines;
 
+import edu.sdccd.cisc190.players.HumanPlayer;
 import edu.sdccd.cisc190.players.bots.*;
 import java.util.*;
 
@@ -32,6 +33,11 @@ abstract public class Slot {
         return returnAmt;
     }
 
+    public boolean canBet(int betAmt) {
+        int playerMoney = HumanPlayer.getInstance().getMoney();
+        return betAmt <= playerMoney && betAmt >= this.getMinBet() && betAmt <= this.getMaxBet();
+    }
+
     //method to generate the symbols
     public String[] generateSpunSymbols() {
         Random rand = new Random();
@@ -44,25 +50,26 @@ abstract public class Slot {
     }
 
     //check if the displayed symbol is a full match, otherwise it has no match
-    public int evaluateWinCondition(String[] arr) {
+    public boolean evaluateWinCondition(String[] arr) {
         if (arr[0].equals(arr[1]) && arr[1].equals(arr[2])) {
-            return 3; // Full match
+            return true; // Full match
         } else {
-            return 0;
+            return false;
         }
     }
 
     //if the user gets a full match, they earn their bet times the return multiplier of their slot, else they lose their bet
     public int calculatePayout(int moneyAmount, String[] spunRow, int bet) {
-        int winningCondition = evaluateWinCondition(spunRow);
+        boolean winningCondition = evaluateWinCondition(spunRow);
         return switch (winningCondition) {
-            case 0 -> // No match
+            case true -> // No match
                     moneyAmount - bet;
-            case 3 -> // Three-symbol match
+            case false -> // Three-symbol match
                     (int) (moneyAmount + Math.floor(bet * returnAmt));
-            default -> moneyAmount;
         };
     }
+
+
 
     //create a bet amount for the bot using the bot's money, aura, and a randomly generated bet multiplier
     public int botPlay(Bot bot) {

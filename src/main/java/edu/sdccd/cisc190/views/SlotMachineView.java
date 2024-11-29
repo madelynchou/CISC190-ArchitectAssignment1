@@ -107,49 +107,35 @@ public class SlotMachineView extends Application {
     }
 
     private static void spin(int betAmt, Stage primaryStage) {
-        if (HumanPlayer.getInstance().getMoney() < betAmt) {
-            showAlert("You can't bet that much!", "You don't have that much money. Please try again with a lower bet.");
+        if (!slotMachine.canBet(betAmt)) {
+            showAlert("Invalid Bet", "Your bet is outside the allowed range or exceeds your balance.");
             primaryStage.close();
             BetView.showWindow(primaryStage, machineSelect);
-            System.out.println(slotMachine.getMaxBet());
-        } else if (betAmt > slotMachine.getMaxBet()) {
-            showAlert("You can't bet that much!", "You've exceeded the maximum betting limit for this machine. Please try again with a lower bet.");
-            primaryStage.close();
-            BetView.showWindow(primaryStage, machineSelect);
-            System.out.println(slotMachine.getMaxBet());
-        } else if (betAmt < slotMachine.getMinBet()) {
-            showAlert("You can't bet that much!", "You're below the minimum betting limit for this machine. Please try again with a higher bet.");
-            primaryStage.close();
-            BetView.showWindow(primaryStage, machineSelect);
-            System.out.println(slotMachine.getMinBet());
+            return;
+        }
+
+        String[] symbols = slotMachine.generateSpunSymbols();
+        slot1.setText(symbols[0]);
+        slot2.setText(symbols[1]);
+        slot3.setText(symbols[2]);
+
+        int newBalance = slotMachine.calculatePayout(HumanPlayer.getInstance().getMoney(), symbols, betAmt);
+        HumanPlayer.getInstance().setMoney(newBalance);
+
+        if (slotMachine.evaluateWinCondition(symbols)) {
+            won.setText("Wow, you won!");
         } else {
-            String[] symbols = slotMachine.generateSpunSymbols();
-            slot1.setText(symbols[0]);
-            slot2.setText(symbols[1]);
-            slot3.setText(symbols[2]);
+            won.setText("You lost :(");
+        }
 
-            int isWinner = slotMachine.evaluateWinCondition(symbols);
-            int newBalance = slotMachine.calculatePayout(HumanPlayer.getInstance().getMoney(), symbols, betAmt);
-            if (isWinner == 2 || isWinner == 3) {
-                won.setText("Wow, you won!");
-            } else {
-                won.setText("You lost :(");
-            }
+        money.setText("Balance: $" + HumanPlayer.getInstance().getMoney());
 
-            HumanPlayer.getInstance().setMoney(newBalance);
-            money.setText("Balance: $" + HumanPlayer.getInstance().getMoney());
-
-            if (HumanPlayer.getInstance().getMoney() <= 0) {
-                showAlert("Game over", "You're out of money! Better luck next time.");
-                // Delete the file if it exists
-                PlayerSavesService.deleteState();
-                primaryStage.close();
-            }
-
-
+        if (HumanPlayer.getInstance().getMoney() <= 0) {
+            showAlert("Game Over", "You're out of money! Better luck next time.");
+            PlayerSavesService.deleteState();
+            primaryStage.close();
         }
     }
-
     private static void showAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
