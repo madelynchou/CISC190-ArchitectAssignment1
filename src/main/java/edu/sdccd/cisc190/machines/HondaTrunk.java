@@ -5,7 +5,7 @@ public class HondaTrunk extends Slot {
         super(new String[]{"🚗", "🛻", "🚕"}, 1000, 1, 1.5);
     }
 
-    //honda trunk will have one match wins a tenth of full match
+    //honda trunk will have one match wins a quarter of full match
     @Override
     public int evaluateWinCondition(String[] arr) {
         if (arr[0].equals(arr[1]) && arr[1].equals(arr[2])) {
@@ -24,7 +24,7 @@ public class HondaTrunk extends Slot {
             case 0 -> // No match
                     moneyAmount - bet;
             case 2 ->
-                    (int) (moneyAmount + Math.floor(bet * returnAmt * 0.1));
+                    (int) (moneyAmount + Math.floor(bet * returnAmt * 0.25));
             case 3 -> // Three-symbol match
                     (int) (moneyAmount + Math.floor(bet * returnAmt));
             default -> moneyAmount;
