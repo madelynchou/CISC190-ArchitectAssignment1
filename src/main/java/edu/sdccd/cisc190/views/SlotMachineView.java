@@ -26,7 +26,7 @@ public class SlotMachineView extends Application {
     private static final Label slot2 = new Label("❓");
     private static final Label slot3 = new Label("❓");
     private static final Label won = new Label("Spin to see!");
-    private static final Label money = new Label("Balance: $" + HumanPlayer.getInstance().getMoney().toString());
+    private static final Label money = new Label("Balance: $" + HumanPlayer.getInstance().getMoney());
 
     static Button spinButton = createStyledButton("Spin");
     static Button changeBet = createStyledButton("Change Bet");
@@ -56,12 +56,6 @@ public class SlotMachineView extends Application {
             case RAINBOW_RICHES -> slotMachine = new RainbowRiches();
             default -> slotMachine = new DiamondDash();
         }
-
-        //System.out.println("Min Bet: " + Slot.minBet);
-        //System.out.println("Min Bet: " + Slot.returnAmt);
-        //System.out.println("Max Bet: " + Slot.maxBet);
-        //System.out.println("Max Bet: " + Slot.symbols);
-
 
         primaryStage.setTitle("Casino Royale - Slot Machine");
 
@@ -143,7 +137,7 @@ public class SlotMachineView extends Application {
             }
 
             HumanPlayer.getInstance().setMoney(newBalance);
-            money.setText("Balance: $" + HumanPlayer.getInstance().getMoney().toString());
+            money.setText("Balance: $" + HumanPlayer.getInstance().getMoney());
 
             if (HumanPlayer.getInstance().getMoney() <= 0) {
                 showAlert("Game over", "You're out of money! Better luck next time.");
