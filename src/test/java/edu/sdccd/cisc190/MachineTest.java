@@ -172,7 +172,7 @@ public class MachineTest {
         //mega moolah
         String[] partialMatchMM = {"\uD83D\uDCB0", "\uD83D\uDCB0", "\uD83E\uDD11"};
         int newMMMoney = megaMoolah.calculatePayout(initialMoney, partialMatchMM, bet);
-        assertEquals(90, newMMMoney);
+        assertEquals(85, newMMMoney);
 
         //rainbow riches
         String[] partialMatchRR = {"\uD83C\uDF08", "\uD83C\uDF08","\uD83C\uDF24"};
@@ -200,7 +200,7 @@ public class MachineTest {
         //mega moolah
         String[] noMatchMM = megaMoolah.getSymbols();
         int newMMMoney = megaMoolah.calculatePayout(initialMoney, noMatchMM, bet);
-        assertEquals(90, newMMMoney);
+        assertEquals(85, newMMMoney);
 
         //rainbow riches
         String[] noMatchRR = rainbowRiches.getSymbols();
