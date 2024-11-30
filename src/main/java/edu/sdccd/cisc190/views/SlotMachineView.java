@@ -22,6 +22,9 @@ import java.io.File;
 public class SlotMachineView extends Application {
 
     private static final Label betAmount = new Label();
+    private static final Label maxBet = new Label();
+    private static final Label minBet = new Label();
+    private static final Label returnAmount = new Label();
     private static final Label slot1 = new Label("❓");
     private static final Label slot2 = new Label("❓");
     private static final Label slot3 = new Label("❓");
@@ -64,12 +67,24 @@ public class SlotMachineView extends Application {
         betAmount.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         betAmount.setTextFill(Color.LIGHTGOLDENRODYELLOW);
 
+        maxBet.setText("Max. Bet: " + slotMachine.getMaxBet());
+        maxBet.setFont(Font.font("Arial", FontWeight.SEMI_BOLD, 15));
+        minBet.setText("Min. Bet: " + slotMachine.getMinBet());
+        minBet.setFont(Font.font("Arial", FontWeight.SEMI_BOLD, 15));
+        returnAmount.setText("Return: " + slotMachine.getReturnAmt());
+        returnAmount.setFont(Font.font("Arial", FontWeight.SEMI_BOLD, 15));
+        maxBet.setTextFill(Color.RED);
+        minBet.setTextFill(Color.RED);
+        returnAmount.setTextFill(Color.RED);
+
+
         slot1.setStyle("-fx-font-size: 60px;");
         slot2.setStyle("-fx-font-size: 60px;");
         slot3.setStyle("-fx-font-size: 60px;");
         slot1.setTextFill(Color.ORANGERED);
         slot2.setTextFill(Color.ORANGERED);
         slot3.setTextFill(Color.ORANGERED);
+
 
         won.setFont(Font.font("Arial", FontWeight.BOLD, 24));
         won.setTextFill(Color.GOLD);
@@ -88,12 +103,16 @@ public class SlotMachineView extends Application {
             MainMenu.setupWindow(primaryStage);
         });
 
+        // Slot information
+        HBox slotInformation = new HBox(10, maxBet, minBet, returnAmount);
+        slotInformation.setAlignment(Pos.CENTER);
+
         // Slots Display Row
         HBox slotsRow = new HBox(20, slot1, slot2, slot3);
         slotsRow.setAlignment(Pos.CENTER);
 
         // Main Layout
-        VBox layout = new VBox(20, betAmount, won, money, slotsRow, spinButton, changeBet, mainMenu);
+        VBox layout = new VBox(20, betAmount, won, money, slotInformation, slotsRow, spinButton, changeBet, mainMenu);
         layout.setAlignment(Pos.CENTER);
         layout.setStyle(
                 "-fx-background-color: linear-gradient(to bottom, #000000, #660000);" +

@@ -1,19 +1,26 @@
 package edu.sdccd.cisc190.views;
 
+import edu.sdccd.cisc190.machines.*;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
+import static edu.sdccd.cisc190.views.SlotMachineView.slotMachine;
+
 public class BetView extends Application {
     static int betAmt;
+    private static final Label maxBet = new Label();
+    private static final Label minBet = new Label();
+    private static final Label returnAmount = new Label();
 
     @Override
     public void start(Stage primaryStage) {
@@ -27,10 +34,31 @@ public class BetView extends Application {
     public static void showWindow(Stage primaryStage, MainMenu.SlotOptions selectedMachine) {
         primaryStage.setTitle("Casino Royale - Place Your Bet");
 
+        MainMenu.SlotOptions machineSelect = selectedMachine;
+        switch (selectedMachine) {
+            case DIAMOND_DASH -> slotMachine = new DiamondDash();
+            case HONDA_TRUNK -> slotMachine = new HondaTrunk();
+            case TREASURE_SPINS -> slotMachine = new TreasureSpins();
+            case MEGA_MOOLAH -> slotMachine = new MegaMoolah();
+            case RAINBOW_RICHES -> slotMachine = new RainbowRiches();
+            default -> slotMachine = new DiamondDash();
+        }
+
         // Styled label
         Label nameLabel = new Label("How much do you want to bet?");
         nameLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 18));
         nameLabel.setTextFill(Color.GOLD);
+
+        maxBet.setText("Max. Bet: " + slotMachine.getMaxBet());
+        maxBet.setFont(Font.font("Arial", FontWeight.SEMI_BOLD, 15));
+        minBet.setText("Min. Bet: " + slotMachine.getMinBet());
+        minBet.setFont(Font.font("Arial", FontWeight.SEMI_BOLD, 15));
+        returnAmount.setText("Return: " + slotMachine.getReturnAmt());
+        returnAmount.setFont(Font.font("Arial", FontWeight.SEMI_BOLD, 15));
+        maxBet.setTextFill(Color.RED);
+        minBet.setTextFill(Color.RED);
+        returnAmount.setTextFill(Color.RED);
+
 
         // Styled text field
         TextField numericTextField = new TextField();
@@ -64,14 +92,19 @@ public class BetView extends Application {
             }
         });
 
+        // Slot information
+        HBox slotInformation = new HBox(10, maxBet, minBet, returnAmount);
+        slotInformation.setAlignment(Pos.CENTER);
+
         // Layout setup
         VBox layout = new VBox(20); // Increased spacing for visual clarity
-        layout.getChildren().addAll(nameLabel, numericTextField, submitButton);
+        layout.getChildren().addAll(nameLabel, slotInformation,  numericTextField, submitButton);
         layout.setAlignment(Pos.CENTER);
         layout.setStyle(
                 "-fx-background-color: linear-gradient(to bottom, #000000, #660000);" +
                         "-fx-padding: 30px;"
         );
+
 
         // Scene setup
         Scene scene = new Scene(layout, 400, 300); // Smaller and compact
