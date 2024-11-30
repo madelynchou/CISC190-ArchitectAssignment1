@@ -79,6 +79,12 @@ public class BetView extends Application {
             }
         });
 
+        // Styled Main Menu button
+        Button mainMenu = createStyledButton("Main Menu");
+        mainMenu.setOnAction(e -> {
+            MainMenu.setupWindow(primaryStage);
+        });
+
         // Styled submit button
         Button submitButton = createStyledButton("Place Bet");
 
@@ -98,7 +104,7 @@ public class BetView extends Application {
 
         // Layout setup
         VBox layout = new VBox(20); // Increased spacing for visual clarity
-        layout.getChildren().addAll(nameLabel, slotInformation,  numericTextField, submitButton);
+        layout.getChildren().addAll(nameLabel, slotInformation, numericTextField, submitButton, mainMenu);
         layout.setAlignment(Pos.CENTER);
         layout.setStyle(
                 "-fx-background-color: linear-gradient(to bottom, #000000, #660000);" +
