@@ -5,7 +5,7 @@ public class DiamondDash extends Slot {
         super(new String[]{"💍", "💠", "💎"}, 1000, 15, 2);
     }
 
-    //the user will only lose have the bet they place
+    //the user will only lose half the bet they place
     @Override
     public int calculatePayout(int moneyAmount, String[] spunRow, int bet) {
         int winningCondition = evaluateWinCondition(spunRow);

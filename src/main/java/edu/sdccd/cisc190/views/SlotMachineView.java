@@ -122,7 +122,7 @@ public class SlotMachineView extends Application {
         int newBalance = slotMachine.calculatePayout(HumanPlayer.getInstance().getMoney(), symbols, betAmt);
         HumanPlayer.getInstance().setMoney(newBalance);
 
-        if (slotMachine.evaluateWinCondition(symbols)) {
+        if (slotMachine.evaluateWinCondition(symbols) >= 2) {
             won.setText("Wow, you won!");
         } else {
             won.setText("You lost :(");

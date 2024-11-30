@@ -5,7 +5,7 @@ public class HondaTrunk extends Slot {
         super(new String[]{"🚗", "🛻", "🚕"}, 1000, 1, 1.5);
     }
 
-    //honda trunk will have one match wins a quarter of full match
+    //honda trunk will have one match win
     @Override
     public int evaluateWinCondition(String[] arr) {
         if (arr[0].equals(arr[1]) && arr[1].equals(arr[2])) {
@@ -17,6 +17,7 @@ public class HondaTrunk extends Slot {
         }
     }
 
+    //honda trunk has a one match win that returns a quarter of a full match payout
     @Override
     public int calculatePayout(int moneyAmount, String[] spunRow, int bet) {
         int winningCondition = evaluateWinCondition(spunRow);

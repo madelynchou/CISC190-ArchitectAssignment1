@@ -32,7 +32,7 @@ abstract public class Slot {
         return minBet;
     }
 
-    // Returns the jackpox return amount for the slot machine
+    // Returns the jackpot's return amount for the slot machine
     public double getReturnAmt() {
         return returnAmt;
     }
@@ -62,15 +62,15 @@ abstract public class Slot {
     }
 
     /**
-     * Determines whether the user has won a jackpot by checking if all of the symbols in the array are the same
+     * Determines whether the user has won a jackpot by checking if all the symbols in the array are the same
      * @param arr Array of random symbols generated from the generateSpunSymbols() method
-     * @return Boolean of whether all of the symbols in the array are the same
+     * @return 3 if there is full match, 0 if there is no match
      * **/
-    public boolean evaluateWinCondition(String[] arr) {
+    public int evaluateWinCondition(String[] arr) {
         if (arr[0].equals(arr[1]) && arr[1].equals(arr[2])) {
-            return true; // Full match
+            return 3; // Full match
         } else {
-            return false;
+            return 0;
         }
     }
 
@@ -80,12 +80,13 @@ abstract public class Slot {
      * @param bet The amount of money the user has bet
      * **/
     public int calculatePayout(int moneyAmount, String[] spunRow, int bet) {
-        boolean winningCondition = evaluateWinCondition(spunRow);
+        int winningCondition = evaluateWinCondition(spunRow);
         return switch (winningCondition) {
-            case true -> // No match
+            case 0 -> // No match
                     moneyAmount - bet;
-            case false -> // Three-symbol match
+            case 3 -> // Three-symbol match
                     (int) (moneyAmount + Math.floor(bet * returnAmt));
+            default -> moneyAmount;
         };
     }
 
