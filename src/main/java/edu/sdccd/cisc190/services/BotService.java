@@ -8,38 +8,64 @@ import javafx.beans.property.SimpleBooleanProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * BotService class manages the behavior of a bot interacting with a slot machine.
+ * It includes functionality to pause, unpause and spin the bot on the slot machine
+ * */
 public class BotService implements Runnable {
     private static final Logger LOGGER = LoggerFactory.getLogger(BotService.class);
     private final Bot bot;           // The bot instance this service manages
     private Slot slotMachine;        // The slot machine the bot interacts with
     private volatile boolean spinFlag = false; // Flag to indicate the bot should spin
-
     private static final BooleanProperty pauseFlag = new SimpleBooleanProperty(false); // Flag to pause the bot
+    private static final Object lock = new Object(); // Shared static lock object
+
+    /**
+     * Constructor for BotService
+     * @param bot   The bot instance managed by this service
+     * @param slotMachine   The slot machine this bot interacts with
+     * */
     public BotService(Bot bot, Slot slotMachine) {
         this.bot = bot;
         this.slotMachine = slotMachine;
     }
 
+    /**
+    *  Returns the bot instance managed by this service
+     * @return The bot instance
+    */
     public Bot getBot() {
         return bot;
     }
 
-    // Set the flag to trigger a spin
+    /**
+     * Sets the spin flag to true, triggering a spin for the bot
+     * */
     public void triggerSpin() {
         spinFlag = true;
     }
 
+    /**
+     * Returns the static pause flag as a BooleanProperty
+     * This property can be used for binding UI elements or observing changes
+     * @return The pause flag as a BooleanProperty
+     * */
     public static BooleanProperty pauseFlagProperty() {
         return pauseFlag;
     }
 
-    // Change the slot machine this bot interacts with
+    /**
+     * Changes the slot machine this bot interacts with
+     * @param newSlotMachine The new slot machine to associate with this bot
+     * */
     public synchronized void setSlotMachine(Slot newSlotMachine) {
         this.slotMachine = newSlotMachine;
     }
 
-    private static final Object lock = new Object(); // Shared static lock object
-
+    /**
+     * Pauses all bots by setting the pause flag to true.
+     * Bots will wait until the pause flag is set to false.
+     * */
     public static void pause() {
         System.out.println("DEBUG: Bots paused");
         synchronized (lock) {
@@ -47,6 +73,10 @@ public class BotService implements Runnable {
         }
     }
 
+    /**
+     * Unpauses all bots by setting the pause flag to false.
+     * Notifies all threads waiting on the pause lock to resume execution.
+     * */
     public static void unpause() {
         System.out.println("DEBUG: Bots unpaused");
         synchronized (lock) {
@@ -55,6 +85,10 @@ public class BotService implements Runnable {
         }
     }
 
+    /**
+     * Runs the bot service in a separate thread.
+     * The bot performs spins on its slot machine when triggered, and respects the pause flag.
+     * */
     @Override
     public void run() {
         while (true) {
