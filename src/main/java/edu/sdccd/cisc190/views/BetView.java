@@ -31,10 +31,10 @@ public class BetView extends Application {
         launch(args);
     }
 
-    public static void showWindow(Stage primaryStage, MainMenu.SlotOptions selectedMachine) {
+    public static void showWindow(Stage primaryStage, MainMenuView.SlotOptions selectedMachine) {
         primaryStage.setTitle("Casino Royale - Place Your Bet");
 
-        MainMenu.SlotOptions machineSelect = selectedMachine;
+        MainMenuView.SlotOptions machineSelect = selectedMachine;
         switch (selectedMachine) {
             case DIAMOND_DASH -> slotMachine = new DiamondDash();
             case HONDA_TRUNK -> slotMachine = new HondaTrunk();
@@ -82,7 +82,7 @@ public class BetView extends Application {
         // Styled Main Menu button
         Button mainMenu = createStyledButton("Main Menu");
         mainMenu.setOnAction(e -> {
-            MainMenu.setupWindow(primaryStage);
+            MainMenuView.setupWindow(primaryStage);
         });
 
         // Styled submit button

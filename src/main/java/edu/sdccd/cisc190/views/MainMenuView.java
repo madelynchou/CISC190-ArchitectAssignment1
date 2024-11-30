@@ -1,10 +1,13 @@
 package edu.sdccd.cisc190.views;
 
 import edu.sdccd.cisc190.players.HumanPlayer;
+import edu.sdccd.cisc190.players.bots.Bot;
+import edu.sdccd.cisc190.services.BotService;
 import edu.sdccd.cisc190.services.PlayerSavesService;
 import edu.sdccd.cisc190.services.SlotMachineManager;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.beans.binding.StringBinding;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -25,7 +28,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Random;
 
-public class MainMenu extends Application {
+public class MainMenuView extends Application {
     private static final ArrayList<String> MOTIVATIONAL_URLS = new ArrayList<>() {{
         add("https://www.instagram.com/reel/C_JDcZVya_1/?igsh=NTc4MTIwNjQ2YQ=="); // Add your own motivational URLs
         add("https://www.instagram.com/reel/DAZR6WlSsVk/?igsh=NTc4MTIwNjQ2YQ==");
@@ -64,6 +67,9 @@ public class MainMenu extends Application {
         Button motivationButton = createMotivationButton();
         layout.getChildren().add(motivationButton);
 
+        Button pauseButton = createPauseButton();
+        layout.getChildren().add(pauseButton);
+
         // Add Delete File button
         Button deleteFileButton = createDeleteButton();
         layout.getChildren().add(deleteFileButton);
@@ -91,6 +97,39 @@ public class MainMenu extends Application {
         return motivationButton;
     }
 
+
+    private static Button createPauseButton() {
+        Button pauseButton = createSecondaryButton("Pause", "Stop all of the bots from playing");
+
+        // Create a binding to dynamically set the button text
+        StringBinding pauseButtonTextBinding = new StringBinding() {
+            {
+                super.bind(BotService.pauseFlagProperty());
+            }
+
+            @Override
+            protected String computeValue() {
+                return BotService.pauseFlagProperty().get() ? "Unpause" : "Pause";
+            }
+        };
+
+        // Bind the button's text property to the binding
+        pauseButton.textProperty().bind(pauseButtonTextBinding);
+
+        pauseButton.setTooltip(createTooltip("Pause all of the bots from playing"));
+
+        pauseButton.setOnAction(event -> {
+            if (BotService.pauseFlagProperty().get()) {
+                BotService.unpause();
+                showMessage("Bots have been unpaused and are now spinning");
+            } else {
+                BotService.pause();
+                showMessage("All bots have been paused");
+            }
+        });
+
+        return pauseButton;
+    }
     private static Button createDeleteButton() {
         Button deleteButton = createSecondaryButton("Delete User File", "DON'T QUIT GAMBLING!!! 99.9% OF GAMBLERS QUIT FOR HITTING IT BIG!!!!!!");
 

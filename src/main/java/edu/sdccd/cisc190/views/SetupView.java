@@ -14,11 +14,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-
 public class SetupView extends Application {
     // TODO store pointer to Player and pass in instance of player when SetupView is constructed
     static String userName;
@@ -34,7 +29,7 @@ public class SetupView extends Application {
         if (playerSavesService.loadState()) {
             // Proceed directly to the MainMenu if data was loaded
             Stage mainMenuStage = new Stage();
-            MainMenu.setupWindow(mainMenuStage);
+            MainMenuView.setupWindow(mainMenuStage);
             primaryStage.close();
         } else {
             // Show sign-in window if no data was loaded
@@ -103,7 +98,7 @@ public class SetupView extends Application {
             primaryStage.close();
 
             Stage newWindow = new Stage();
-            MainMenu.setupWindow(newWindow);
+            MainMenuView.setupWindow(newWindow);
         });
 
         // Layout setup

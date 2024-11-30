@@ -56,7 +56,7 @@ public class LeaderboardView extends Application {
 
         // Create and style the main menu button
         Button mainMenu = createStyledButton("Main Menu");
-        mainMenu.setOnAction(event -> MainMenu.setupWindow(primaryStage));
+        mainMenu.setOnAction(event -> MainMenuView.setupWindow(primaryStage));
         layout.getChildren().add(mainMenu);
 
         // Setup and display the scene

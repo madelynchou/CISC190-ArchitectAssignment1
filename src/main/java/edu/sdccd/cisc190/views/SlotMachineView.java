@@ -17,8 +17,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
-import java.io.File;
-
 public class SlotMachineView extends Application {
 
     private static final Label betAmount = new Label();
@@ -35,20 +33,20 @@ public class SlotMachineView extends Application {
     static Button changeBet = createStyledButton("Change Bet");
     static Button mainMenu = createStyledButton("Return to Main Menu");
 
-    static MainMenu.SlotOptions machineSelect;
+    static MainMenuView.SlotOptions machineSelect;
     static Slot slotMachine;
     static PlayerSavesService playerSavesService;
 
     @Override
     public void start(Stage primaryStage) {
-        showWindow(primaryStage, 0, MainMenu.SlotOptions.DIAMOND_DASH);
+        showWindow(primaryStage, 0, MainMenuView.SlotOptions.DIAMOND_DASH);
     }
 
     public static void main(String[] args) {
         launch(args);
     }
 
-    public static void showWindow(Stage primaryStage, int betAmt, MainMenu.SlotOptions selectedMachine) {
+    public static void showWindow(Stage primaryStage, int betAmt, MainMenuView.SlotOptions selectedMachine) {
 
         machineSelect = selectedMachine;
         switch (selectedMachine) {
@@ -100,7 +98,7 @@ public class SlotMachineView extends Application {
         });
         mainMenu.setOnAction(e -> {
             primaryStage.close();
-            MainMenu.setupWindow(primaryStage);
+            MainMenuView.setupWindow(primaryStage);
         });
 
         // Slot information
