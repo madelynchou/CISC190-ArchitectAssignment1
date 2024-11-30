@@ -8,8 +8,14 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Manages slot machines and bots interacting with them.
+ * Handles the creation, assignment, rotation and control of bot threads interacting with different slot machines
+ * */
 public class SlotMachineManager {
     private static final Logger LOGGER = LoggerFactory.getLogger(SlotMachineManager.class);
+
+    // Instances of slot machines
     static DiamondDash diamondDash = new DiamondDash();
     static HondaTrunk hondaTrunk = new HondaTrunk();
     static MegaMoolah megaMoolah = new MegaMoolah();
@@ -17,10 +23,16 @@ public class SlotMachineManager {
     static TreasureSpins treasureSpins = new TreasureSpins();
 
     // Flag to signal stopping all threads
+
+    // Lists to manage bot threads and services
     private static volatile boolean stopRequested = false;
     static List<Thread> botThreads = new ArrayList<>();
     static List<BotService> botServices = new ArrayList<>();
 
+    /**
+     * Main method to initialize and manage bot services and slot machines
+     * Assigns bots to slot machines, starts their threads, and manages periodic tasks
+     * */
     public static void main() {
         LOGGER.info("Initializing SlotMachineManager");
 
@@ -83,7 +95,11 @@ public class SlotMachineManager {
         botThreads.add(rotationThread);
     }
 
-    // Rotate slot machines for all bots
+    /**
+     * Rotates the slot machines assigned to bots.
+     * Each bot is moved to the next slot machine in the list.
+     * @param slotMachines The list of available slot machines
+     * */
     private static void rotateSlotMachines(List<Slot> slotMachines) {
         for (int i = 0; i < botServices.size(); i++) {
             BotService botService = botServices.get(i);
@@ -93,7 +109,10 @@ public class SlotMachineManager {
         }
     }
 
-    // Method to stop all threads
+    /**
+     * Stops all threads managed by this class.
+     * Signals threads to stop and interrupts them to end execution 
+     * */
     public static void stopAllThreads() {
         stopRequested = true;
 
