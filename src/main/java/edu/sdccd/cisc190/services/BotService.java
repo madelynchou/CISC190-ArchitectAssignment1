@@ -39,6 +39,15 @@ public class BotService implements Runnable {
     }
 
     /**
+     * Returns the slot machine instance managed by this service
+     * @return the slot machine instance
+     */
+
+    public Slot getSlotMachine() {
+        return slotMachine;
+    }
+
+    /**
      * Sets the spin flag to true, triggering a spin for the bot
      * */
     public void triggerSpin() {

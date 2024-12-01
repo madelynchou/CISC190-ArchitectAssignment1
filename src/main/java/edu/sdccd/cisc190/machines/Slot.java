@@ -38,7 +38,7 @@ abstract public class Slot {
     }
 
     /**
-    * Determines whether the user is able to bet an specific amount given their current balance and machine parameters
+    * Determines whether the user is able to bet a specific amount given their current balance and machine parameters
     * @param betAmt How much the user is attempting to bet
     * @return If the user's bet is within the bounds of their current balance and the minimum and maximum bet of the machine
     **/
