@@ -1,10 +1,8 @@
 package edu.sdccd.cisc190.views;
 
 import edu.sdccd.cisc190.players.HumanPlayer;
-import edu.sdccd.cisc190.players.bots.Bot;
 import edu.sdccd.cisc190.services.BotService;
 import edu.sdccd.cisc190.services.PlayerSavesService;
-import edu.sdccd.cisc190.services.SlotMachineManager;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.binding.StringBinding;
@@ -45,20 +43,19 @@ public class MainMenuView extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        this.primaryStage = primaryStage;
+        MainMenuView.primaryStage = primaryStage;
         setupWindow(primaryStage);
     }
 
     static void setupWindow(Stage primaryStage) {
-        primaryStage = primaryStage;
         VBox layout = createMainLayout();
         primaryStage.setTitle("Casino Royale Menu");
 
         // Add header and user info
         layout.getChildren().addAll(
                 createHeader(),
-                createUserInfo("Username: " + HumanPlayer.getInstance().getName(), Color.WHITE),
-                createUserInfo("Money: $" + HumanPlayer.getInstance().getMoney(), Color.WHITE)
+                createUserInfo("Username: %s".formatted(HumanPlayer.getInstance().getName())),
+                createUserInfo("Money: $%d".formatted(HumanPlayer.getInstance().getMoney()))
         );
 
         // Add slot option buttons
@@ -81,7 +78,7 @@ public class MainMenuView extends Application {
     private static Button createMotivationButton() {
         Button motivationButton = createSecondaryButton("Motivation", "Get inspired to keep going!");
 
-        motivationButton.setOnAction(event -> {
+        motivationButton.setOnAction(_ -> {
             Random random = new Random();
             int randomIndex = random.nextInt(MOTIVATIONAL_URLS.size());
             String selectedUrl = MOTIVATIONAL_URLS.get(randomIndex);
@@ -118,7 +115,7 @@ public class MainMenuView extends Application {
 
         pauseButton.setTooltip(createTooltip("Pause all of the bots from playing"));
 
-        pauseButton.setOnAction(event -> {
+        pauseButton.setOnAction(_ -> {
             if (BotService.pauseFlagProperty().get()) {
                 BotService.unpause();
                 showMessage("Bots have been unpaused and are now spinning");
@@ -194,10 +191,10 @@ public class MainMenuView extends Application {
         return header;
     }
 
-    private static Text createUserInfo(String text, Color color) {
+    private static Text createUserInfo(String text) {
         Text userInfo = new Text(text);
         userInfo.setFont(Font.font("Arial", FontWeight.SEMI_BOLD, 18));
-        userInfo.setFill(color);
+        userInfo.setFill(Color.WHITE);
         return userInfo;
     }
 
@@ -209,7 +206,7 @@ public class MainMenuView extends Application {
         String hoverStyle = createButtonStyle("#784800", "#943b00", "white");
 
         button.setStyle(defaultStyle);
-        button.setOnMouseEntered(e -> button.setStyle(hoverStyle));
+        button.setOnMouseEntered(_ -> button.setStyle(hoverStyle));
         button.setOnMouseExited(_ -> button.setStyle(defaultStyle));
 
         if (tooltipText != null) {
@@ -227,7 +224,7 @@ public class MainMenuView extends Application {
         String hoverStyle = createButtonStyle("#aaaaaa", "#666666", "white");
 
         button.setStyle(defaultStyle);
-        button.setOnMouseEntered(e -> button.setStyle(hoverStyle));
+        button.setOnMouseEntered(_ -> button.setStyle(hoverStyle));
         button.setOnMouseExited(_ -> button.setStyle(defaultStyle));
 
         if (tooltipText != null) {
@@ -237,10 +234,7 @@ public class MainMenuView extends Application {
         return button;
     }
     private static String createButtonStyle(String topColor, String bottomColor, String textColor) {
-        return "-fx-background-color: linear-gradient(to bottom, " + topColor + ", " + bottomColor + ");" +
-                "-fx-text-fill: " + textColor + ";" +
-                "-fx-background-radius: 10;" +
-                "-fx-padding: 10px 20px;";
+        return "-fx-background-color: linear-gradient(to bottom, %s, %s);-fx-text-fill: %s;-fx-background-radius: 10;-fx-padding: 10px 20px;".formatted(topColor, bottomColor, textColor);
     }
 
     private static void showMessage(String message) {

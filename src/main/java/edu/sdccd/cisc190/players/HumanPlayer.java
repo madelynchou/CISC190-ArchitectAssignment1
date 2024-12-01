@@ -1,6 +1,5 @@
 package edu.sdccd.cisc190.players;
 
-import edu.sdccd.cisc190.players.bots.Bot;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 

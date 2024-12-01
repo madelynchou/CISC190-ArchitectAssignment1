@@ -27,7 +27,7 @@ public class SlotMachineView extends Application {
     private static final Label slot2 = new Label("❓");
     private static final Label slot3 = new Label("❓");
     private static final Label won = new Label("Spin to see!");
-    private static final Label money = new Label("Balance: $" + HumanPlayer.getInstance().getMoney());
+    private static final Label money = new Label("Balance: $%d".formatted(HumanPlayer.getInstance().getMoney()));
 
     static Button spinButton = createStyledButton("Spin");
     static Button changeBet = createStyledButton("Change Bet");
@@ -35,7 +35,6 @@ public class SlotMachineView extends Application {
 
     static MainMenuView.SlotOptions machineSelect;
     static Slot slotMachine;
-    static PlayerSavesService playerSavesService;
 
     @Override
     public void start(Stage primaryStage) {
@@ -50,7 +49,6 @@ public class SlotMachineView extends Application {
 
         machineSelect = selectedMachine;
         switch (selectedMachine) {
-            case DIAMOND_DASH -> slotMachine = new DiamondDash();
             case HONDA_TRUNK -> slotMachine = new HondaTrunk();
             case TREASURE_SPINS -> slotMachine = new TreasureSpins();
             case MEGA_MOOLAH -> slotMachine = new MegaMoolah();
@@ -61,15 +59,15 @@ public class SlotMachineView extends Application {
         primaryStage.setTitle("Casino Royale - Slot Machine");
 
         // Styled Labels
-        betAmount.setText("You're betting: $" + betAmt);
+        betAmount.setText("You're betting: $%d".formatted(betAmt));
         betAmount.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         betAmount.setTextFill(Color.LIGHTGOLDENRODYELLOW);
 
-        maxBet.setText("Max. Bet: " + slotMachine.getMaxBet());
+        maxBet.setText("Max. Bet: %d".formatted(slotMachine.getMaxBet()));
         maxBet.setFont(Font.font("Arial", FontWeight.SEMI_BOLD, 15));
-        minBet.setText("Min. Bet: " + slotMachine.getMinBet());
+        minBet.setText("Min. Bet: %d".formatted(slotMachine.getMinBet()));
         minBet.setFont(Font.font("Arial", FontWeight.SEMI_BOLD, 15));
-        returnAmount.setText("Return: " + slotMachine.getReturnAmt());
+        returnAmount.setText("Return: %s".formatted(slotMachine.getReturnAmt()));
         returnAmount.setFont(Font.font("Arial", FontWeight.SEMI_BOLD, 15));
         maxBet.setTextFill(Color.RED);
         minBet.setTextFill(Color.RED);
@@ -91,12 +89,12 @@ public class SlotMachineView extends Application {
         money.setTextFill(Color.LIGHTGREEN);
 
         // Button Actions
-        spinButton.setOnAction(e -> spin(betAmt, primaryStage));
-        changeBet.setOnAction(e -> {
+        spinButton.setOnAction(_ -> spin(betAmt, primaryStage));
+        changeBet.setOnAction(_ -> {
             primaryStage.close();
             BetView.showWindow(primaryStage, machineSelect);
         });
-        mainMenu.setOnAction(e -> {
+        mainMenu.setOnAction(_ -> {
             primaryStage.close();
             MainMenuView.setupWindow(primaryStage);
         });
@@ -145,7 +143,7 @@ public class SlotMachineView extends Application {
             won.setText("You lost :(");
         }
 
-        money.setText("Balance: $" + HumanPlayer.getInstance().getMoney());
+        money.setText("Balance: $%d".formatted(HumanPlayer.getInstance().getMoney()));
 
         if (HumanPlayer.getInstance().getMoney() <= 0) {
             showAlert("Game Over", "You're out of money! Better luck next time.");
@@ -171,13 +169,13 @@ public class SlotMachineView extends Application {
                         "-fx-padding: 10px 20px;"
         );
 
-        button.setOnMouseEntered(e -> button.setStyle(
+        button.setOnMouseEntered(_ -> button.setStyle(
                 "-fx-background-color: linear-gradient(to bottom, #ff9900, #ff6600);" +
                         "-fx-text-fill: white;" +
                         "-fx-background-radius: 10;" +
                         "-fx-padding: 10px 20px;"
         ));
-        button.setOnMouseExited(e -> button.setStyle(
+        button.setOnMouseExited(_ -> button.setStyle(
                 "-fx-background-color: linear-gradient(to bottom, #ffcc00, #ff9900);" +
                         "-fx-text-fill: black;" +
                         "-fx-background-radius: 10;" +

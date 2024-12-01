@@ -14,16 +14,15 @@ public class PlayerSavesService {
     * */
     public static void saveState() {
         HumanPlayer player = HumanPlayer.getInstance();
-        String data = "Username: " + player.getName() + ", Money: $" + player.getMoney();
+        String data = String.format("Username: %s, Money: $%d", player.getName(), player.getMoney());
 
+        File file = new File("player_data.txt");
         try {
             // Delete the file if it exists
-            File file = new File("player_data.txt");
-            if (file.exists()) {
-                if (!file.delete()) {
-                    LOGGER.error("Failed to delete existing player_data.txt file.");
-                    return;
-                }
+            if (file.exists() && !file.delete()) {
+                LOGGER.error("Failed to delete existing player_data.txt file.");
+                return;
+
             }
 
             // Write new data to the file
@@ -56,8 +55,10 @@ public class PlayerSavesService {
 
                         return true; // Data successfully loaded
                     }
-                } catch (IOException | NumberFormatException e) {
+                } catch (IOException e) {
                     LOGGER.error("Error reading player data", e);
+                } catch (NumberFormatException e) {
+                    LOGGER.error("Error parsing player money value.", e);
                 }
             }
             return false; // File does not exist or data could not be loaded
@@ -68,10 +69,8 @@ public class PlayerSavesService {
     * */
     public static void deleteState() {
         File file = new File("player_data.txt");
-        if (file.exists()) {
-            if (!file.delete()) {
-                LOGGER.error("Failed to delete existing player_data.txt file.");
-            }
+        if (file.exists() && !file.delete()) {
+            LOGGER.error("Failed to delete player_data.txt file.");
         }
     }
 }
