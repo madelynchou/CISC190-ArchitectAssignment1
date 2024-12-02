@@ -41,26 +41,32 @@ public class PlayerSavesService {
     * Loads user data from player_data.txt file if available on game open
     * */
     public static boolean loadState() {
-            File file = new File("player_data.txt");
-            if (file.exists()) {
-                try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-                    String line = reader.readLine();
-                    if (line != null) {
-                        String[] data = line.split(", ");
-                        String username = data[0].split(": ")[1];
-                        int money = Integer.parseInt(data[1].split(": ")[1].replace("$", ""));
-
-                        HumanPlayer player = HumanPlayer.getInstance();
-                        player.setUsername(username);
-                        player.setMoney(money);
-
-                        return true; // Data successfully loaded
+        File file = new File("player_data.txt");
+        if (file.exists()) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+                String line = reader.readLine();
+                if (line != null) {
+                    // Split data and validate structure
+                    String[] data = line.split(", ");
+                    if (data.length != 2 || !data[0].startsWith("Username:") || !data[1].startsWith("Money:")) {
+                        LOGGER.error("Invalid data format in player_data.txt: " + line);
+                        return false; // Invalid data format
                     }
-                } catch (IOException | NumberFormatException e) {
-                    LOGGER.error("Error reading player data", e);
+
+                    String username = data[0].split(": ")[1];
+                    int money = Integer.parseInt(data[1].split(": ")[1].replace("$", ""));
+
+                    HumanPlayer player = HumanPlayer.getInstance();
+                    player.setUsername(username);
+                    player.setMoney(money);
+
+                    return true; // Data successfully loaded
                 }
+            } catch (IOException | NumberFormatException | ArrayIndexOutOfBoundsException e) {
+                LOGGER.error("Error reading player data", e);
             }
-            return false; // File does not exist or data could not be loaded
+        }
+        return false; // File does not exist or data could not be loaded
     }
 
     /*

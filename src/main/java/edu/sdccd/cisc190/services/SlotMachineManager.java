@@ -111,7 +111,7 @@ public class SlotMachineManager {
 
     /**
      * Stops all threads managed by this class.
-     * Signals threads to stop and interrupts them to end execution 
+     * Signals threads to stop and interrupts them to end execution
      * */
     public static void stopAllThreads() {
         stopRequested = true;

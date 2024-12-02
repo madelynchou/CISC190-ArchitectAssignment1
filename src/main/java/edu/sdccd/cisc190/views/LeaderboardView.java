@@ -18,17 +18,24 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+/**
+ * LeaderboardView is a JavaFX application that displays a leaderboard
+ * showing the names and money amounts of players (both human and bot).
+ * It dynamically updates when players' money values change.
+ * */
 public class LeaderboardView extends Application {
 
-    public static TableView<LeaderboardEntry> leaderboardTable;
-    private static ObservableList<LeaderboardEntry> entries = FXCollections.observableArrayList();
+    public static TableView<LeaderboardEntry> leaderboardTable; // TableView to display the leaderboard entries
+    private static ObservableList<LeaderboardEntry> entries = FXCollections.observableArrayList(); // Observable list to hold and manage leaderboard entries
 
+    /**
+     * Initalizes and starts the JavaFX application
+     * @param primaryStage the primary stage for this application
+     * */
     @Override
     public void start(Stage primaryStage) {
-        // Listen to human player money changes
+        // Set up listeners for money property changes to update the leaderboard.
         HumanPlayer.getInstance().moneyProperty().addListener((obs, oldVal, newVal) -> updateLeaderboard());
-
-        // Add listeners for all bot players
         AnitaMaxWynn.getInstance().moneyProperty().addListener((obs, oldVal, newVal) -> updateLeaderboard());
         HondaBoyz.getInstance().moneyProperty().addListener((obs, oldVal, newVal) -> updateLeaderboard());
         MrBrooks.getInstance().moneyProperty().addListener((obs, oldVal, newVal) -> updateLeaderboard());
@@ -38,11 +45,18 @@ public class LeaderboardView extends Application {
         showWindow(primaryStage);
     }
 
+    /**
+     * Updates and sorts the leaderboard based on players' money values.
+     * */
     private static void updateLeaderboard() {
         FXCollections.sort(entries, (entry1, entry2) -> Integer.compare(entry2.getMoney().get(), entry1.getMoney().get()));
         leaderboardTable.refresh();
     }
 
+    /**
+     * Displays the leaderboard window.
+     * @param primaryStage the primary stage to display the leaderboard.
+     * */
     public static void showWindow(Stage primaryStage) {
         VBox layout = createMainLayout();
         primaryStage.setTitle("Leaderboard");

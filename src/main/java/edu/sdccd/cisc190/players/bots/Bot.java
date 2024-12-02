@@ -20,11 +20,11 @@ public abstract class Bot {
         return name;
     }
 
-    public final int getMoney() {
+    public int getMoney() {
         return money.get();
     }
 
-    public final void setMoney(int value) {
+    public void setMoney(int value) {
         money.set(value);
     }
 
