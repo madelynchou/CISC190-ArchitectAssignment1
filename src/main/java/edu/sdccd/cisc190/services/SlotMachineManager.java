@@ -29,6 +29,10 @@ public class SlotMachineManager {
     static List<Thread> botThreads = new ArrayList<>();
     static List<BotService> botServices = new ArrayList<>();
 
+    public static boolean getStopRequested() {
+        return stopRequested;
+    }
+
     /**
      * Main method to initialize and manage bot services and slot machines
      * Assigns bots to slot machines, starts their threads, and manages periodic tasks
@@ -71,6 +75,7 @@ public class SlotMachineManager {
                         botService.triggerSpin();
                     }
                 } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
                     LOGGER.info("Thread has been interrupted", e);
                 }
             });
@@ -87,6 +92,7 @@ public class SlotMachineManager {
                     rotateSlotMachines(slotMachines);
                 }
             } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
                 LOGGER.info("Thread has been interrupted", e);
             }
         });
@@ -118,9 +124,22 @@ public class SlotMachineManager {
 
         // Interrupt all bot threads
         for (Thread botThread : botThreads) {
-            botThread.interrupt();
+            if (botThread.isAlive()) {
+                try {
+                    botThread.interrupt();
+                    botThread.join(1000);
+                } catch (InterruptedException e) {
+                    LOGGER.warn("Failed to stop thread: {}", botThread.getName(), e);
+                }
+            }
         }
 
         LOGGER.info("All threads have been stopped.");
+    }
+
+    public static void reset() {
+        stopRequested = false;
+        botThreads.clear();
+        botServices.clear();
     }
 }

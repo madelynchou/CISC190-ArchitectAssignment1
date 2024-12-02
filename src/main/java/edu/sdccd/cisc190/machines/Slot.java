@@ -101,7 +101,7 @@ abstract public class Slot {
         float randomNumber = (float) (Math.random());
         int resultAmt;
 
-        /*
+        /* *
         * Generate a random number 0.0 - 1.0
         * If luck is greater than or equal to this variable, the bot wins.
         * If luck is less than this number, the bot loses

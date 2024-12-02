@@ -2,6 +2,7 @@ package edu.sdccd.cisc190;
 
 import edu.sdccd.cisc190.machines.*;
 import edu.sdccd.cisc190.players.HumanPlayer;
+import edu.sdccd.cisc190.players.bots.Chase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -179,5 +180,15 @@ class SlotTest {
         //Player cannot bet more than what they have
         int notEnoughMoney = 1200;
         assertFalse(diamondDash.canBet(notEnoughMoney), "A player cannot bet more than what they have");
+    }
+
+    @Test
+    void testBotPlay() {
+        //instantiate a new bot
+        Chase chase = Chase.getInstance();
+
+        int moneyAfterSpin = diamondDash.botPlay(chase);
+
+        assertNotEquals(moneyAfterSpin, chase.getMoney(), "Chase's money should have changed after playing");
     }
 }
