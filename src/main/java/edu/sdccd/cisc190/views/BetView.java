@@ -49,11 +49,11 @@ public class BetView extends Application {
         nameLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 18));
         nameLabel.setTextFill(Color.GOLD);
 
-        maxBet.setText("Max. Bet: " + slotMachine.getMaxBet());
+        maxBet.setText("Max. Bet: %d".formatted(slotMachine.getMaxBet()));
         maxBet.setFont(Font.font("Arial", FontWeight.SEMI_BOLD, 15));
-        minBet.setText("Min. Bet: " + slotMachine.getMinBet());
+        minBet.setText("Min. Bet: %d".formatted(slotMachine.getMinBet()));
         minBet.setFont(Font.font("Arial", FontWeight.SEMI_BOLD, 15));
-        returnAmount.setText("Return: " + slotMachine.getReturnAmt());
+        returnAmount.setText("Return: %s".formatted(slotMachine.getReturnAmt()));
         returnAmount.setFont(Font.font("Arial", FontWeight.SEMI_BOLD, 15));
         maxBet.setTextFill(Color.RED);
         minBet.setTextFill(Color.RED);

@@ -39,6 +39,15 @@ public class BotService implements Runnable {
     }
 
     /**
+     * Returns the slot machine instance managed by this service
+     * @return the slot machine instance
+     */
+
+    public Slot getSlotMachine() {
+        return slotMachine;
+    }
+
+    /**
      * Sets the spin flag to true, triggering a spin for the bot
      * */
     public void triggerSpin() {
@@ -67,7 +76,7 @@ public class BotService implements Runnable {
      * Bots will wait until the pause flag is set to false.
      * */
     public static void pause() {
-        System.out.println("DEBUG: Bots paused");
+        LOGGER.debug("Bots paused");
         synchronized (lock) {
             pauseFlag.set(true);
         }
@@ -78,7 +87,7 @@ public class BotService implements Runnable {
      * Notifies all threads waiting on the pause lock to resume execution.
      * */
     public static void unpause() {
-        System.out.println("DEBUG: Bots unpaused");
+        LOGGER.debug("Bots unpaused");
         synchronized (lock) {
             pauseFlag.set(false);
             lock.notifyAll(); // Notify all threads waiting on the lock
@@ -89,6 +98,7 @@ public class BotService implements Runnable {
      * Runs the bot service in a separate thread.
      * The bot performs spins on its slot machine when triggered, and respects the pause flag.
      * */
+    @SuppressWarnings("BusyWait")
     @Override
     public void run() {
         while (true) {
@@ -106,7 +116,7 @@ public class BotService implements Runnable {
                         LOGGER.info("{} spun on {} and new balance: {}", bot.getName(), slotMachine.getClass().getSimpleName(), newBalance);
 
                         Platform.runLater(() -> {
-                            // TODO: Implement GUI update logic here, e.g., updating a leaderboard or balance display
+
                         });
 
                         spinFlag = false; // Reset the spin flag
@@ -115,7 +125,8 @@ public class BotService implements Runnable {
 
                 Thread.sleep(500); // Sleep for a short time to prevent busy-waiting
             } catch (InterruptedException e) {
-                LOGGER.info("Thread interrupted", e);
+                LOGGER.warn("Thread interrupted", e);
+                Thread.currentThread().interrupt();
             }
         }
     }

@@ -38,7 +38,7 @@ abstract public class Slot {
     }
 
     /**
-    * Determines whether the user is able to bet an specific amount given their current balance and machine parameters
+    * Determines whether the user is able to bet a specific amount given their current balance and machine parameters
     * @param betAmt How much the user is attempting to bet
     * @return If the user's bet is within the bounds of their current balance and the minimum and maximum bet of the machine
     **/
@@ -101,7 +101,7 @@ abstract public class Slot {
         float randomNumber = (float) (Math.random());
         int resultAmt;
 
-        /*
+        /* *
         * Generate a random number 0.0 - 1.0
         * If luck is greater than or equal to this variable, the bot wins.
         * If luck is less than this number, the bot loses

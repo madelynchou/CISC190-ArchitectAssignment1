@@ -4,10 +4,10 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
 public abstract class Bot {
-    private String name;
-    private IntegerProperty money = new SimpleIntegerProperty();
-    private double luck;
-    private double aura;
+    private final String name;
+    private final IntegerProperty money = new SimpleIntegerProperty();
+    private final double luck;
+    private final double aura;
 
     public Bot(String name, int initialMoney, double luck, double aura) {
         this.name = name;
