@@ -77,6 +77,10 @@ public class LeaderboardView extends Application {
         setupScene(primaryStage, layout);
     }
 
+    /**
+     * Creates and configures the main layout for the leaderboard.
+     * @return a VBox layout for the leaderboard.
+     * */
     private static VBox createMainLayout() {
         VBox layout = new VBox(20);
         layout.setStyle(
@@ -87,6 +91,10 @@ public class LeaderboardView extends Application {
         return layout;
     }
 
+    /**
+     * Creates a header text for the leaderboard.
+     * @return a styled Text object as the header.
+     * */
     private static Text createHeader() {
         Text header = new Text("Leaderboard");
         header.setFont(Font.font("Verdana", FontWeight.BOLD, 30));
@@ -94,6 +102,10 @@ public class LeaderboardView extends Application {
         return header;
     }
 
+    /**
+     * Creates and populates the TableView for leaderboard entries.
+     * @return a TableView displaying leaderboard data.
+     * */
     private static TableView<LeaderboardEntry> createLeaderboardTable() {
         TableView<LeaderboardEntry> table = new TableView<>();
         table.setPrefHeight(300);
@@ -116,6 +128,10 @@ public class LeaderboardView extends Application {
         return table;
     }
 
+    /**
+     * Retrieves and sorts the leaderboard data.
+     * @return an ObservableList of sorted leaderboard entries
+     * */
     private static ObservableList<LeaderboardEntry> getSortedLeaderboardData() {
         // Ensure that this method populates the list correctly and considers all players.
         if (entries.isEmpty()) {
@@ -131,6 +147,10 @@ public class LeaderboardView extends Application {
         return entries;
     }
 
+    /**
+     * Retrieves and sorts the leaderboard data.
+     * @return an ObservableList of sorted leaderboard entries.
+     * */
     private static Button createStyledButton(String text) {
         Button button = new Button(text);
         button.setFont(Font.font("Arial", FontWeight.BOLD, 16));
@@ -142,6 +162,10 @@ public class LeaderboardView extends Application {
         return button;
     }
 
+    /**
+     * Retrieves and sorts the leaderboard data.
+     * @return an ObservableList of sorted leaderboard entries.
+     * */
     private static String createButtonStyle(String topColor, String bottomColor, String textColor) {
         return "-fx-background-color: linear-gradient(to bottom, " + topColor + ", " + bottomColor + ");" +
                 "-fx-text-fill: " + textColor + ";" +
@@ -149,34 +173,62 @@ public class LeaderboardView extends Application {
                 "-fx-padding: 10px 20px;";
     }
 
+    /**
+     * Sets up and displays the scene for the leaderboard.
+     * @param primaryStage the primary stage for the application
+     * @param layout the VBox layout to display
+     * */
     private static void setupScene(Stage primaryStage, VBox layout) {
         Scene scene = new Scene(layout, 600, 600);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
 
+    /**
+     * Launches the JavaFX application
+     * @param args command-line arguments
+     * */
     public static void main(String[] args) {
         launch(args);
     }
 
-    // Nested class for leaderboard entry
+    /**
+     * Represents a single entry in the leaderboard, containing the player's name and money property
+     * */
     public static class LeaderboardEntry {
         private final String name;
         private final IntegerProperty money;
 
+        /**
+         * Constructs a new LeaderboardEntry.
+         * @param name the player's name
+         * @param money the player's money property
+         * */
         public LeaderboardEntry(String name, IntegerProperty money) {
             this.name = name;
             this.money = money;
         }
 
+        /**
+         * Retrieves the player's name.
+         * @return the player's name
+         * */
         public String getName() {
             return name;
         }
 
+        /**
+         * Retrieves the player's money property.
+         * @return the money property
+         * */
         public IntegerProperty getMoney() {
             return money;
         }
 
+        /**
+         * Gets the money property for binding or updates.
+         * @return the money property.
+         * */
         public IntegerProperty moneyProperty() {
             return money;
         }

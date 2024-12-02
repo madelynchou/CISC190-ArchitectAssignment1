@@ -16,25 +16,52 @@ import javafx.stage.Stage;
 
 import static edu.sdccd.cisc190.views.SlotMachineView.slotMachine;
 
+/**
+ * The BetView class represents a JavaFX view for users to place their bets on a selected slot machine.
+ * It allows users to enter a bet amount, displays slot machine limits and return information,
+ * and navigates to the SlotMachineView or MainMenuView.
+ */
 public class BetView extends Application {
+    /**
+     * The amount the user chooses to bet.
+     */
     static int betAmt;
+
+    // Labels for displaying slot machine betting limits and return amounts
     private static final Label maxBet = new Label();
     private static final Label minBet = new Label();
     private static final Label returnAmount = new Label();
 
+    /**
+     * The entry point for JavaFX applications.
+     * This method is overridden but not used directly in this class.
+     *
+     * @param primaryStage The primary stage for this application.
+     */
     @Override
     public void start(Stage primaryStage) {
         // Placeholder for launching the window
     }
 
+    /**
+     * Main method for launching the application.
+     *
+     * @param args Command-line arguments.
+     */
     public static void main(String[] args) {
         launch(args);
     }
 
+    /**
+     * Displays the betting window where users can place a bet for a selected slot machine.
+     *
+     * @param primaryStage    The primary stage for the application.
+     * @param selectedMachine The selected slot machine type.
+     */
     public static void showWindow(Stage primaryStage, MainMenuView.SlotOptions selectedMachine) {
         primaryStage.setTitle("Casino Royale - Place Your Bet");
 
-        MainMenuView.SlotOptions machineSelect = selectedMachine;
+        // Initialize the selected slot machine based on user choice
         switch (selectedMachine) {
             case DIAMOND_DASH -> slotMachine = new DiamondDash();
             case HONDA_TRUNK -> slotMachine = new HondaTrunk();
@@ -44,11 +71,12 @@ public class BetView extends Application {
             default -> slotMachine = new DiamondDash();
         }
 
-        // Styled label
+        // Create a styled label prompting the user for their bet amount
         Label nameLabel = new Label("How much do you want to bet?");
         nameLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 18));
         nameLabel.setTextFill(Color.GOLD);
 
+        // Set up labels to display slot machine limits and expected return
         maxBet.setText("Max. Bet: %d".formatted(slotMachine.getMaxBet()));
         maxBet.setFont(Font.font("Arial", FontWeight.SEMI_BOLD, 15));
         minBet.setText("Min. Bet: %d".formatted(slotMachine.getMinBet()));
@@ -59,11 +87,10 @@ public class BetView extends Application {
         minBet.setTextFill(Color.RED);
         returnAmount.setTextFill(Color.RED);
 
-
-        // Styled text field
+        // Create a text field for the user to enter their bet amount
         TextField numericTextField = new TextField();
         numericTextField.setPromptText("Enter numbers only");
-        numericTextField.setPrefWidth(250); // Set width for better alignment
+        numericTextField.setPrefWidth(250);
         numericTextField.setStyle(
                 "-fx-background-color: #333333; " +
                         "-fx-text-fill: white; " +
@@ -72,38 +99,36 @@ public class BetView extends Application {
                         "-fx-padding: 10px;"
         );
 
-        // Restrict input to digits only
+        // Restrict the input to numeric values only
         numericTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("\\d*")) { // \\d* matches zero or more digits
+            if (!newValue.matches("\\d*")) { // Allow only digits
                 numericTextField.setText(newValue.replaceAll("[^\\d]", "")); // Remove non-numeric characters
             }
         });
 
-        // Styled Main Menu button
+        // Create the Main Menu button and attach an action to return to the MainMenuView
         Button mainMenu = createStyledButton("Main Menu");
-        mainMenu.setOnAction(e -> {
-            MainMenuView.setupWindow(primaryStage);
-        });
+        mainMenu.setOnAction(e -> MainMenuView.setupWindow(primaryStage));
 
-        // Styled submit button
+        // Create the Place Bet button to submit the user's bet
         Button submitButton = createStyledButton("Place Bet");
-
         submitButton.setOnAction(e -> {
             if (!numericTextField.getText().isEmpty()) {
-                betAmt = Integer.parseInt(numericTextField.getText());
+                betAmt = Integer.parseInt(numericTextField.getText()); // Get the bet amount
                 primaryStage.close();
 
+                // Open the SlotMachineView with the bet amount and selected slot machine
                 Stage newWindow = new Stage();
                 SlotMachineView.showWindow(newWindow, betAmt, selectedMachine);
             }
         });
 
-        // Slot information
+        // Create a horizontal box to display slot machine information (max/min bet and return amount)
         HBox slotInformation = new HBox(10, maxBet, minBet, returnAmount);
         slotInformation.setAlignment(Pos.CENTER);
 
-        // Layout setup
-        VBox layout = new VBox(20); // Increased spacing for visual clarity
+        // Arrange all elements in a vertical layout
+        VBox layout = new VBox(20); // Increased spacing for better visuals
         layout.getChildren().addAll(nameLabel, slotInformation, numericTextField, submitButton, mainMenu);
         layout.setAlignment(Pos.CENTER);
         layout.setStyle(
@@ -111,14 +136,18 @@ public class BetView extends Application {
                         "-fx-padding: 30px;"
         );
 
-
-        // Scene setup
-        Scene scene = new Scene(layout, 400, 300); // Smaller and compact
+        // Set up the scene and display it on the primary stage
+        Scene scene = new Scene(layout, 400, 300); // Compact layout size
         primaryStage.setScene(scene);
         primaryStage.show();
     }
 
-    // Styled button method for consistency
+    /**
+     * Creates a styled button with hover effects.
+     *
+     * @param text The text to display on the button.
+     * @return A styled Button object.
+     */
     private static Button createStyledButton(String text) {
         Button button = new Button(text);
         button.setFont(Font.font("Arial", FontWeight.BOLD, 16));
@@ -129,7 +158,7 @@ public class BetView extends Application {
                         "-fx-padding: 10px 20px;"
         );
 
-        // Hover effects
+        // Add hover effects for better user interaction
         button.setOnMouseEntered(e -> button.setStyle(
                 "-fx-background-color: linear-gradient(to bottom, #ff9900, #ff6600);" +
                         "-fx-text-fill: white;" +
