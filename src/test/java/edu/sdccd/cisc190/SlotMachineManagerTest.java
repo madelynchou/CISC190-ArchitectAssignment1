@@ -28,4 +28,23 @@ class SlotMachineManagerTest {
         SlotMachineManager.stopAllThreads();
         assertTrue(SlotMachineManager.getStopRequested(), "stopRequested should be set to true after calling stopAllThreads()");
     }
+
+    @Test
+    void testMain() {
+        //initialize main() method of SlotMachineManager
+        SlotMachineManager.main();
+
+        //verify that the bot threads and bot services are initialized
+        assertFalse(SlotMachineManager.botThreads.isEmpty(), "Bot threads should be initialized");
+        assertFalse(SlotMachineManager.botServices.isEmpty(), "Bot services should be initialized");
+
+        //ensure that the size of bot services and threads equals to number of bots
+        int numOfBots = 5;
+        assertEquals(numOfBots, SlotMachineManager.botServices.size(), "Number of services should equal number of bots");
+    }
+
+    @Test
+    void testStopAllThreads() throws InterruptedException {
+
+    }
 }

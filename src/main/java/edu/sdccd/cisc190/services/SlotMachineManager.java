@@ -26,8 +26,13 @@ public class SlotMachineManager {
 
     // Lists to manage bot threads and services
     private static volatile boolean stopRequested = false;
-    static List<Thread> botThreads = new ArrayList<>();
-    static List<BotService> botServices = new ArrayList<>();
+    public static List<Thread> botThreads = new ArrayList<>();
+    public static List<BotService> botServices = new ArrayList<>();
+
+    /**
+     * Getter that to obtain the boolean value of stopRequested
+     * @return the value of stopRequested (true or false)
+     */
 
     public static boolean getStopRequested() {
         return stopRequested;
