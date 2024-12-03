@@ -47,7 +47,6 @@ public class SetupView extends Application {
 
     /**
      * Displays the sign-in window for the user to enter their name.
-     *
      * @param primaryStage the primary stage for the sign-in window.
      */
     private void showSignInWindow(Stage primaryStage) {

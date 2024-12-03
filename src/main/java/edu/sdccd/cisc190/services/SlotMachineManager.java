@@ -22,8 +22,6 @@ public class SlotMachineManager {
     static RainbowRiches rainbowRiches = new RainbowRiches();
     static TreasureSpins treasureSpins = new TreasureSpins();
 
-    // Flag to signal stopping all threads
-
     // Lists to manage bot threads and services
     private static volatile boolean stopRequested = false;
     public static List<Thread> botThreads = new ArrayList<>();

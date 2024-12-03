@@ -125,8 +125,9 @@ public class BotService implements Runnable {
 
                 Thread.sleep(500); // Sleep for a short time to prevent busy-waiting
             } catch (InterruptedException e) {
-                LOGGER.warn("Thread interrupted", e);
                 Thread.currentThread().interrupt();
+                LOGGER.warn("Thread interrupted", e);
+                break;
             }
         }
     }
