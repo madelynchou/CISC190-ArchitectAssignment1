@@ -94,15 +94,7 @@ public class SlotMachineView extends Application {
         betAmount.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         betAmount.setTextFill(Color.LIGHTGOLDENRODYELLOW);
 
-        maxBet.setText("Max. Bet: %d".formatted(slotMachine.getMaxBet()));
-        maxBet.setFont(Font.font("Arial", FontWeight.SEMI_BOLD, 15));
-        minBet.setText("Min. Bet: %d".formatted(slotMachine.getMinBet()));
-        minBet.setFont(Font.font("Arial", FontWeight.SEMI_BOLD, 15));
-        returnAmount.setText("Return: %s".formatted(slotMachine.getReturnAmt()));
-        returnAmount.setFont(Font.font("Arial", FontWeight.SEMI_BOLD, 15));
-        maxBet.setTextFill(Color.RED);
-        minBet.setTextFill(Color.RED);
-        returnAmount.setTextFill(Color.RED);
+        infoSetText(maxBet, minBet, returnAmount);
 
 
         slot1.setStyle("-fx-font-size: 60px;");
@@ -150,6 +142,18 @@ public class SlotMachineView extends Application {
         Scene scene = new Scene(layout, 800, 800);
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
+
+    static void infoSetText(Label maxBet, Label minBet, Label returnAmount) {
+        maxBet.setText("Max. Bet: %d".formatted(slotMachine.getMaxBet()));
+        maxBet.setFont(Font.font("Arial", FontWeight.SEMI_BOLD, 15));
+        minBet.setText("Min. Bet: %d".formatted(slotMachine.getMinBet()));
+        minBet.setFont(Font.font("Arial", FontWeight.SEMI_BOLD, 15));
+        returnAmount.setText("Return: %s".formatted(slotMachine.getReturnAmt()));
+        returnAmount.setFont(Font.font("Arial", FontWeight.SEMI_BOLD, 15));
+        maxBet.setTextFill(Color.RED);
+        minBet.setTextFill(Color.RED);
+        returnAmount.setTextFill(Color.RED);
     }
 
     /**

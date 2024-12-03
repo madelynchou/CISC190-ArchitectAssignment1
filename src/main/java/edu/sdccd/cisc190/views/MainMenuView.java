@@ -23,7 +23,6 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.Optional;
 import java.util.Random;
 
 /**
@@ -198,26 +197,6 @@ public class MainMenuView extends Application {
     }
 
     /**
-     * Displays a confirmation dialog for deleting the user's file.
-     * If confirmed, deletes the file and shows a success message.
-     * If canceled, shows a cancellation message.
-     */
-    private static void handleDeleteFile() {
-        Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmationAlert.setTitle("Delete File");
-        confirmationAlert.setHeaderText("Are you sure you want to delete your file?");
-        confirmationAlert.setContentText("This action cannot be undone.");
-        Optional<ButtonType> result = confirmationAlert.showAndWait();
-
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            showMessage("Your file has been deleted.");
-            PlayerSavesService.deleteState();
-        } else {
-            showMessage("File deletion canceled.");
-        }
-    }
-
-    /**
      * Creates and configures the main layout for the menu.
      * The layout is styled with padding and a gradient background.
      *
@@ -275,15 +254,7 @@ public class MainMenuView extends Application {
         String defaultStyle = createButtonStyle("#ffcc00", "#ff9900", "black");
         String hoverStyle = createButtonStyle("#784800", "#943b00", "white");
 
-        button.setStyle(defaultStyle);
-        button.setOnMouseEntered(_ -> button.setStyle(hoverStyle));
-        button.setOnMouseExited(_ -> button.setStyle(defaultStyle));
-
-        if (tooltipText != null) {
-            button.setTooltip(createTooltip(tooltipText));
-        }
-
-        return button;
+        return getButton(tooltipText, button, defaultStyle, hoverStyle);
     }
 
     /**
@@ -301,6 +272,10 @@ public class MainMenuView extends Application {
         String defaultStyle = createButtonStyle("#cccccc", "#888888", "black");
         String hoverStyle = createButtonStyle("#aaaaaa", "#666666", "white");
 
+        return getButton(tooltipText, button, defaultStyle, hoverStyle);
+    }
+
+    private static Button getButton(String tooltipText, Button button, String defaultStyle, String hoverStyle) {
         button.setStyle(defaultStyle);
         button.setOnMouseEntered(_ -> button.setStyle(hoverStyle));
         button.setOnMouseExited(_ -> button.setStyle(defaultStyle));

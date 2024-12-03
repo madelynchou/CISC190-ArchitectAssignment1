@@ -18,6 +18,8 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.util.List;
+
 /**
  * LeaderboardView is a JavaFX application that displays a leaderboard
  * showing the names and money amounts of players (both human and bot).
@@ -26,7 +28,7 @@ import javafx.stage.Stage;
 public class LeaderboardView extends Application {
 
     public static TableView<LeaderboardEntry> leaderboardTable; // TableView to display the leaderboard entries
-    private static ObservableList<LeaderboardEntry> entries = FXCollections.observableArrayList(); // Observable list to hold and manage leaderboard entries
+    private final static ObservableList<LeaderboardEntry> entries = FXCollections.observableArrayList(); // Observable list to hold and manage leaderboard entries
 
     /**
      * Initializes and starts the JavaFX application
@@ -35,12 +37,12 @@ public class LeaderboardView extends Application {
     @Override
     public void start(Stage primaryStage) {
         // Set up listeners for money property changes to update the leaderboard.
-        HumanPlayer.getInstance().moneyProperty().addListener((obs, oldVal, newVal) -> updateLeaderboard());
-        AnitaMaxWynn.getInstance().moneyProperty().addListener((obs, oldVal, newVal) -> updateLeaderboard());
-        HondaBoyz.getInstance().moneyProperty().addListener((obs, oldVal, newVal) -> updateLeaderboard());
-        MrBrooks.getInstance().moneyProperty().addListener((obs, oldVal, newVal) -> updateLeaderboard());
-        ProfessorHuang.getInstance().moneyProperty().addListener((obs, oldVal, newVal) -> updateLeaderboard());
-        Chase.getInstance().moneyProperty().addListener((obs, oldVal, newVal) -> updateLeaderboard());
+        HumanPlayer.getInstance().moneyProperty().addListener((_, _, _) -> updateLeaderboard());
+        AnitaMaxWynn.getInstance().moneyProperty().addListener((_, _, _) -> updateLeaderboard());
+        HondaBoyz.getInstance().moneyProperty().addListener((_, _, _) -> updateLeaderboard());
+        MrBrooks.getInstance().moneyProperty().addListener((_, _, _) -> updateLeaderboard());
+        ProfessorHuang.getInstance().moneyProperty().addListener((_, _, _) -> updateLeaderboard());
+        Chase.getInstance().moneyProperty().addListener((_, _, _) -> updateLeaderboard());
 
         showWindow(primaryStage);
     }
@@ -49,7 +51,7 @@ public class LeaderboardView extends Application {
      * Updates and sorts the leaderboard based on players' money values.
      * */
     private static void updateLeaderboard() {
-        FXCollections.sort(entries, (entry1, entry2) -> Integer.compare(entry2.getMoney().get(), entry1.getMoney().get()));
+        FXCollections.sort(entries, (entry1, entry2) -> Integer.compare(entry2.money().get(), entry1.money().get()));
         leaderboardTable.refresh();
     }
 
@@ -69,8 +71,8 @@ public class LeaderboardView extends Application {
         layout.getChildren().add(leaderboardTable);
 
         // Create and style the main menu button
-        Button mainMenu = createStyledButton("Main Menu");
-        mainMenu.setOnAction(event -> MainMenuView.setupWindow(primaryStage));
+        Button mainMenu = createStyledButton();
+        mainMenu.setOnAction(_ -> MainMenuView.setupWindow(primaryStage));
         layout.getChildren().add(mainMenu);
 
         // Setup and display the scene
@@ -120,7 +122,15 @@ public class LeaderboardView extends Application {
         moneyColumn.setPrefWidth(150);
 
         // Add columns to the table
-        table.getColumns().addAll(nameColumn, moneyColumn);
+        List<LeaderboardEntry> newEntries = List.of(
+                new LeaderboardEntry(HumanPlayer.getInstance().getName(), HumanPlayer.getInstance().moneyProperty()),
+                new LeaderboardEntry(AnitaMaxWynn.getInstance().getName(), AnitaMaxWynn.getInstance().moneyProperty()),
+                new LeaderboardEntry(Chase.getInstance().getName(), Chase.getInstance().moneyProperty()),
+                new LeaderboardEntry(HondaBoyz.getInstance().getName(), HondaBoyz.getInstance().moneyProperty()),
+                new LeaderboardEntry(MrBrooks.getInstance().getName(), MrBrooks.getInstance().moneyProperty()),
+                new LeaderboardEntry(ProfessorHuang.getInstance().getName(), ProfessorHuang.getInstance().moneyProperty())
+        );
+        entries.addAll(newEntries);
 
         // Populate and sort data
         table.setItems(getSortedLeaderboardData());
@@ -151,13 +161,13 @@ public class LeaderboardView extends Application {
      * Retrieves and sorts the leaderboard data.
      * @return an ObservableList of sorted leaderboard entries.
      * */
-    private static Button createStyledButton(String text) {
-        Button button = new Button(text);
+    private static Button createStyledButton() {
+        Button button = new Button("Main Menu");
         button.setFont(Font.font("Arial", FontWeight.BOLD, 16));
         button.setStyle(createButtonStyle("#ffcc00", "#ff9900", "black"));
 
-        button.setOnMouseEntered(e -> button.setStyle(createButtonStyle("#ff9900", "#ff6600", "white")));
-        button.setOnMouseExited(e -> button.setStyle(createButtonStyle("#ffcc00", "#ff9900", "black")));
+        button.setOnMouseEntered(_ -> button.setStyle(createButtonStyle("#ff9900", "#ff6600", "white")));
+        button.setOnMouseExited(_ -> button.setStyle(createButtonStyle("#ffcc00", "#ff9900", "black")));
 
         return button;
     }
@@ -194,43 +204,35 @@ public class LeaderboardView extends Application {
 
     /**
      * Represents a single entry in the leaderboard, containing the player's name and money property
-     * */
-    public static class LeaderboardEntry {
-        private final String name;
-        private final IntegerProperty money;
-
+     */
+        public record LeaderboardEntry(String name, IntegerProperty money) {
         /**
          * Constructs a new LeaderboardEntry.
-         * @param name the player's name
+         *
+         * @param name  the player's name
          * @param money the player's money property
-         * */
-        public LeaderboardEntry(String name, IntegerProperty money) {
-            this.name = name;
-            this.money = money;
+         */
+        public LeaderboardEntry {
         }
 
-        /**
-         * Retrieves the player's name.
-         * @return the player's name
-         * */
-        public String getName() {
-            return name;
-        }
+            /**
+             * Retrieves the player's name.
+             *
+             * @return the player's name
+             */
+            @Override
+            public String name() {
+                return name;
+            }
 
-        /**
-         * Retrieves the player's money property.
-         * @return the money property
-         * */
-        public IntegerProperty getMoney() {
-            return money;
+            /**
+             * Retrieves the player's money property.
+             *
+             * @return the money property
+             */
+            @Override
+            public IntegerProperty money() {
+                return money;
+            }
         }
-
-        /**
-         * Gets the money property for binding or updates.
-         * @return the money property.
-         * */
-        public IntegerProperty moneyProperty() {
-            return money;
-        }
-    }
 }
