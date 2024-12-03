@@ -18,11 +18,15 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 /**
- * SlotMachineView displays the slots being spun
- * Displays buttons to change bet or to go back to the MainMenu
+ * The SlotMachineView class represents the user interface for the slot machine gameplay.
+ * It displays the slot machine reels, bet information, and controls for spinning the slots,
+ * changing the bet, or returning to the Main Menu.
  */
 public class SlotMachineView extends Application {
 
+    /**
+     * Labels to display betting and gameplay information.
+     */
     private static final Label betAmount = new Label();
     private static final Label maxBet = new Label();
     private static final Label minBet = new Label();
@@ -33,22 +37,45 @@ public class SlotMachineView extends Application {
     private static final Label won = new Label("Spin to see!");
     private static final Label money = new Label("Balance: $%d".formatted(HumanPlayer.getInstance().getMoney()));
 
+    /**
+     * Buttons for interacting with the slot machine interface.
+     */
     static Button spinButton = createStyledButton("Spin");
     static Button changeBet = createStyledButton("Change Bet");
     static Button mainMenu = createStyledButton("Return to Main Menu");
 
+    /**
+     * The selected slot machine type and the corresponding slot machine instance.
+     */
     static MainMenuView.SlotOptions machineSelect;
     static Slot slotMachine;
 
+    /**
+     * The entry point for the JavaFX application.
+     *
+     * @param primaryStage the primary stage for the slot machine gameplay window.
+     */
     @Override
     public void start(Stage primaryStage) {
         showWindow(primaryStage, 0, MainMenuView.SlotOptions.DIAMOND_DASH);
     }
 
+    /**
+     * The main method launches the JavaFX application.
+     *
+     * @param args the command-line arguments.
+     */
     public static void main(String[] args) {
         launch(args);
     }
 
+    /**
+     * Displays the slot machine gameplay window.
+     *
+     * @param primaryStage     the primary stage for the application.
+     * @param betAmt           the initial betting amount.
+     * @param selectedMachine  the type of slot machine selected.
+     */
     public static void showWindow(Stage primaryStage, int betAmt, MainMenuView.SlotOptions selectedMachine) {
 
         machineSelect = selectedMachine;
@@ -125,6 +152,12 @@ public class SlotMachineView extends Application {
         primaryStage.show();
     }
 
+    /**
+     * Handles the spin action for the slot machine.
+     *
+     * @param betAmt       the amount of money being bet.
+     * @param primaryStage the primary stage for the application.
+     */
     private static void spin(int betAmt, Stage primaryStage) {
         if (!slotMachine.canBet(betAmt)) {
             showAlert("Invalid Bet", "Your bet is outside the allowed range or exceeds your balance.");
@@ -155,6 +188,13 @@ public class SlotMachineView extends Application {
             primaryStage.close();
         }
     }
+
+    /**
+     * Displays an alert dialog with the specified title and content.
+     *
+     * @param title   the title of the alert.
+     * @param content the content of the alert.
+     */
     private static void showAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
@@ -163,6 +203,12 @@ public class SlotMachineView extends Application {
         alert.showAndWait();
     }
 
+    /**
+     * Creates a styled button with the specified text.
+     *
+     * @param text the text to display on the button.
+     * @return a styled Button instance.
+     */
     private static Button createStyledButton(String text) {
         Button button = new Button(text);
         button.setFont(Font.font("Arial", FontWeight.BOLD, 16));

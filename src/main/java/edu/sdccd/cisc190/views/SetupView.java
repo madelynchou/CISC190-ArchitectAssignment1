@@ -15,14 +15,19 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 /**
- * SetUpView is the first screen of the Casino Royale application.
- * This screen prompts the user for their name and is the gateway to the Main Menu
+ * The SetupView class is the first screen of the Casino Royale application.
+ * It prompts the user to enter their name and serves as the gateway to the Main Menu.
+ * If player data already exists, the application skips this screen and proceeds to the Main Menu.
  */
 public class SetupView extends Application {
+    /**
+     * The username entered by the user. This is used to identify the player in the game.
+     */
     static String userName;
 
     /**
-     * Entry point for the JavaFX application.
+     * The entry point for the JavaFX application. Determines whether to load existing player data
+     * or show the sign-in window for new players.
      *
      * @param primaryStage the primary stage for the application.
      */
@@ -40,19 +45,47 @@ public class SetupView extends Application {
         }
     }
 
+    /**
+     * Displays the sign-in window for the user to enter their name.
+     *
+     * @param primaryStage the primary stage for the sign-in window.
+     */
     private void showSignInWindow(Stage primaryStage) {
         primaryStage.setTitle("Casino Royale - Sign In");
 
-        // Welcome label with casino-style font
+        // Create labels, text field, and button for the sign-in window
         Label welcomeLabel = new Label("Welcome to Casino Royale!");
         Label nameLabel = new Label("What's your name?");
         nameLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 16));
         nameLabel.setTextFill(Color.GOLD);
 
-        // Text field with placeholder
         TextField nameField = new TextField();
         nameField.setPromptText("Enter Your Name");
         nameField.setPrefWidth(250);
+
+        Button submitButton = new Button("Enter the Casino");
+        submitButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+
+        // Configure button styles and hover effects
+        submitButton.setStyle(
+                "-fx-background-color: linear-gradient(to bottom, #ffcc00, #ff9900);" +
+                        "-fx-text-fill: black;" +
+                        "-fx-background-radius: 10;" +
+                        "-fx-padding: 10px 20px;"
+        );
+        submitButton.setOnMouseEntered(e -> submitButton.setStyle(
+                "-fx-background-color: linear-gradient(to bottom, #ff9900, #ff6600);" +
+                        "-fx-text-fill: white;" +
+                        "-fx-background-radius: 10;" +
+                        "-fx-padding: 10px 20px;"
+        ));
+        submitButton.setOnMouseExited(e -> submitButton.setStyle(
+                "-fx-background-color: linear-gradient(to bottom, #ffcc00, #ff9900);" +
+                        "-fx-text-fill: black;" +
+                        "-fx-background-radius: 10;" +
+                        "-fx-padding: 10px 20px;"
+        ));
+
         welcomeLabel.setStyle(
                 "-fx-background-color: #333333; " +
                         "-fx-text-fill: white; " +
@@ -68,31 +101,7 @@ public class SetupView extends Application {
                         "-fx-padding: 10px;"
         );
 
-
-        // Submit button with casino-style hover effects
-        Button submitButton = new Button("Enter the Casino");
-        submitButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-        submitButton.setStyle(
-                "-fx-background-color: linear-gradient(to bottom, #ffcc00, #ff9900);" +
-                        "-fx-text-fill: black;" +
-                        "-fx-background-radius: 10;" +
-                        "-fx-padding: 10px 20px;"
-        );
-
-        submitButton.setOnMouseEntered(e -> submitButton.setStyle(
-                "-fx-background-color: linear-gradient(to bottom, #ff9900, #ff6600);" +
-                        "-fx-text-fill: white;" +
-                        "-fx-background-radius: 10;" +
-                        "-fx-padding: 10px 20px;"
-        ));
-        submitButton.setOnMouseExited(e -> submitButton.setStyle(
-                "-fx-background-color: linear-gradient(to bottom, #ffcc00, #ff9900);" +
-                        "-fx-text-fill: black;" +
-                        "-fx-background-radius: 10;" +
-                        "-fx-padding: 10px 20px;"
-        ));
-
-        // Submit button action
+        // Define action for the submit button
         submitButton.setOnAction(e -> {
             userName = nameField.getText();
             HumanPlayer tempPlayer = HumanPlayer.getInstance();
@@ -104,7 +113,7 @@ public class SetupView extends Application {
             MainMenuView.setupWindow(newWindow);
         });
 
-        // Layout setup
+        // Layout and styling for the sign-in window
         VBox layout = new VBox(20); // Spacing between components
         layout.getChildren().addAll(welcomeLabel, nameLabel, nameField, submitButton);
         layout.setAlignment(Pos.CENTER);
@@ -113,15 +122,16 @@ public class SetupView extends Application {
                         "-fx-padding: 20px;"
         );
 
-        // Scene and Stage setup with smaller dimensions
+        // Create and show the scene
         Scene scene = new Scene(layout, 350, 250); // Compact window size
         primaryStage.setScene(scene);
         primaryStage.show();
     }
 
     /**
-     * Initialize JavaFX thread
-     * @param args any command-line argument
+     * Launches the JavaFX application.
+     *
+     * @param args the command-line arguments (if any).
      */
     public static void main(String[] args) {
         launch(args);
