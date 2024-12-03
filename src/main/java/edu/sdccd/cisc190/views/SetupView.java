@@ -14,10 +14,18 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
+/**
+ * SetUpView is the first screen of the Casino Royale application.
+ * This screen prompts the user for their name and is the gateway to the Main Menu
+ */
 public class SetupView extends Application {
     static String userName;
 
-
+    /**
+     * Entry point for the JavaFX application.
+     *
+     * @param primaryStage the primary stage for the application.
+     */
     @Override
     public void start(Stage primaryStage) {
         // Check if player data file exists and load it

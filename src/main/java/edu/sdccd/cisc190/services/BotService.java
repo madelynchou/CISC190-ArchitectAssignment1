@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 /**
  * BotService class manages the behavior of a bot interacting with a slot machine.
  * It includes functionality to pause, unpause and spin the bot on the slot machine
- * */
+ **/
 public class BotService implements Runnable {
     private static final Logger LOGGER = LoggerFactory.getLogger(BotService.class);
     private final Bot bot;           // The bot instance this service manages
@@ -97,7 +97,7 @@ public class BotService implements Runnable {
     /**
      * Runs the bot service in a separate thread.
      * The bot performs spins on its slot machine when triggered, and respects the pause flag.
-     * */
+     **/
     @SuppressWarnings("BusyWait")
     @Override
     public void run() {
