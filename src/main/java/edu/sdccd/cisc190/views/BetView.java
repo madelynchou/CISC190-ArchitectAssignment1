@@ -63,7 +63,6 @@ public class BetView extends Application {
 
         // Initialize the selected slot machine based on user choice
         switch (selectedMachine) {
-            case DIAMOND_DASH -> slotMachine = new DiamondDash();
             case HONDA_TRUNK -> slotMachine = new HondaTrunk();
             case TREASURE_SPINS -> slotMachine = new TreasureSpins();
             case MEGA_MOOLAH -> slotMachine = new MegaMoolah();
@@ -77,15 +76,7 @@ public class BetView extends Application {
         nameLabel.setTextFill(Color.GOLD);
 
         // Set up labels to display slot machine limits and expected return
-        maxBet.setText("Max. Bet: %d".formatted(slotMachine.getMaxBet()));
-        maxBet.setFont(Font.font("Arial", FontWeight.SEMI_BOLD, 15));
-        minBet.setText("Min. Bet: %d".formatted(slotMachine.getMinBet()));
-        minBet.setFont(Font.font("Arial", FontWeight.SEMI_BOLD, 15));
-        returnAmount.setText("Return: %s".formatted(slotMachine.getReturnAmt()));
-        returnAmount.setFont(Font.font("Arial", FontWeight.SEMI_BOLD, 15));
-        maxBet.setTextFill(Color.RED);
-        minBet.setTextFill(Color.RED);
-        returnAmount.setTextFill(Color.RED);
+        SlotMachineView.infoSetText(maxBet, minBet, returnAmount);
 
         // Create a text field for the user to enter their bet amount
         TextField numericTextField = new TextField();
@@ -100,19 +91,19 @@ public class BetView extends Application {
         );
 
         // Restrict the input to numeric values only
-        numericTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+        numericTextField.textProperty().addListener((_, _, newValue) -> {
             if (!newValue.matches("\\d*")) { // Allow only digits
-                numericTextField.setText(newValue.replaceAll("[^\\d]", "")); // Remove non-numeric characters
+                numericTextField.setText(newValue.replaceAll("\\D", "")); // Remove non-numeric characters
             }
         });
 
         // Create the Main Menu button and attach an action to return to the MainMenuView
         Button mainMenu = createStyledButton("Main Menu");
-        mainMenu.setOnAction(e -> MainMenuView.setupWindow(primaryStage));
+        mainMenu.setOnAction(_ -> MainMenuView.setupWindow(primaryStage));
 
         // Create the Place Bet button to submit the user's bet
         Button submitButton = createStyledButton("Place Bet");
-        submitButton.setOnAction(e -> {
+        submitButton.setOnAction(_ -> {
             if (!numericTextField.getText().isEmpty()) {
                 betAmt = Integer.parseInt(numericTextField.getText()); // Get the bet amount
                 primaryStage.close();
@@ -159,13 +150,13 @@ public class BetView extends Application {
         );
 
         // Add hover effects for better user interaction
-        button.setOnMouseEntered(e -> button.setStyle(
+        button.setOnMouseEntered(_ -> button.setStyle(
                 "-fx-background-color: linear-gradient(to bottom, #ff9900, #ff6600);" +
                         "-fx-text-fill: white;" +
                         "-fx-background-radius: 10;" +
                         "-fx-padding: 10px 20px;"
         ));
-        button.setOnMouseExited(e -> button.setStyle(
+        button.setOnMouseExited(_ -> button.setStyle(
                 "-fx-background-color: linear-gradient(to bottom, #ffcc00, #ff9900);" +
                         "-fx-text-fill: black;" +
                         "-fx-background-radius: 10;" +

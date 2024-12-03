@@ -73,13 +73,15 @@ public class SetupView extends Application {
                         "-fx-background-radius: 10;" +
                         "-fx-padding: 10px 20px;"
         );
-        submitButton.setOnMouseEntered(e -> submitButton.setStyle(
+
+        submitButton.setOnMouseEntered(_ -> submitButton.setStyle(
                 "-fx-background-color: linear-gradient(to bottom, #ff9900, #ff6600);" +
                         "-fx-text-fill: white;" +
                         "-fx-background-radius: 10;" +
                         "-fx-padding: 10px 20px;"
         ));
-        submitButton.setOnMouseExited(e -> submitButton.setStyle(
+
+        submitButton.setOnMouseExited(_ -> submitButton.setStyle(
                 "-fx-background-color: linear-gradient(to bottom, #ffcc00, #ff9900);" +
                         "-fx-text-fill: black;" +
                         "-fx-background-radius: 10;" +
@@ -93,6 +95,7 @@ public class SetupView extends Application {
                         "-fx-background-radius: 10; " +
                         "-fx-padding: 10px;"
         );
+
         nameField.setStyle(
                 "-fx-background-color: #333333; " +
                         "-fx-text-fill: white; " +
@@ -102,7 +105,7 @@ public class SetupView extends Application {
         );
 
         // Define action for the submit button
-        submitButton.setOnAction(e -> {
+        submitButton.setOnAction(_ -> {
             userName = nameField.getText();
             HumanPlayer tempPlayer = HumanPlayer.getInstance();
             tempPlayer.setUsername(userName);
