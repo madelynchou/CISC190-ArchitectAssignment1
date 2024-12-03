@@ -119,7 +119,10 @@ public class SetupView extends Application {
         primaryStage.show();
     }
 
-
+    /**
+     * Initialize JavaFX thread
+     * @param args any command-line argument
+     */
     public static void main(String[] args) {
         launch(args);
     }

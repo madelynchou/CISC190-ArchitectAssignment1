@@ -17,6 +17,10 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
+/**
+ * SlotMachineView displays the slots being spun
+ * Displays buttons to change bet or to go back to the MainMenu
+ */
 public class SlotMachineView extends Application {
 
     private static final Label betAmount = new Label();
