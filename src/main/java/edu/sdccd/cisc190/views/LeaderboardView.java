@@ -29,7 +29,7 @@ public class LeaderboardView extends Application {
     private static ObservableList<LeaderboardEntry> entries = FXCollections.observableArrayList(); // Observable list to hold and manage leaderboard entries
 
     /**
-     * Initalizes and starts the JavaFX application
+     * Initializes and starts the JavaFX application
      * @param primaryStage the primary stage for this application
      * */
     @Override

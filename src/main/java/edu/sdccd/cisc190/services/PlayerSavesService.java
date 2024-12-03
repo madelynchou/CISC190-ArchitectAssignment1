@@ -6,10 +6,15 @@ import org.slf4j.LoggerFactory;
 
 import java.io.*;
 
+/**
+ * Handles the display for the leaderboard
+ * Read, display, format, and delete the files
+ */
+
 public class PlayerSavesService {
     private static final Logger LOGGER = LoggerFactory.getLogger(PlayerSavesService.class);
 
-    /*
+    /**
     * Saves the user's name and money into a player_data.txt file on quit to persist their progress
     * */
     public static void saveState() {
@@ -37,7 +42,7 @@ public class PlayerSavesService {
         }
     }
 
-    /*
+    /**
     * Loads user data from player_data.txt file if available on game open
     * */
     public static boolean loadState() {
@@ -69,7 +74,7 @@ public class PlayerSavesService {
         return false; // File does not exist or data could not be loaded
     }
 
-    /*
+    /**
     * Deletes user's information in player_data.txt if available
     * */
     public static void deleteState() {

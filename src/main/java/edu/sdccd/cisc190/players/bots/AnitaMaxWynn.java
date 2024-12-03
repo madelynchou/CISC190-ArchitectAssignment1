@@ -1,5 +1,10 @@
 package edu.sdccd.cisc190.players.bots;
 
+/**
+ * Anita Max Wynn is a bot that will be playing in the background
+ * instantiate a new instance of Anita Max Wynn to implement in the application
+ * High luck, low aura = decent chances of winning
+ */
 public class AnitaMaxWynn extends Bot {
     private static final AnitaMaxWynn instance = new AnitaMaxWynn();
 

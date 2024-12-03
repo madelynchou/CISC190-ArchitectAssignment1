@@ -3,6 +3,10 @@ package edu.sdccd.cisc190.players.bots;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
+/**
+ * Create the behavior of the bots that will be playing in the background
+ * Getters and setters to obtain the bots' name, money, luck, and aura to display and run their play
+ */
 public abstract class Bot {
     private final String name;
     private final IntegerProperty money = new SimpleIntegerProperty();

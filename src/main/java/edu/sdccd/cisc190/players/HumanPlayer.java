@@ -3,6 +3,11 @@ package edu.sdccd.cisc190.players;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
+/**
+ * initializes and defines the attributes of a human player i.e. username and money
+ * Create an instance of a human player for easier implementation to functionality of application
+ * use getters and setters to obtain and update the value of the human player's money, both on the backend and in JavaFX
+ */
 public class HumanPlayer {
     private static HumanPlayer instance;
     private String username;
@@ -17,9 +22,6 @@ public class HumanPlayer {
         }
         return instance;
     }
-
-    // Getters and Setters for username and email
-
 
     public void setUsername(String username) {
         this.username = username;

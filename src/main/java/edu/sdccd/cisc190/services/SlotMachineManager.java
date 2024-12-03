@@ -144,6 +144,10 @@ public class SlotMachineManager {
         LOGGER.info("All threads have been stopped.");
     }
 
+    /**
+     * Resets all threads to og state
+     * used for junit testing
+     */
     public static void reset() {
         stopRequested = false;
         botThreads.clear();

@@ -4,6 +4,11 @@ import edu.sdccd.cisc190.players.HumanPlayer;
 import edu.sdccd.cisc190.players.bots.*;
 import java.util.*;
 
+/**
+ * Defines the general behavior of each slot machine
+ * A slot should have a min and max bet, symbols to display, and be able to calculate the player's return amount
+ * Create getters and setters for these attributes for them to be read and used in junit tests and to be displayed for the user
+ */
 abstract public class Slot {
     protected String[] symbols; // Instance-specific symbols
     protected int maxBet; // Instance-specific max bet
