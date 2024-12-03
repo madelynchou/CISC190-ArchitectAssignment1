@@ -77,6 +77,7 @@ public class SlotMachineManager {
                 try {
                     while (!stopRequested) {
                         Thread.sleep((long) (Math.random() * 7500 + 10000)); // Random interval
+                        if (stopRequested) break;
                         botService.triggerSpin();
                     }
                 } catch (InterruptedException e) {
@@ -94,6 +95,7 @@ public class SlotMachineManager {
             try {
                 while (!stopRequested) {
                     Thread.sleep(15000); // Rotate machines every 15 seconds
+                    if (stopRequested) break;
                     rotateSlotMachines(slotMachines);
                 }
             } catch (InterruptedException e) {
@@ -132,7 +134,7 @@ public class SlotMachineManager {
             if (botThread.isAlive()) {
                 try {
                     botThread.interrupt();
-                    botThread.join(1000);
+                    botThread.join(1000); //wait for threads to finish
                 } catch (InterruptedException e) {
                     LOGGER.warn("Failed to stop thread: {}", botThread.getName(), e);
                 }

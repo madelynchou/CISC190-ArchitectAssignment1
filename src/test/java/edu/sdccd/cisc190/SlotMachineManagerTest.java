@@ -45,6 +45,15 @@ class SlotMachineManagerTest {
 
     @Test
     void testStopAllThreads() throws InterruptedException {
+        //stop the threads and verify that the threads are not running
+        SlotMachineManager.stopAllThreads();
 
+        //ensure that stopRequested is set to true
+        assertTrue(SlotMachineManager.getStopRequested(), "stopRequested should be set to true");
+
+        for(Thread thread : SlotMachineManager.botThreads) {
+            thread.join(1000);
+            assertFalse(thread.isAlive(), "All threads are stopped.");
+        }
     }
 }

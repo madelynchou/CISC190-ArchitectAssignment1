@@ -14,7 +14,7 @@ public class PlayerSavesService {
     * */
     public static void saveState() {
         HumanPlayer player = HumanPlayer.getInstance();
-        String data = "Username: " + player.getName() + ", Money: $" + player.getMoney();
+        String data = "Username: %s, Money: $%d".formatted(player.getName(), player.getMoney());
 
         try {
             // Delete the file if it exists
@@ -49,7 +49,7 @@ public class PlayerSavesService {
                     // Split data and validate structure
                     String[] data = line.split(", ");
                     if (data.length != 2 || !data[0].startsWith("Username:") || !data[1].startsWith("Money:")) {
-                        LOGGER.error("Invalid data format in player_data.txt: " + line);
+                        LOGGER.error("Invalid data format in player_data.txt: %s".formatted(line));
                         return false; // Invalid data format
                     }
 

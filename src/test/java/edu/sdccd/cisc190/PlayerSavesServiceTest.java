@@ -7,6 +7,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -30,8 +32,13 @@ class PlayerSavesServiceTest {
     @AfterEach
     void tearDown() {
         // Clean up after each test
-        if (saveFile.exists()) {
-            saveFile.delete();
+        try {
+            if (saveFile.exists()) {
+                Path path = saveFile.toPath();
+                Files.delete(path);
+            }
+        } catch (Exception e) {
+            System.err.printf("Failed to delete the save file: %s%n", e.getMessage());
         }
     }
 
@@ -48,7 +55,7 @@ class PlayerSavesServiceTest {
             String line = reader.readLine();
             assertEquals("Username: TestUser, Money: $100", line, "Save file content should match expected format");
         } catch (Exception e) {
-            fail("Unexpected exception reading the save file: " + e.getMessage());
+            fail("Unexpected exception reading the save file: %s".formatted(e.getMessage()));
         }
     }
 
@@ -59,7 +66,7 @@ class PlayerSavesServiceTest {
             writer.write("Username: TestUser, Money: $100");
             writer.newLine();
         } catch (Exception e) {
-            fail("Unexpected exception creating the save file: " + e.getMessage());
+            fail("Unexpected exception creating the save file: %s".formatted(e.getMessage()));
         }
 
         // Call the loadState method
@@ -95,7 +102,7 @@ class PlayerSavesServiceTest {
             writer.write("Invalid Data");
             writer.newLine();
         } catch (Exception e) {
-            fail("Unexpected exception creating the save file: " + e.getMessage());
+            fail("Unexpected exception creating the save file: %s".formatted(e.getMessage()));
         }
 
         // Call the loadState method
@@ -112,7 +119,7 @@ class PlayerSavesServiceTest {
             writer.write("Username: TestUser, Money: $100");
             writer.newLine();
         } catch (Exception e) {
-            fail("Unexpected exception creating the save file: " + e.getMessage());
+            fail("Unexpected exception creating the save file: %s".formatted(e.getMessage()));
         }
 
         // Call the deleteState method

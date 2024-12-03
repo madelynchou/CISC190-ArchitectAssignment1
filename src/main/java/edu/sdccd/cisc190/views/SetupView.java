@@ -15,18 +15,13 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 public class SetupView extends Application {
-    // TODO store pointer to Player and pass in instance of player when SetupView is constructed
     static String userName;
-    PlayerSavesService playerSavesService;
 
-    // TODO: create variable for BotService
 
     @Override
     public void start(Stage primaryStage) {
-        // TODO: fire up BotService somewhere below
-
         // Check if player data file exists and load it
-        if (playerSavesService.loadState()) {
+        if (PlayerSavesService.loadState()) {
             // Proceed directly to the MainMenu if data was loaded
             Stage mainMenuStage = new Stage();
             MainMenuView.setupWindow(mainMenuStage);
