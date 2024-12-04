@@ -340,7 +340,7 @@ public class MainMenuView extends Application {
 
             String tooltipText = switch (option) {
                 case DIAMOND_DASH -> "Play Diamond Dash for sparkling wins! Min Bet: 15, Max Bet: 1000, Return: 2x";
-                case HONDA_TRUNK -> "Spin the wheels with Honda Trunk. Min Bet: 5, Max Bet: 1000, Return: 1.5x";
+                case HONDA_TRUNK -> "Spin the wheels with Honda Trunk. Min Bet: 1, Max Bet: 1000, Return: 1.5x";
                 case MEGA_MOOLAH -> "Massive jackpots in Mega Moolah! Min Bet: 10, Max Bet: 1000, Return: 3x";
                 case RAINBOW_RICHES -> "Discover treasures in Rainbow Riches. Min Bet: 25, Max Bet: 1000, Return: 5x";
                 case TREASURE_SPINS -> "Uncover hidden wealth with Treasure Spins. Min Bet: 50, Max Bet: 1000, Return: 10x";
