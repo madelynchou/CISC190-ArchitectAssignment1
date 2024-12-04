@@ -80,12 +80,9 @@ public class PlayerSavesService {
     public static void deleteState() {
         File file = new File("player_data.txt");
         if (file.exists()) {
-            if (file.delete()) {
-                System.out.println("File deleted successfully: " + file);
-            } else {
-                System.out.println("Failed to delete the file: " + file);
+            if (!file.delete()) {
+                LOGGER.error("Failed to delete existing player_data.txt file.");
             }
-        } else {
-            System.out.println("File does not exist: " + file);
         }
-    }}
+    }
+}

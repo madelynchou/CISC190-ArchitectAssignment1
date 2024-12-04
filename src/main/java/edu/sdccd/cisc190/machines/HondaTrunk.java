@@ -21,6 +21,8 @@ public class HondaTrunk extends Slot {
     public int evaluateWinCondition(String[] arr) {
         if (arr[0].equals(arr[1]) && arr[1].equals(arr[2])) {
             return 3; // Full match
+        } else if (arr[0].equals(arr[1]) || arr[1].equals(arr[2]) || arr[0].equals(arr[2])) {
+            return 2;
         } else {
             return 0;
         }
@@ -40,6 +42,8 @@ public class HondaTrunk extends Slot {
         return switch (winningCondition) {
             case 0 -> // No match
                     moneyAmount - bet;
+            case 2 ->
+                    (int) (moneyAmount + Math.floor(bet * returnAmt * 0.25));
             case 3 -> // Three-symbol match
                     (int) (moneyAmount + Math.floor(bet * returnAmt));
             default -> moneyAmount;
