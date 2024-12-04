@@ -3,6 +3,7 @@ package edu.sdccd.cisc190.views;
 import edu.sdccd.cisc190.players.HumanPlayer;
 import edu.sdccd.cisc190.services.BotService;
 import edu.sdccd.cisc190.services.PlayerSavesService;
+import edu.sdccd.cisc190.services.SlotMachineManager;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.binding.StringBinding;
@@ -176,10 +177,10 @@ public class MainMenuView extends Application {
             confirmationAlert.showAndWait().ifPresent(response -> {
                 if (response == ButtonType.OK) {
                     Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
+                    PlayerSavesService.deleteState();
                     successAlert.setTitle("File Deletion");
                     successAlert.setHeaderText(null);
-                    PlayerSavesService.deleteState();
-                    successAlert.setContentText("Your file has been successfully deleted! (Logic not implemented)");
+                    successAlert.setContentText("Your file has been successfully deleted!");
                     successAlert.showAndWait();
                     quitApplication();
 
@@ -384,7 +385,7 @@ public class MainMenuView extends Application {
         alert.setTitle("Goodbye!");
         alert.setContentText("Come back soon! 99.9% of gamblers quit before hitting it big!");
         alert.showAndWait();
-
+        PlayerSavesService.saveState();
         Platform.exit();
 
         // Exit the program
