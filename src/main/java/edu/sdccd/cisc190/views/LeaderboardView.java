@@ -18,26 +18,17 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import java.util.List;
-
-/**
- * LeaderboardView is a JavaFX application that displays a leaderboard
- * showing the names and money amounts of players (both human and bot).
- * It dynamically updates when players' money values change.
- * */
 public class LeaderboardView extends Application {
 
-    public static TableView<LeaderboardEntry> leaderboardTable; // TableView to display the leaderboard entries
-    private final static ObservableList<LeaderboardEntry> entries = FXCollections.observableArrayList(); // Observable list to hold and manage leaderboard entries
+    public static TableView<LeaderboardEntry> leaderboardTable;
+    private final static ObservableList<LeaderboardEntry> entries = FXCollections.observableArrayList();
 
-    /**
-     * Initializes and starts the JavaFX application
-     * @param primaryStage the primary stage for this application
-     * */
     @Override
     public void start(Stage primaryStage) {
-        // Set up listeners for money property changes to update the leaderboard.
+        // Listen to human player money changes
         HumanPlayer.getInstance().moneyProperty().addListener((_, _, _) -> updateLeaderboard());
+
+        // Add listeners for all bot players
         AnitaMaxWynn.getInstance().moneyProperty().addListener((_, _, _) -> updateLeaderboard());
         HondaBoyz.getInstance().moneyProperty().addListener((_, _, _) -> updateLeaderboard());
         MrBrooks.getInstance().moneyProperty().addListener((_, _, _) -> updateLeaderboard());
@@ -47,18 +38,11 @@ public class LeaderboardView extends Application {
         showWindow(primaryStage);
     }
 
-    /**
-     * Updates and sorts the leaderboard based on players' money values.
-     * */
     private static void updateLeaderboard() {
         FXCollections.sort(entries, (entry1, entry2) -> Integer.compare(entry2.money().get(), entry1.money().get()));
         leaderboardTable.refresh();
     }
 
-    /**
-     * Displays the leaderboard window.
-     * @param primaryStage the primary stage to display the leaderboard.
-     * */
     public static void showWindow(Stage primaryStage) {
         VBox layout = createMainLayout();
         primaryStage.setTitle("Leaderboard");
@@ -79,10 +63,6 @@ public class LeaderboardView extends Application {
         setupScene(primaryStage, layout);
     }
 
-    /**
-     * Creates and configures the main layout for the leaderboard.
-     * @return a VBox layout for the leaderboard.
-     * */
     private static VBox createMainLayout() {
         VBox layout = new VBox(20);
         layout.setStyle(
@@ -93,10 +73,6 @@ public class LeaderboardView extends Application {
         return layout;
     }
 
-    /**
-     * Creates a header text for the leaderboard.
-     * @return a styled Text object as the header.
-     * */
     private static Text createHeader() {
         Text header = new Text("Leaderboard");
         header.setFont(Font.font("Verdana", FontWeight.BOLD, 30));
@@ -104,10 +80,6 @@ public class LeaderboardView extends Application {
         return header;
     }
 
-    /**
-     * Creates and populates the TableView for leaderboard entries.
-     * @return a TableView displaying leaderboard data.
-     * */
     private static TableView<LeaderboardEntry> createLeaderboardTable() {
         TableView<LeaderboardEntry> table = new TableView<>();
         table.setPrefHeight(300);
@@ -122,15 +94,7 @@ public class LeaderboardView extends Application {
         moneyColumn.setPrefWidth(150);
 
         // Add columns to the table
-        List<LeaderboardEntry> newEntries = List.of(
-                new LeaderboardEntry(HumanPlayer.getInstance().getName(), HumanPlayer.getInstance().moneyProperty()),
-                new LeaderboardEntry(AnitaMaxWynn.getInstance().getName(), AnitaMaxWynn.getInstance().moneyProperty()),
-                new LeaderboardEntry(Chase.getInstance().getName(), Chase.getInstance().moneyProperty()),
-                new LeaderboardEntry(HondaBoyz.getInstance().getName(), HondaBoyz.getInstance().moneyProperty()),
-                new LeaderboardEntry(MrBrooks.getInstance().getName(), MrBrooks.getInstance().moneyProperty()),
-                new LeaderboardEntry(ProfessorHuang.getInstance().getName(), ProfessorHuang.getInstance().moneyProperty())
-        );
-        entries.addAll(newEntries);
+        table.getColumns().addAll(nameColumn, moneyColumn);
 
         // Populate and sort data
         table.setItems(getSortedLeaderboardData());
@@ -138,10 +102,6 @@ public class LeaderboardView extends Application {
         return table;
     }
 
-    /**
-     * Retrieves and sorts the leaderboard data.
-     * @return an ObservableList of sorted leaderboard entries
-     * */
     private static ObservableList<LeaderboardEntry> getSortedLeaderboardData() {
         // Ensure that this method populates the list correctly and considers all players.
         if (entries.isEmpty()) {
@@ -157,10 +117,6 @@ public class LeaderboardView extends Application {
         return entries;
     }
 
-    /**
-     * Retrieves and sorts the leaderboard data.
-     * @return an ObservableList of sorted leaderboard entries.
-     * */
     private static Button createStyledButton() {
         Button button = new Button("Main Menu");
         button.setFont(Font.font("Arial", FontWeight.BOLD, 16));
@@ -172,10 +128,6 @@ public class LeaderboardView extends Application {
         return button;
     }
 
-    /**
-     * Retrieves and sorts the leaderboard data.
-     * @return an ObservableList of sorted leaderboard entries.
-     * */
     private static String createButtonStyle(String topColor, String bottomColor, String textColor) {
         return "-fx-background-color: linear-gradient(to bottom, " + topColor + ", " + bottomColor + ");" +
                 "-fx-text-fill: " + textColor + ";" +
@@ -183,56 +135,18 @@ public class LeaderboardView extends Application {
                 "-fx-padding: 10px 20px;";
     }
 
-    /**
-     * Sets up and displays the scene for the leaderboard.
-     * @param primaryStage the primary stage for the application
-     * @param layout the VBox layout to display
-     * */
     private static void setupScene(Stage primaryStage, VBox layout) {
         Scene scene = new Scene(layout, 600, 600);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
 
-    /**
-     * Launches the JavaFX application
-     * @param args command-line arguments
-     * */
     public static void main(String[] args) {
         launch(args);
     }
 
-    /**
-     * Represents a single entry in the leaderboard, containing the player's name and money property
-     */
+    // Nested class for leaderboard entry
         public record LeaderboardEntry(String name, IntegerProperty money) {
-        /**
-         * Constructs a new LeaderboardEntry.
-         *
-         * @param name  the player's name
-         * @param money the player's money property
-         */
-        public LeaderboardEntry {
-        }
 
-            /**
-             * Retrieves the player's name.
-             *
-             * @return the player's name
-             */
-            @Override
-            public String name() {
-                return name;
-            }
-
-            /**
-             * Retrieves the player's money property.
-             *
-             * @return the money property
-             */
-            @Override
-            public IntegerProperty money() {
-                return money;
-            }
-        }
+    }
 }

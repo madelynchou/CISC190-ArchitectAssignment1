@@ -1,15 +1,11 @@
 package edu.sdccd.cisc190.views;
 
 import edu.sdccd.cisc190.players.HumanPlayer;
-import edu.sdccd.cisc190.services.BotService;
-import edu.sdccd.cisc190.services.PlayerSavesService;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.beans.binding.StringBinding;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -22,7 +18,6 @@ import java.awt.*;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -86,13 +81,6 @@ public class MainMenuView extends Application {
         Button motivationButton = createMotivationButton();
         layout.getChildren().add(motivationButton);
 
-        Button pauseButton = createPauseButton();
-        layout.getChildren().add(pauseButton);
-
-        // Add Delete File button
-        Button deleteFileButton = createDeleteButton();
-        layout.getChildren().add(deleteFileButton);
-
         // Setup and display the scene
         setupScene(primaryStage, layout);
     }
@@ -119,81 +107,6 @@ public class MainMenuView extends Application {
         });
 
         return motivationButton;
-    }
-
-    /**
-     * Creates a button to pause or unpause the bots in the game.
-     *
-     * @return the pause/unpause button.
-     */
-    private static Button createPauseButton() {
-        Button pauseButton = createSecondaryButton("Pause", "Stop all of the bots from playing");
-
-        // Create a binding to dynamically set the button text
-        StringBinding pauseButtonTextBinding = new StringBinding() {
-            {
-                super.bind(BotService.pauseFlagProperty());
-            }
-
-            @Override
-            protected String computeValue() {
-                return BotService.pauseFlagProperty().get() ? "Unpause" : "Pause";
-            }
-        };
-
-        // Bind the button's text property to the binding
-        pauseButton.textProperty().bind(pauseButtonTextBinding);
-
-        pauseButton.setTooltip(createTooltip("Pause all of the bots from playing"));
-
-        pauseButton.setOnAction(_ -> {
-            if (BotService.pauseFlagProperty().get()) {
-                BotService.unpause();
-                showMessage("Bots have been unpaused and are now spinning");
-            } else {
-                BotService.pause();
-                showMessage("All bots have been paused");
-            }
-        });
-
-        return pauseButton;
-    }
-
-    /**
-     * Creates a button to delete the user's save file with confirmation alerts.
-     *
-     * @return the delete user file button.
-     */
-    private static Button createDeleteButton() {
-        Button deleteButton = createSecondaryButton("Delete User File", "DON'T QUIT GAMBLING!!! 99.9% OF GAMBLERS QUIT FOR HITTING IT BIG!!!!!!");
-
-        deleteButton.setOnAction(_ -> {
-            Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
-            confirmationAlert.setTitle("Confirm Deletion");
-            confirmationAlert.setHeaderText("Are you sure?");
-            confirmationAlert.setContentText("This will delete your user file. This action cannot be undone.");
-
-            confirmationAlert.showAndWait().ifPresent(response -> {
-                if (response == ButtonType.OK) {
-                    Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
-                    successAlert.setTitle("File Deletion");
-                    successAlert.setHeaderText(null);
-                    PlayerSavesService.deleteState();
-                    successAlert.setContentText("Your file has been successfully deleted! (Logic not implemented)");
-                    successAlert.showAndWait();
-                    quitApplication();
-
-                } else {
-                    Alert cancelAlert = new Alert(Alert.AlertType.INFORMATION);
-                    cancelAlert.setTitle("File Deletion Canceled");
-                    cancelAlert.setHeaderText(null);
-                    cancelAlert.setContentText("Your file has not been deleted.");
-                    cancelAlert.showAndWait();
-                }
-            });
-        });
-
-        return deleteButton;
     }
 
     /**
