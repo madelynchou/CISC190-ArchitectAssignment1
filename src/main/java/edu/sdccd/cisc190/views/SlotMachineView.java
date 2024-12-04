@@ -87,7 +87,7 @@ public class SlotMachineView extends Application {
             default -> slotMachine = new DiamondDash();
         }
 
-        primaryStage.setTitle("Casino Royale - Slot Machine");
+        primaryStage.setTitle("Casino - Slot Machine");
 
         // Styled Labels
         betAmount.setText("You're betting: $%d".formatted(betAmt));
