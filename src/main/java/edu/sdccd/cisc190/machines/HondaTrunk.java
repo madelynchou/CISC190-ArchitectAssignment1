@@ -8,7 +8,7 @@ package edu.sdccd.cisc190.machines;
  */
 public class HondaTrunk extends Slot {
     public HondaTrunk() {
-        super(new String[]{"🚗", "🛻", "🚕"}, 1000, 1, 1.5);
+        super(new String[]{"🚗", "🛻", "🚕"}, 1000, 1, 2);
     }
 
     /**

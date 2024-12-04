@@ -7,7 +7,7 @@ package edu.sdccd.cisc190.machines;
  */
 public class DiamondDash extends Slot {
     public DiamondDash() {
-        super(new String[]{"💍", "💠", "💎"}, 1000, 15, 2);
+        super(new String[]{"💍", "💠", "💎"}, 1000, 15, 5);
     }
 
     /**

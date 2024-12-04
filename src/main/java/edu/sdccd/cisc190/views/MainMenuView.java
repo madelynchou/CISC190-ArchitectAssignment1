@@ -35,17 +35,17 @@ public class MainMenuView extends Application {
     /**
      * A static list of motivational URLs to be shown to users.
      */
-    private static final ArrayList<String> MOTIVATIONAL_URLS = new ArrayList<>() {{
-        add("https://www.instagram.com/reel/C_JDcZVya_1/?igsh=NTc4MTIwNjQ2YQ=="); // Add your own motivational URLs
-        add("https://www.instagram.com/reel/DAZR6WlSsVk/?igsh=NTc4MTIwNjQ2YQ==");
-        add("https://www.instagram.com/reel/DCz7-k5JxLT/?igsh=NTc4MTIwNjQ2YQ==");
-        add("https://www.instagram.com/reel/DB1tqWqNWL8/?igsh=NTc4MTIwNjQ2YQ==");
-        add("https://www.instagram.com/reel/DB9nUPfS1WC/?igsh=NTc4MTIwNjQ2YQ==");
-        add("https://www.instagram.com/reel/DBpDgUVoFcK/?igsh=NTc4MTIwNjQ2YQ==");
-        add("https://www.instagram.com/reel/DB8nzu7oW8K/?igsh=NTc4MTIwNjQ2YQ==");
-        add("https://www.instagram.com/reel/C7ZnLuWoRbW/?igsh=NTc4MTIwNjQ2YQ==");
-        add("https://www.instagram.com/reel/C_8R_SJPOe6/?igsh=NTc4MTIwNjQ2YQ==");
-    }};
+    private static final String[] MOTIVATIONAL_URLS = {
+            "https://www.instagram.com/reel/C_JDcZVya_1/?igsh=NTc4MTIwNjQ2YQ==", // Add your own motivational URLs
+            "https://www.instagram.com/reel/DAZR6WlSsVk/?igsh=NTc4MTIwNjQ2YQ==",
+            "https://www.instagram.com/reel/DCz7-k5JxLT/?igsh=NTc4MTIwNjQ2YQ==",
+            "https://www.instagram.com/reel/DB1tqWqNWL8/?igsh=NTc4MTIwNjQ2YQ==",
+            "https://www.instagram.com/reel/DB9nUPfS1WC/?igsh=NTc4MTIwNjQ2YQ==",
+            "https://www.instagram.com/reel/DBpDgUVoFcK/?igsh=NTc4MTIwNjQ2YQ==",
+            "https://www.instagram.com/reel/DB8nzu7oW8K/?igsh=NTc4MTIwNjQ2YQ==",
+            "https://www.instagram.com/reel/C7ZnLuWoRbW/?igsh=NTc4MTIwNjQ2YQ==",
+            "https://www.instagram.com/reel/C_8R_SJPOe6/?igsh=NTc4MTIwNjQ2YQ=="
+    };
 
     /**
      * The primary stage of the application.
@@ -107,8 +107,8 @@ public class MainMenuView extends Application {
 
         motivationButton.setOnAction(_ -> {
             Random random = new Random();
-            int randomIndex = random.nextInt(MOTIVATIONAL_URLS.size());
-            String selectedUrl = MOTIVATIONAL_URLS.get(randomIndex);
+            int randomIndex = random.nextInt(MOTIVATIONAL_URLS.length);
+            String selectedUrl = MOTIVATIONAL_URLS[randomIndex];
 
             try {
                 Desktop desktop = Desktop.getDesktop();
