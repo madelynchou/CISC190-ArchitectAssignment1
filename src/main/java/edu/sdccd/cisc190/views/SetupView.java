@@ -50,10 +50,10 @@ public class SetupView extends Application {
      * @param primaryStage the primary stage for the sign-in window.
      */
     private void showSignInWindow(Stage primaryStage) {
-        primaryStage.setTitle("Casino Royale - Sign In");
+        primaryStage.setTitle("Casino - Sign In");
 
         // Create labels, text field, and button for the sign-in window
-        Label welcomeLabel = new Label("Welcome to Casino Royale!");
+        Label welcomeLabel = new Label("Welcome to the Casino!");
         Label nameLabel = new Label("What's your name?");
         nameLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 16));
         nameLabel.setTextFill(Color.GOLD);

@@ -59,7 +59,7 @@ public class BetView extends Application {
      * @param selectedMachine The selected slot machine type.
      */
     public static void showWindow(Stage primaryStage, MainMenuView.SlotOptions selectedMachine) {
-        primaryStage.setTitle("Casino Royale - Place Your Bet");
+        primaryStage.setTitle("Casino - Place Your Bet");
 
         // Initialize the selected slot machine based on user choice
         switch (selectedMachine) {

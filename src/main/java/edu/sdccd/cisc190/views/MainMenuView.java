@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * MainMenuView is the main menu screen of the Casino Royale application.
+ * MainMenuView is the main menu screen of the Casino application.
  * It provides navigation to various sections of the game, including
  * slot machine options, a leaderboard, and motivational resources.
  * The class also handles pausing bots and managing user data.
@@ -71,7 +71,7 @@ public class MainMenuView extends Application {
      */
     static void setupWindow(Stage primaryStage) {
         VBox layout = createMainLayout();
-        primaryStage.setTitle("Casino Royale Menu");
+        primaryStage.setTitle("Casino Menu");
 
         // Add header and user info
         layout.getChildren().addAll(
@@ -214,12 +214,12 @@ public class MainMenuView extends Application {
 
     /**
      * Creates a header text for the main menu.
-     * The header displays the title "Casino Royale" with bold styling.
+     * The header displays the title "Casino" with bold styling.
      *
      * @return a Text object representing the header.
      */
     private static Text createHeader() {
-        Text header = new Text("Casino Royale");
+        Text header = new Text("Casino");
         header.setFont(Font.font("Verdana", FontWeight.BOLD, 30));
         header.setFill(Color.GOLD);
         return header;
