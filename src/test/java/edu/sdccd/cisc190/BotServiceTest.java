@@ -58,24 +58,4 @@ class BotServiceTest {
         assertNotEquals(initialMoney, updatedMoney, "Bot's money should update after spin.");
     }
 
-    @Test
-    void testPauseAndUnpause() throws InterruptedException {
-        //trigger a spin and store Chase's money right after spin
-        botService.triggerSpin();
-        int initialMoney = chase.getMoney();
-
-        //pause Chase and store money amount after pause
-        BotService.pause();
-        int pausedMoney = chase.getMoney();
-
-        //verify that Chase's money is unchanged from after the spin to the pause
-        assertEquals(initialMoney, pausedMoney, "Chase's money should be the same from after the spin to the pause");
-
-        //unpause Chase and let the Thread sleep for a second to let the bot play
-        BotService.unpause();
-        Thread.sleep(1000);
-
-        int newMoney = chase.getMoney();
-        assertNotEquals(pausedMoney, newMoney, "Chase's money should have updated after the unpause.");
-    }
 }

@@ -23,7 +23,7 @@ public class DiamondDash extends Slot {
         int winningCondition = evaluateWinCondition(spunRow);
         return switch (winningCondition) {
             case 0 -> // No match
-                    (int) (moneyAmount - (Math.floor(bet * 0.5)));
+                    (int) (moneyAmount - bet * 0.5);
             case 3 -> // Three-symbol match
                     (int) (moneyAmount + Math.floor(bet * returnAmt));
             default -> moneyAmount;

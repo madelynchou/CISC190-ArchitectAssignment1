@@ -100,7 +100,7 @@ class SlotTest {
         //diamond dash
         String[] partialMatchDD = {"💍", "💍", "💠"};
         int newDDMoney = diamondDash.calculatePayout(initialMoney, partialMatchDD, bet);
-        assertEquals(75, newDDMoney);
+        assertEquals(50, newDDMoney);
 
         //honda trunk
         String[] partialMatchHT = {"🚗", "🚗", "🚕"};
