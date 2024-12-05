@@ -55,15 +55,6 @@ public class BotService implements Runnable {
     }
 
     /**
-     * Returns the static pause flag as a BooleanProperty
-     * This property can be used for binding UI elements or observing changes
-     * @return The pause flag as a BooleanProperty
-     * */
-    public static BooleanProperty pauseFlagProperty() {
-        return pauseFlag;
-    }
-
-    /**
      * Changes the slot machine this bot interacts with
      * @param newSlotMachine The new slot machine to associate with this bot
      * */

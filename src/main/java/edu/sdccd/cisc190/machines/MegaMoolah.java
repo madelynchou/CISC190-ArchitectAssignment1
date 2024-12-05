@@ -8,7 +8,7 @@ package edu.sdccd.cisc190.machines;
  */
 public class MegaMoolah extends Slot {
     public MegaMoolah() {
-        super(new String[]{"\uD83D\uDCB0", "\uD83E\uDD11", "\uD83D\uDCB8"}, 1000, 10, 5);
+        super(new String[]{"\uD83D\uDCB0", "\uD83E\uDD11", "\uD83D\uDCB8"}, 1000, 10, 3);
     }
 
     /**
