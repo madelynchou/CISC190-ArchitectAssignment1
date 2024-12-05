@@ -10,7 +10,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -25,6 +24,7 @@ public class LeaderboardView extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+
         // Listen to human player money changes
         HumanPlayer.getInstance().moneyProperty().addListener((_, _, _) -> updateLeaderboard());
 
@@ -86,11 +86,11 @@ public class LeaderboardView extends Application {
 
         // Define columns
         TableColumn<LeaderboardEntry, String> nameColumn = new TableColumn<>("Name");
-        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        nameColumn.setCellValueFactory(cellData -> new javafx.beans.property.SimpleStringProperty(cellData.getValue().name()));
         nameColumn.setPrefWidth(150);
 
-        TableColumn<LeaderboardEntry, IntegerProperty> moneyColumn = new TableColumn<>("Money");
-        moneyColumn.setCellValueFactory(new PropertyValueFactory<>("money"));
+        TableColumn<LeaderboardEntry, Integer> moneyColumn = new TableColumn<>("Money");
+        moneyColumn.setCellValueFactory(cellData -> cellData.getValue().money().asObject());
         moneyColumn.setPrefWidth(150);
 
         // Add columns to the table
