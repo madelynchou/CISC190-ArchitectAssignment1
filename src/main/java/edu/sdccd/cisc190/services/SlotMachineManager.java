@@ -80,6 +80,7 @@ public class SlotMachineManager {
         botThreads.add(rotationThread);
     }
 
+    @SuppressWarnings("BusyWait")
     private static Thread getThread(List<Slot> slotMachines) {
         Thread rotationThread = new Thread(() -> {
             try {
@@ -98,6 +99,7 @@ public class SlotMachineManager {
         return rotationThread;
     }
 
+    @SuppressWarnings("BusyWait")
     private static Thread getThread(BotService botService) {
         Thread spinThread = new Thread(() -> {
             try {

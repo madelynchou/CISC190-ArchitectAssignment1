@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.*;
 
+@SuppressWarnings("LoggingSimilarMessage")
 public class PlayerSavesService {
     private static final Logger LOGGER = LoggerFactory.getLogger(PlayerSavesService.class);
 
