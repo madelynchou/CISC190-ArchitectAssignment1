@@ -1,6 +1,8 @@
 package edu.sdccd.cisc190.views;
 
 import edu.sdccd.cisc190.machines.*;
+import edu.sdccd.cisc190.players.bots.Bot;
+import edu.sdccd.cisc190.services.SlotMachineManager;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -13,6 +15,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+import javafx.application.Platform;
 
 import static edu.sdccd.cisc190.views.SlotMachineView.slotMachine;
 
@@ -60,6 +63,12 @@ public class BetView extends Application {
      */
     public static void showWindow(Stage primaryStage, MainMenuView.SlotOptions selectedMachine) {
         primaryStage.setTitle("Casino - Place Your Bet");
+
+        // Set the onCloseRequest handler to quit the application when the window is closed
+        primaryStage.setOnCloseRequest(_ -> {
+            SlotMachineManager.stopAllThreads();
+            Platform.exit();
+        });
 
         // Initialize the selected slot machine based on user choice
         switch (selectedMachine) {
@@ -132,7 +141,6 @@ public class BetView extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-
     /**
      * Creates a styled button with hover effects.
      *

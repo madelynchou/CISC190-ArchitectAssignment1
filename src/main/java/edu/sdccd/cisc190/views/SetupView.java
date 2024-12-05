@@ -2,7 +2,9 @@ package edu.sdccd.cisc190.views;
 
 import edu.sdccd.cisc190.players.HumanPlayer;
 import edu.sdccd.cisc190.services.PlayerSavesService;
+import edu.sdccd.cisc190.services.SlotMachineManager;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -50,6 +52,12 @@ public class SetupView extends Application {
      * @param primaryStage the primary stage for the sign-in window.
      */
     private void showSignInWindow(Stage primaryStage) {
+
+        primaryStage.setOnCloseRequest(_ -> {
+            SlotMachineManager.stopAllThreads();
+            Platform.exit();
+        });
+
         primaryStage.setTitle("Casino - Sign In");
 
         // Create labels, text field, and button for the sign-in window

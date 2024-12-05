@@ -6,20 +6,12 @@ import org.slf4j.LoggerFactory;
 
 import java.io.*;
 
-/**
- * Handles the display for the leaderboard
- * Read, display, format, and delete the files
- */
-
 public class PlayerSavesService {
     private static final Logger LOGGER = LoggerFactory.getLogger(PlayerSavesService.class);
 
-    /**
-    * Saves the user's name and money into a player_data.txt file on quit to persist their progress
-    * */
     public static void saveState() {
         HumanPlayer player = HumanPlayer.getInstance();
-        String data = "Username: %s, Money: $%d".formatted(player.getName(), player.getMoney());
+        String data = "Username: " + player.getName() + ", Money: $" + player.getMoney();
 
         try {
             // Delete the file if it exists
@@ -42,22 +34,13 @@ public class PlayerSavesService {
         }
     }
 
-    /**
-    * Loads user data from player_data.txt file if available on game open
-    * */
     public static boolean loadState() {
         File file = new File("player_data.txt");
         if (file.exists()) {
             try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
                 String line = reader.readLine();
                 if (line != null) {
-                    // Split data and validate structure
                     String[] data = line.split(", ");
-                    if (data.length != 2 || !data[0].startsWith("Username:") || !data[1].startsWith("Money:")) {
-                        LOGGER.error("Invalid data format in player_data.txt: %s".formatted(line));
-                        return false; // Invalid data format
-                    }
-
                     String username = data[0].split(": ")[1];
                     int money = Integer.parseInt(data[1].split(": ")[1].replace("$", ""));
 
@@ -67,16 +50,13 @@ public class PlayerSavesService {
 
                     return true; // Data successfully loaded
                 }
-            } catch (IOException | NumberFormatException | ArrayIndexOutOfBoundsException e) {
+            } catch (IOException | NumberFormatException e) {
                 LOGGER.error("Error reading player data", e);
             }
         }
         return false; // File does not exist or data could not be loaded
     }
 
-    /**
-    * Deletes user's information in player_data.txt if available
-    * */
     public static void deleteState() {
         File file = new File("player_data.txt");
         if (file.exists()) {

@@ -71,28 +71,20 @@ public class SlotMachineManager {
             LOGGER.debug("Assigned {} to {}", bot.getName(), machine.getClass().getSimpleName());
 
             // Periodically trigger spins for this bot
-            Thread spinThread = new Thread(() -> {
-                try {
-                    while (!stopRequested) {
-                        Thread.sleep((long) (Math.random() * 7500 + 10000)); // Random interval
-                        if (stopRequested) break;
-                        botService.triggerSpin();
-                    }
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                    LOGGER.info("Thread has been interrupted", e);
-                }
-            });
-
-            spinThread.start();
+            Thread spinThread = getThread(botService);
             botThreads.add(spinThread);
         }
 
         // Start a thread to rotate machines
+        Thread rotationThread = getThread(slotMachines);
+        botThreads.add(rotationThread);
+    }
+
+    private static Thread getThread(List<Slot> slotMachines) {
         Thread rotationThread = new Thread(() -> {
             try {
                 while (!stopRequested) {
-                    Thread.sleep(15000); // Rotate machines every 15 seconds
+                    Thread.sleep(60000); // Rotate machines every 15 seconds
                     if (stopRequested) break;
                     rotateSlotMachines(slotMachines);
                 }
@@ -103,7 +95,25 @@ public class SlotMachineManager {
         });
 
         rotationThread.start();
-        botThreads.add(rotationThread);
+        return rotationThread;
+    }
+
+    private static Thread getThread(BotService botService) {
+        Thread spinThread = new Thread(() -> {
+            try {
+                while (!stopRequested) {
+                    Thread.sleep((long) (Math.random() * 6000 + 5000));
+                    if (stopRequested) break;
+                    botService.triggerSpin();
+                }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                LOGGER.info("Thread has been interrupted", e);
+            }
+        });
+
+        spinThread.start();
+        return spinThread;
     }
 
     /**

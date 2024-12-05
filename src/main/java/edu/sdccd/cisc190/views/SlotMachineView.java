@@ -4,7 +4,9 @@ import edu.sdccd.cisc190.players.HumanPlayer;
 import edu.sdccd.cisc190.machines.Slot;
 import edu.sdccd.cisc190.machines.*;
 import edu.sdccd.cisc190.services.PlayerSavesService;
+import edu.sdccd.cisc190.services.SlotMachineManager;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -77,6 +79,11 @@ public class SlotMachineView extends Application {
      * @param selectedMachine  the type of slot machine selected.
      */
     public static void showWindow(Stage primaryStage, int betAmt, MainMenuView.SlotOptions selectedMachine) {
+
+        primaryStage.setOnCloseRequest(_ -> {
+            SlotMachineManager.stopAllThreads();
+            Platform.exit();
+        });
 
         machineSelect = selectedMachine;
         switch (selectedMachine) {

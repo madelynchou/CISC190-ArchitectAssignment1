@@ -2,7 +2,9 @@ package edu.sdccd.cisc190.views;
 
 import edu.sdccd.cisc190.players.HumanPlayer;
 import edu.sdccd.cisc190.players.bots.*;
+import edu.sdccd.cisc190.services.SlotMachineManager;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -46,6 +48,11 @@ public class LeaderboardView extends Application {
     public static void showWindow(Stage primaryStage) {
         VBox layout = createMainLayout();
         primaryStage.setTitle("Leaderboard");
+
+        primaryStage.setOnCloseRequest(_ -> {
+            SlotMachineManager.stopAllThreads();
+            Platform.exit();
+        });
 
         // Add header to the layout
         layout.getChildren().add(createHeader());

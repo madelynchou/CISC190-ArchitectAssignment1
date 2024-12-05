@@ -63,29 +63,6 @@ public class BotService implements Runnable {
     }
 
     /**
-     * Pauses all bots by setting the pause flag to true.
-     * Bots will wait until the pause flag is set to false.
-     * */
-    public static void pause() {
-        LOGGER.debug("Bots paused");
-        synchronized (lock) {
-            pauseFlag.set(true);
-        }
-    }
-
-    /**
-     * Unpauses all bots by setting the pause flag to false.
-     * Notifies all threads waiting on the pause lock to resume execution.
-     * */
-    public static void unpause() {
-        LOGGER.debug("Bots unpaused");
-        synchronized (lock) {
-            pauseFlag.set(false);
-            lock.notifyAll(); // Notify all threads waiting on the lock
-        }
-    }
-
-    /**
      * Runs the bot service in a separate thread.
      * The bot performs spins on its slot machine when triggered, and respects the pause flag.
      **/

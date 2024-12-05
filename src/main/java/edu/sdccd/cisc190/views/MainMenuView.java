@@ -1,6 +1,8 @@
 package edu.sdccd.cisc190.views;
 
 import edu.sdccd.cisc190.players.HumanPlayer;
+import edu.sdccd.cisc190.services.PlayerSavesService;
+import edu.sdccd.cisc190.services.SlotMachineManager;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -232,6 +234,11 @@ public class MainMenuView extends Application {
      * @param layout       the layout to be displayed in the scene.
      */
     private static void setupScene(Stage primaryStage, VBox layout) {
+        primaryStage.setOnCloseRequest(_ -> {
+            SlotMachineManager.stopAllThreads();
+            Platform.exit();
+        });
+
         // Adjust the width and height as desired
         Scene scene = new Scene(layout, 800, 800); // Changed from 600, 600 to 800, 800
         primaryStage.setScene(scene);
@@ -297,7 +304,7 @@ public class MainMenuView extends Application {
         alert.setTitle("Goodbye!");
         alert.setContentText("Come back soon! 99.9% of gamblers quit before hitting it big!");
         alert.showAndWait();
-
+        PlayerSavesService.saveState();
         Platform.exit();
 
         // Exit the program
