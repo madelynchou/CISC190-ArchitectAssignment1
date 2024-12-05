@@ -1,7 +1,6 @@
 package edu.sdccd.cisc190.views;
 
 import edu.sdccd.cisc190.machines.*;
-import edu.sdccd.cisc190.players.bots.Bot;
 import edu.sdccd.cisc190.services.SlotMachineManager;
 import javafx.application.Application;
 import javafx.geometry.Pos;

@@ -22,7 +22,7 @@ import javafx.stage.Stage;
 public class LeaderboardView extends Application {
 
     public static TableView<LeaderboardEntry> leaderboardTable;
-    private final static ObservableList<LeaderboardEntry> entries = FXCollections.observableArrayList();
+    private static final ObservableList<LeaderboardEntry> entries = FXCollections.observableArrayList();
 
     @Override
     public void start(Stage primaryStage) {
@@ -40,15 +40,24 @@ public class LeaderboardView extends Application {
         showWindow(primaryStage);
     }
 
+    /**
+     * Updates the leaderboard by sorting entries based on the amount of money in descending order.
+     */
     private static void updateLeaderboard() {
         FXCollections.sort(entries, (entry1, entry2) -> Integer.compare(entry2.money().get(), entry1.money().get()));
         leaderboardTable.refresh();
     }
 
+    /**
+     * Displays the leaderboard window with a sorted list of players and their money amounts.
+     *
+     * @param primaryStage The main stage for the application.
+     */
     public static void showWindow(Stage primaryStage) {
         VBox layout = createMainLayout();
         primaryStage.setTitle("Leaderboard");
 
+        // Set the onCloseRequest handler to stop threads and exit the application
         primaryStage.setOnCloseRequest(_ -> {
             SlotMachineManager.stopAllThreads();
             Platform.exit();
@@ -70,6 +79,11 @@ public class LeaderboardView extends Application {
         setupScene(primaryStage, layout);
     }
 
+    /**
+     * Creates the main layout for the leaderboard window.
+     *
+     * @return A VBox layout with predefined styles and spacing.
+     */
     private static VBox createMainLayout() {
         VBox layout = new VBox(20);
         layout.setStyle(
@@ -80,6 +94,11 @@ public class LeaderboardView extends Application {
         return layout;
     }
 
+    /**
+     * Creates a styled header text for the leaderboard window.
+     *
+     * @return A styled Text object representing the header.
+     */
     private static Text createHeader() {
         Text header = new Text("Leaderboard");
         header.setFont(Font.font("Verdana", FontWeight.BOLD, 30));
@@ -87,6 +106,11 @@ public class LeaderboardView extends Application {
         return header;
     }
 
+    /**
+     * Creates the TableView for displaying the leaderboard.
+     *
+     * @return A TableView populated with leaderboard entries, sorted by money.
+     */
     private static TableView<LeaderboardEntry> createLeaderboardTable() {
         TableView<LeaderboardEntry> table = new TableView<>();
         table.setPrefHeight(300);
@@ -109,8 +133,13 @@ public class LeaderboardView extends Application {
         return table;
     }
 
+    /**
+     * Gets the sorted data for the leaderboard table.
+     * Initializes the list if it's empty and sorts entries by money.
+     *
+     * @return An ObservableList containing sorted leaderboard entries.
+     */
     private static ObservableList<LeaderboardEntry> getSortedLeaderboardData() {
-        // Ensure that this method populates the list correctly and considers all players.
         if (entries.isEmpty()) {
             entries.addAll(
                     new LeaderboardEntry(HumanPlayer.getInstance().getName(), HumanPlayer.getInstance().moneyProperty()),
@@ -121,9 +150,15 @@ public class LeaderboardView extends Application {
                     new LeaderboardEntry(ProfessorHuang.getInstance().getName(), ProfessorHuang.getInstance().moneyProperty())
             );
         }
+        FXCollections.sort(entries, (entry1, entry2) -> Integer.compare(entry2.money().get(), entry1.money().get()));
         return entries;
     }
 
+    /**
+     * Creates a styled button for navigation to the main menu.
+     *
+     * @return A styled Button object.
+     */
     private static Button createStyledButton() {
         Button button = new Button("Main Menu");
         button.setFont(Font.font("Arial", FontWeight.BOLD, 16));
@@ -135,6 +170,14 @@ public class LeaderboardView extends Application {
         return button;
     }
 
+    /**
+     * Generates a CSS style string for buttons.
+     *
+     * @param topColor    The gradient's top color.
+     * @param bottomColor The gradient's bottom color.
+     * @param textColor   The text color.
+     * @return A CSS style string.
+     */
     private static String createButtonStyle(String topColor, String bottomColor, String textColor) {
         return "-fx-background-color: linear-gradient(to bottom, " + topColor + ", " + bottomColor + ");" +
                 "-fx-text-fill: " + textColor + ";" +
@@ -142,6 +185,12 @@ public class LeaderboardView extends Application {
                 "-fx-padding: 10px 20px;";
     }
 
+    /**
+     * Sets up and displays the scene for the primary stage.
+     *
+     * @param primaryStage The main stage of the application.
+     * @param layout       The layout to display on the stage.
+     */
     private static void setupScene(Stage primaryStage, VBox layout) {
         Scene scene = new Scene(layout, 600, 600);
         primaryStage.setScene(scene);
@@ -152,8 +201,12 @@ public class LeaderboardView extends Application {
         launch(args);
     }
 
-    // Nested class for leaderboard entry
-        public record LeaderboardEntry(String name, IntegerProperty money) {
-
+    /**
+     * Represents a single entry in the leaderboard.
+     *
+     * @param name  The name of the player.
+     * @param money The money property of the player.
+     */
+    public record LeaderboardEntry(String name, IntegerProperty money) {
     }
 }

@@ -9,6 +9,9 @@ import java.io.*;
 public class PlayerSavesService {
     private static final Logger LOGGER = LoggerFactory.getLogger(PlayerSavesService.class);
 
+    /*
+     * Saves the user's name and money into a player_data.txt file on quit to persist their progress
+     * */
     public static void saveState() {
         HumanPlayer player = HumanPlayer.getInstance();
         String data = "Username: " + player.getName() + ", Money: $" + player.getMoney();
@@ -34,6 +37,9 @@ public class PlayerSavesService {
         }
     }
 
+    /*
+     * Loads user data from player_data.txt file if available on game open
+     * */
     public static boolean loadState() {
         File file = new File("player_data.txt");
         if (file.exists()) {
@@ -57,6 +63,9 @@ public class PlayerSavesService {
         return false; // File does not exist or data could not be loaded
     }
 
+    /*
+     * Deletes user's information in player_data.txt if available
+     * */
     public static void deleteState() {
         File file = new File("player_data.txt");
         if (file.exists()) {
