@@ -16,6 +16,7 @@ public class HumanPlayer {
     private HumanPlayer() {}
 
     public static HumanPlayer getInstance() {
+        // TODO: check if using singleton pattern is necessary for this class
 
         if (instance == null) {
             instance = new HumanPlayer();
@@ -24,10 +25,12 @@ public class HumanPlayer {
     }
 
     public void setUsername(String username) {
+        // TODO: add validation to ensure username is not null or empty
         this.username = username;
     }
 
     public final void setMoney(int value) {
+        // TODO: ensure money value cannot be negative
         money.set(value);
     }
 
@@ -36,10 +39,12 @@ public class HumanPlayer {
     }
 
     public IntegerProperty moneyProperty() {
+        // TODO: document why money is an IntegerProperty (used in JavaFX bindings)
         return money;
     }
 
     public String getName() {
+        // TODO: consider renaming this method to "getUsername" for consistency
         return username;
     }
 }
