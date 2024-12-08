@@ -32,7 +32,7 @@ public class SlotMachineManager {
      * @return the value of stopRequested (true or false)
      */
 
-    public static boolean getStopRequested() {
+    public static boolean getStopRequested() 
         return stopRequested;
     }
 
@@ -61,6 +61,7 @@ public class SlotMachineManager {
             Slot machine = slotMachines.get(i % slotMachines.size()); // Assign initial machine
             BotService botService = new BotService(bot, machine);
 
+            // TODO: ensure thread safety when starting bot
             // Wrap botService in a thread and start it
             Thread botThread = new Thread(botService);
             botThread.start();
@@ -82,6 +83,7 @@ public class SlotMachineManager {
 
     @SuppressWarnings("BusyWait")
     private static Thread getThread(List<Slot> slotMachines) {
+        // TODO: document why thread sleep is used in rotation logic 
         Thread rotationThread = new Thread(() -> {
             try {
                 while (!stopRequested) {
@@ -101,6 +103,7 @@ public class SlotMachineManager {
 
     @SuppressWarnings("BusyWait")
     private static Thread getThread(BotService botService) {
+        // TODO: ensure random time delays are appropiate for game balance
         Thread spinThread = new Thread(() -> {
             try {
                 while (!stopRequested) {
@@ -124,6 +127,7 @@ public class SlotMachineManager {
      * @param slotMachines The list of available slot machines
      * */
     private static void rotateSlotMachines(List<Slot> slotMachines) {
+        // TODO: verify that rotation order is fair to all machines
         for (int i = 0; i < botServices.size(); i++) {
             BotService botService = botServices.get(i);
             Slot newMachine = slotMachines.get((i + 1) % slotMachines.size()); // Rotate to the next machine
@@ -139,6 +143,7 @@ public class SlotMachineManager {
     public static void stopAllThreads() {
         stopRequested = true;
 
+        // TODO: handle exception scenarios during threat interrupts
         // Interrupt all bot threads
         for (Thread botThread : botThreads) {
             if (botThread.isAlive()) {
@@ -159,6 +164,7 @@ public class SlotMachineManager {
      * used for junit testing
      */
     public static void reset() {
+        // TODO: ensure reset method clears all states properly 
         stopRequested = false;
         botThreads.clear();
         botServices.clear();
