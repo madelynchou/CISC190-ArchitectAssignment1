@@ -16,6 +16,7 @@ abstract public class Slot {
     protected double returnAmt; // Instance-specific return multiplier
 
     public Slot(String[] symbols, int maxBet, int minBet, double returnAmt) {
+        // TODO: Add comments explaining the purpose of each constructor parameter
         this.symbols = symbols;
         this.maxBet = maxBet;
         this.minBet = minBet;
@@ -49,6 +50,7 @@ abstract public class Slot {
     **/
     public boolean canBet(int betAmt) {
         int playerMoney = HumanPlayer.getInstance().getMoney();
+        // TODO: Explain how this check compares the player's money with the machine's bet limits 
         return betAmt <= playerMoney && betAmt >= this.getMinBet() && betAmt <= this.getMaxBet();
     }
 
@@ -61,6 +63,7 @@ abstract public class Slot {
         String[] spunSlots = new String[symbols.length];
 
         for (int i = 0; i < symbols.length; i++) {
+            // TODO: Clarify why symbols.length is used to determine the size of the spunSlots array
             spunSlots[i] = symbols[rand.nextInt(symbols.length)];
         }
         return spunSlots;
@@ -72,6 +75,7 @@ abstract public class Slot {
      * @return 3 if there is full match, 0 if there is no match
      * **/
     public int evaluateWinCondition(String[] arr) {
+        // TODO: Clarify why this method only checks for a full match and not partial matches
         if (arr[0].equals(arr[1]) && arr[1].equals(arr[2])) {
             return 3; // Full match
         } else {
@@ -88,8 +92,10 @@ abstract public class Slot {
         int winningCondition = evaluateWinCondition(spunRow);
         return switch (winningCondition) {
             case 0 -> // No match
+                // TODO: Explain why the bet is subtracted in case of no match
                     moneyAmount - bet;
             case 3 -> // Three-symbol match
+                // TODO: Clarify why the payout for a full match uses the returnAmt multiplier
                     (int) (moneyAmount + Math.floor(bet * returnAmt));
             default -> moneyAmount;
         };
@@ -101,6 +107,7 @@ abstract public class Slot {
      * **/
     public int botPlay(Bot bot) {
         double betVarianceMultiplier = 0.8 + (Math.random() * 0.4); // Random number between 0.8 and 1.2
+        // TODO: Explain how betVarianceMultiplier impacts the bot's betting behavior
         int bet = (int) (bot.getMoney() * bot.getAura() * betVarianceMultiplier); // Calculate the bot's bet as a function of its current money, aura and variance multiplier
 
         float randomNumber = (float) (Math.random());
