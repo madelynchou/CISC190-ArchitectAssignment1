@@ -16,6 +16,7 @@ public class HumanPlayer {
     private HumanPlayer() {}
 
     public static HumanPlayer getInstance() {
+        // TODO: Add an explanation of why we use a singleton pattern here for HumanPlayer
 
         if (instance == null) {
             instance = new HumanPlayer();
